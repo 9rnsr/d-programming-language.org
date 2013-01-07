@@ -140,9 +140,9 @@ $(ITEM casting_from_shared, What are the semantics of casting FROM shared TO uns
 $(ITEM bss, Why does a large static array bloat my executable file size?)
 
 	$(P Given the declaration:)
----
-char[1024 * 1024] arr;
----
+	---
+	char[1024 * 1024] arr;
+	---
 	$(P the executable size increases by a megabyte in size. In C, this would not
 	as $(CODE arr) would be stored in the BSS segment.
 	In D, $(CODE arr) is not stored in the BSS segment because:
@@ -157,9 +157,9 @@ char[1024 * 1024] arr;
 
 	$(P The following will be placed in BSS:)
 
----
-__gshared byte[1024 * 1024] arr;
----
+	---
+	__gshared byte[1024 * 1024] arr;
+	---
 
 	$(P as $(CODE byte)s are 0 initialized and $(CODE __gshared) puts it in the
 	global data.)
@@ -375,26 +375,26 @@ $(ITEM real, What is the point of 80 bit reals?)
 
 $(ITEM anonymous, How do I do anonymous struct/unions in D?)
 
------------------------
-import std.stdio;
+	-----------------------
+	import std.stdio;
 
-struct Foo
-{
-    union { int a; int b; }
-    struct { int c; int d; }
-}
+	struct Foo
+	{
+	    union { int a; int b; }
+	    struct { int c; int d; }
+	}
 
-void main()
-{
-    writefln(
-      "Foo.sizeof = %d, a.offset = %d, b.offset = %d, c.offset = %d, d.offset = %d",
-      Foo.sizeof,
-      Foo.a.offsetof,
-      Foo.b.offsetof,
-      Foo.c.offsetof,
-      Foo.d.offsetof);
-}
------------------------
+	void main()
+	{
+	    writefln(
+	      "Foo.sizeof = %d, a.offset = %d, b.offset = %d, c.offset = %d, d.offset = %d",
+	      Foo.sizeof,
+	      Foo.a.offsetof,
+	      Foo.b.offsetof,
+	      Foo.c.offsetof,
+	      Foo.d.offsetof);
+	}
+	-----------------------
 
 $(ITEM printf, How do I get printf() to work with strings?)
 
@@ -409,11 +409,11 @@ printf("string = '$(B %s)'\n", s);
 
 	Attempting this in D, as in:
 
----------------------------------
-char[] s;
-s = "foo";
-printf("string = '$(B %s)'\n", s);
----------------------------------
+	---------------------------------
+	char[] s;
+	s = "foo";
+	printf("string = '$(B %s)'\n", s);
+	---------------------------------
 
 	usually results in garbage being printed, or an access violation.
 	The cause is that in C, strings are terminated by a 0 character.
@@ -422,11 +422,11 @@ printf("string = '$(B %s)'\n", s);
 	by a separate length value. So, strings are printf'd using the
 	$(B %.*s) format:
 
----------------------------------
-char[] s;
-s = "foo";
-printf("string = '$(B %.*s)'\n", s);
----------------------------------
+	---------------------------------
+	char[] s;
+	s = "foo";
+	printf("string = '$(B %.*s)'\n", s);
+	---------------------------------
 
 	$(P which will behave as expected.
 	Remember, though, that printf's $(B %.*s) will print until the length
@@ -443,9 +443,9 @@ $(ITEM nan, Why are floating point values default initialized to NaN rather than
 	A floating point value, if no explicit initializer is given,
 	is initialized to NaN (Not A Number):
 
----------------------------------
-double d;	// d is set to double.nan
----------------------------------
+	---------------------------------
+	double d;  // d is set to double.nan
+	---------------------------------
 
 	$(P NaNs have the interesting property in that whenever a NaN is
 	used as an operand in a computation, the result is a NaN. Therefore,
@@ -579,71 +579,71 @@ $(ITEM foreach, When should I use a foreach loop rather than a for?)
 	to machine. Like register assignment, let the compiler do the
 	optimization.)
 
----
-for (int i = 0; i < foo.length; i++)
----
+	---
+	for (int i = 0; i < foo.length; i++)
+	---
 
-or:
+	or:
 
----
-for (int i = 0; i < foo.length; ++i)
----
+	---
+	for (int i = 0; i < foo.length; ++i)
+	---
 
-or:
+	or:
 
----
-for (T* p = &foo[0]; p < &foo[length]; p++)
----
+	---
+	for (T* p = &foo[0]; p < &foo[length]; p++)
+	---
 
-or:
+	or:
 
----
-T* pend = &foo[length];
-for (T* p = &foo[0]; p < pend; ++p)
----
+	---
+	T* pend = &foo[length];
+	for (T* p = &foo[0]; p < pend; ++p)
+	---
 
-or:
+	or:
 
----
-T* pend = &foo[length];
-T* p = &foo[0];
-if (p < pend)
-{
-	do
+	---
+	T* pend = &foo[length];
+	T* p = &foo[0];
+	if (p < pend)
 	{
-	...
-	} while (++p < pend);
-}
----
+	    do
+	    {
+	    ...
+	    } while (++p < pend);
+	}
+	---
 
-and, of course, should I use size_t or int?
+	and, of course, should I use size_t or int?
 
----
-for (size_t i = 0; i < foo.length; i++)
----
+	---
+	for (size_t i = 0; i < foo.length; i++)
+	---
 
-Let the compiler pick!
+	Let the compiler pick!
 
----
-foreach (v; foo)
-	...
----
+	---
+	foreach (v; foo)
+	    ...
+	---
 
-$(P Note that we don't even need to know what the type T needs to be, thus
-avoiding bugs when T changes. I don't even have to know if foo is an array, or
-an associative array, or a struct, or a collection class. This will also avoid
-the common fencepost bug:)
+	$(P Note that we don't even need to know what the type T needs to be, thus
+	avoiding bugs when T changes. I don't even have to know if foo is an array, or
+	an associative array, or a struct, or a collection class. This will also avoid
+	the common fencepost bug:)
 
----
-for (int i = 0; i <= foo.length; i++)
----
+	---
+	for (int i = 0; i <= foo.length; i++)
+	---
 
-$(P And it also avoids the need to manually create a temporary if foo is a
-function call.)
+	$(P And it also avoids the need to manually create a temporary if foo is a
+	function call.)
 
-$(P The only reason to use a for loop is if your loop does not fit in the
-conventional form, like if you want to change
-the termination condition on the fly.)
+	$(P The only reason to use a for loop is if your loop does not fit in the
+	conventional form, like if you want to change
+	the termination condition on the fly.)
 
 
 $(ITEM cpp_interface, Why doesn't D have an interface to C++ as well as C?)
@@ -879,12 +879,12 @@ $(ITEM nested_forward_references, Why can't nested functions be forward referenc
     sequential order. Allowing arbitrary forward references to nested functions would
     break this, because nested functions can reference any variables declared above them.
     )
-----
-    int first() {  return second();    }
-    int x = first();   // x depends on y, which hasn't been declared yet.
-    int y = x + 1;
-    int second() {  return y;    }
-----
+	----
+	int first() { return second(); }
+	int x = first();   // x depends on y, which hasn't been declared yet.
+	int y = x + 1;
+	int second() { return y; }
+	----
 
     $(P But, forward references of nested functions are sometimes required (eg, for
     mutually recursive nested functions). The most general solution is to declare a local,

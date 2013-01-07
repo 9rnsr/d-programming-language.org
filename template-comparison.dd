@@ -33,12 +33,12 @@ are subject to change.)
 	$(TR
 	$(TD Class Templates)
 	$(TD Yes:
----
-class Foo(T)
-{
-  T x;
-}
----
+	---
+	class Foo(T)
+	{
+	  T x;
+	}
+	---
 )
 	$(TD Yes:
 $(CPPCODE2
@@ -55,12 +55,12 @@ template&lt;class T&gt;
 	$(TR
 	$(TD Function Templates)
 	$(TD Yes:
----
-T foo(T)(T i)
-{
-  ...
-}
----
+	---
+	T foo(T)(T i)
+	{
+	  ...
+	}
+	---
 )
 	$(TD Yes:
 $(CPPCODE2
@@ -93,12 +93,12 @@ template&lt;class T&gt;
 	$(TD Yes, classes, functions, typedefs,
 	variables, enums, etc. can be parameterized,
 	such as this variable:
----
-template Foo(T)
-{
-  static T* p;
-}
----
+	---
+	template Foo(T)
+	{
+	  static T* p;
+	}
+	---
 )
 	$(TD No, only classes and functions)
 	$(TD No change)
@@ -106,16 +106,16 @@ template Foo(T)
 
 	$(TR
 	$(TD Template Typedefs: Create an alias that binds to some but not all
-	of the template	parameters)
+	of the template parameters)
 	$(TD Yes:
----
-class Foo(T, U) { }
-template MyFoo(T)
-{
-  alias Foo!(T, int) MyFoo;
-}
-MyFoo!(uint) f;
----
+	---
+	class Foo(T, U) { }
+	template MyFoo(T)
+	{
+	  alias Foo!(T, int) MyFoo;
+	}
+	MyFoo!(uint) f;
+	---
 )
 	$(TD No)
 	$(TD Yes:
@@ -152,17 +152,17 @@ Foo&lt;double&gt; f = { 1.2, 3, 6.8 };
 	$(TR
 	$(TD Recursive Templates)
 	$(TD Yes:
----
-template factorial(int n)
-{
-  const factorial =
-     n * factorial!(n-1);
-}
-template factorial(int n : 1)
-{
-  const factorial = 1;
-}
----
+	---
+	template factorial(int n)
+	{
+	  const factorial =
+	     n * factorial!(n-1);
+	}
+	template factorial(int n : 1)
+	{
+	  const factorial = 1;
+	}
+	---
 )
 	$(TD Yes:
 $(CPPCODE2
@@ -189,16 +189,16 @@ template&lt;&gt; class factorial&lt;1&gt;
 	$(TD Conditional Compilation based on
 	Template Arguments)
 	$(TD Yes:
----
-template factorial(int n)
-{
-  static if (n == 1)
-    const factorial = 1;
-  else
-    const factorial =
-       n * factorial!(n-1);
-}
----
+	---
+	template factorial(int n)
+	{
+	  static if (n == 1)
+	    const factorial = 1;
+	  else
+	    const factorial =
+	       n * factorial!(n-1);
+	}
+	---
 )
 	$(TD No:
 $(CPPCODE2
@@ -235,15 +235,15 @@ template&lt;class T&gt;
 	$(TR
 	$(TD Grouping templates with the same parameters together)
 	$(TD Yes:
----
-template Foo(T, U)
-{
-  class Bar { ... }
-  T foo(T t, U u) { ... }
-}
-Foo!(int,long).Bar b;
-return Foo!(char,int).foo('c',3);
----
+	---
+	template Foo(T, U)
+	{
+	  class Bar { ... }
+	  T foo(T t, U u) { ... }
+	}
+	Foo!(int,long).Bar b;
+	return Foo!(char,int).foo('c',3);
+	---
 )
 	$(TD No, each must be separate:
 $(CPPCODE2
@@ -261,15 +261,15 @@ return Foo_foo&lt;char,int&gt('c',3);
 	$(TR
 	$(TD Compile time execution of functions)
 	$(TD $(DDSUBLINK function, interpretation, Yes):
----
-int factorial(int i)
-{ if (i == 0)
-    return 1;
-  else
-    return i * factorial(i - 1);
-}
-static f = factorial(6);
----
+	---
+	int factorial(int i)
+	{ if (i == 0)
+	    return 1;
+	  else
+	    return i * factorial(i - 1);
+	}
+	static f = factorial(6);
+	---
 	)
 	$(TD No)
 	$(TD Named constant expressions with parameters:
@@ -286,13 +286,13 @@ static f = factorial(6);
 	$(TR
 	$(TD Type Parameters)
 	$(TD Yes:
----
-class Foo(T)
-{
-  T x;
-}
-Foo!(int) f;
----
+	---
+	class Foo(T)
+	{
+	  T x;
+	}
+	Foo!(int) f;
+	---
 )
 	$(TD Yes:
 $(CPPCODE2
@@ -310,12 +310,12 @@ Foo&lt;int&gt; f;
 	$(TR
 	$(TD Integral Parameters)
 	$(TD Yes:
----
-void foo(int i)()
-{
-  int v = i;
-}
----
+	---
+	void foo(int i)()
+	{
+	  int v = i;
+	}
+	---
 )
 	$(TD Yes:
 $(CPPCODE2
@@ -363,12 +363,12 @@ template&lt;double& D&gt;
 	$(TR
 	$(TD Template Template Parameters)
 	$(TD Yes:
----
-class Foo(T, alias C)
-{
-  C!(T) x;
-}
----
+	---
+	class Foo(T, alias C)
+	{
+	  C!(T) x;
+	}
+	---
 )
 	$(TD Yes:
 $(CPPCODE2
@@ -386,16 +386,16 @@ template&lt;class T,
 	$(TR
 	$(TD Alias Parameters)
 	$(TD Yes, any symbol can be passed to a template as an alias:
----
-void bar(int);
-void bar(double);
-void foo(T, alias S)(T t)
-{
-  S(t);
-}
-// calls bar(double)
-foo!(double, bar)(1);
----
+	---
+	void bar(int);
+	void bar(double);
+	void foo(T, alias S)(T t)
+	{
+	  S(t);
+	}
+	// calls bar(double)
+	foo!(double, bar)(1);
+	---
 )
 	$(TD No)
 	$(TD No change)
@@ -404,14 +404,14 @@ foo!(double, bar)(1);
 	$(TR
 	$(TD Floating Point Parameters)
 	$(TD Yes:
----
-class Foo(double D)
-{
-  double x = D;
-}
-...
-Foo!(1.6) F;
----
+	---
+	class Foo(double D)
+	{
+	  double x = D;
+	}
+	...
+	Foo!(1.6) F;
+	---
 )
 	$(TD No)
 	$(TD No change)
@@ -420,14 +420,14 @@ Foo!(1.6) F;
 	$(TR
 	$(TD String Parameters)
 	$(TD Yes:
----
-void foo(char[] format)(int i)
-{
-  writefln(format, i);
-}
-...
-foo!("i = %s")(3);
----
+	---
+	void foo(char[] format)(int i)
+	{
+	  writefln(format, i);
+	}
+	...
+	foo!("i = %s")(3);
+	---
 )
 	$(TD No)
 	$(TD No change)
@@ -450,12 +450,12 @@ foo!("i = %s")(3);
 	$(TR
 	$(TD Parameter Default Values)
 	$(TD Yes:
----
-class Foo(T = int)
-{
-  T x;
-}
----
+	---
+	class Foo(T = int)
+	{
+	  T x;
+	}
+	---
 )
 	$(TD Yes:
 $(CPPCODE2
@@ -472,13 +472,13 @@ template&lt;class T = int&gt;
 	$(TR
 	$(TD Variadic Parameters)
 	$(TD Yes, $(LINK2 variadic-function-templates.html, Variadic Templates):
----
-void print(A...)(A a)
-{
-    foreach(t; a)
-	writefln(t);
-}
----
+	---
+	void print(A...)(A a)
+	{
+	    foreach(t; a)
+	        writefln(t);
+	}
+	---
 )
 	$(TD No)
 	$(TD $(LINK2 http://www.osl.iu.edu/~dgregor/cpp/variadic-templates.pdf, Variadic Templates N2080))
@@ -494,12 +494,12 @@ void print(A...)(A a)
 	$(TR
 	$(TD Explicit Specialization)
 	$(TD Yes:
----
-class Foo(T : int)
-{
-  T x;
-}
----
+	---
+	class Foo(T : int)
+	{
+	  T x;
+	}
+	---
 )
 	$(TD Yes:
 $(CPPCODE2
@@ -516,12 +516,12 @@ template&lt;&gt;
 	$(TR
 	$(TD Partial Specialization)
 	$(TD Yes:
----
-class Foo(T : T*, U)
-{
-  T x;
-}
----
+	---
+	class Foo(T : T*, U)
+	{
+	  T x;
+	}
+	---
 )
 	$(TD Yes:
 $(CPPCODE2
@@ -538,12 +538,12 @@ template&lt;class T, class U&gt;
 	$(TR
 	$(TD Partial specialization derived from multiple parameters)
 	$(TD Yes:
----
-class Foo(T : Bar!(T, U), U)
-{
-  ...
-}
----
+	---
+	class Foo(T : Bar!(T, U), U)
+	{
+	  ...
+	}
+	---
 )
 	$(TD Yes:
 $(CPPCODE2
@@ -596,10 +596,10 @@ template&lt;class T, class U&gt;
 	$(TD Overloading Function Templates with Functions)
 	$(TD No, but the equivalent can be done with explicitly specialized
 	templates:
----
-void foo(T)(T t) { }
-void foo(T:int)(int t) { }
----
+	---
+	void foo(T)(T t) { }
+	void foo(T:int)(int t) { }
+	---
 )
 	$(TD Yes:
 $(CPPCODE2
@@ -630,19 +630,19 @@ void foo(int t) { }
 	$(TD Can extract arguments of
 	template instance)
 	$(TD Yes:
----
-class Foo(T)
-{
-  static if (is(T x : T!A, A...))
-  {
-    pragma(msg, A);  // (int, float)
-  }
-}
+	---
+	class Foo(T)
+	{
+	  static if (is(T x : T!A, A...))
+	  {
+	    pragma(msg, A);  // (int, float)
+	  }
+	}
 
-struct Bar(T1, T2) { }
-alias Bar!(int, float) BarInst;
-Foo!(BarInst) f;
----
+	struct Bar(T1, T2) { }
+	alias Bar!(int, float) BarInst;
+	Foo!(BarInst) f;
+	---
     See $(LINK2 expression.html#IsExpression, is expressions).
     )
 	$(TD No)
@@ -661,13 +661,13 @@ Foo!(BarInst) f;
 	$(TR
 	$(TD Context-Free Grammar)
 	$(TD Yes:
----
-class Foo(int i)
-{
-   ...
-}
-Foo!(3 $(B >) 4) f;
----
+	---
+	class Foo(int i)
+	{
+	   ...
+	}
+	Foo!(3 $(B >) 4) f;
+	---
 )
 	$(TD No:
 $(CPPCODE2
@@ -685,17 +685,17 @@ Foo&lt;3 $(B &gt;) 4&gt; f; // $(ERROR)
 	$(TR
 	$(TD Distinguish template arguments from other operators)
 	$(TD Yes:
----
-class Foo(T)
-{
-   ...
-}
-class Bar(int i)
-{
-   ...
-}
-Foo!(Bar!(1)) x1;
----
+	---
+	class Foo(T)
+	{
+	   ...
+	}
+	class Bar(int i)
+	{
+	   ...
+	}
+	Foo!(Bar!(1)) x1;
+	---
 )
 	$(TD No:
 $(CPPCODE2
@@ -721,16 +721,16 @@ Foo&lt;Bar&lt;1&gt; &gt; x2;
 	$(TR
 	$(TD Redeclaration of Template Parameter)
 	$(TD Yes:
----
-class Foo(T)
-{
-  int T;
-  void foo()
-  {
-    int T;
-  }
-}
----
+	---
+	class Foo(T)
+	{
+	  int T;
+	  void foo()
+	  {
+	    int T;
+	  }
+	}
+	---
 )
 	$(TD No:
 $(CPPCODE2
@@ -751,16 +751,16 @@ template&lt;class T&gt;
 	$(TR
 	$(TD Dependent Base Class Lookup)
 	$(TD Yes:
----
-class Foo(T)
-{
-  typedef int $(B A);
-}
-class Bar(T) : Foo(T)
-{
-  $(B A) x;
-}
----
+	---
+	class Foo(T)
+	{
+	  typedef int $(B A);
+	}
+	class Bar(T) : Foo(T)
+	{
+	  $(B A) x;
+	}
+	---
 )
 	$(TD No:
 $(CPPCODE2
@@ -787,19 +787,19 @@ template&lt;class T&gt;
 	$(TR
 	$(TD Forward Referencing)
 	$(TD Yes:
----
-int $(B g)(void *);
+	---
+	int $(B g)(void *);
 
-class Foo(T)
-{
-  int foo()
-  {
-    return $(B g)(1);
-  }
-}
+	class Foo(T)
+	{
+	  int foo()
+	  {
+	    return $(B g)(1);
+	  }
+	}
 
-int $(B g)(int i);
----
+	int $(B g)(int i);
+	---
 )
 	$(TD No:
 $(CPPCODE2
@@ -824,16 +824,16 @@ int $(B g)(int i);
 	$(TR
 	$(TD Member templates parseable without hints)
 	$(TD Yes:
----
-class Foo
-{
-    Foo bar!(int I)();
-}
-void abd(T)(T f)
-{
-  T f1 = f.bar!(3)();
-}
----
+	---
+	class Foo
+	{
+	    Foo bar!(int I)();
+	}
+	void abd(T)(T f)
+	{
+	  T f1 = f.bar!(3)();
+	}
+	---
 )
 	$(TD No:
 $(CPPCODE2
@@ -856,12 +856,12 @@ template&lt;class T&gt; void abc(T *f)
 	$(TR
 	$(TD Dependent type members parseable without hints)
 	$(TD Yes:
----
-class Foo(T)
-{
-  T.A* a1;
-}
----
+	---
+	class Foo(T)
+	{
+	  T.A* a1;
+	}
+	---
 )
 	$(TD No:
 $(CPPCODE2

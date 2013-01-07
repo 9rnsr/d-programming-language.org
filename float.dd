@@ -54,34 +54,37 @@ $(H3 Floating Point Constant Folding)
 	constant folding. Committing to the precision of the result is
 	done as late as possible in the compilation process. For example:)
 
----
-const float f = 0.2f;
-writefln(f - 0.2);
----
+	---
+	const float f = 0.2f;
+	writefln(f - 0.2);
+	---
+
 	$(P will print 0. A non-const static variable's value cannot be
 	propagated at compile time, so:)
 
----
-static float f = 0.2f;
-writefln(f - 0.2);
----
+	---
+	static float f = 0.2f;
+	writefln(f - 0.2);
+	---
+
 	$(P will print 2.98023e-09. Hex floating point constants can also
 	be used when specific floating point bit patterns are needed that
 	are unaffected by rounding. To find the hex value of 0.2f:)
 
----
-import std.stdio;
+	---
+	import std.stdio;
 
-void main() {
-  writefln("%a", 0.2f);
-}
----
+	void main() {
+	  writefln("%a", 0.2f);
+	}
+	---
+
 	$(P which is 0x1.99999ap-3. Using the hex constant:)
 
----
-const float f = 0x1.99999ap-3f;
-writefln(f - 0.2);
----
+	---
+	const float f = 0x1.99999ap-3f;
+	writefln(f - 0.2);
+	---
 
 	$(P prints 2.98023e-09.)
 

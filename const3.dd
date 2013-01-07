@@ -40,68 +40,71 @@ $(SECTION2 Immutable Storage Class,
 	It can be used to declare manifest constants.
 	)
 
----
-immutable int x = 3;  // x is set to 3
-x = 4;        // error, x is immutable
-char[x] s;    // s is an array of 3 char's
----
+	---
+	immutable int x = 3;  // x is set to 3
+	x = 4;        // error, x is immutable
+	char[x] s;    // s is an array of 3 char's
+	---
 
 	$(P The type can be inferred from the initializer:
 	)
----
-immutable y = 4; // y is of type int
-y = 5;           // error, y is immutable
----
+
+	---
+	immutable y = 4; // y is of type int
+	y = 5;           // error, y is immutable
+	---
 
 	$(P If the initializer is not present, the immutable can
 	be initialized from the corresponding constructor:
 	)
 
----
-immutable int z;
-void test() {
-  z = 3; // error, z is immutable
-}
-static this() {
-  z = 3; // ok, can set immutable that doesn't
-         // have static initializer
-}
----
+	---
+	immutable int z;
+	void test() {
+	  z = 3; // error, z is immutable
+	}
+	static this() {
+	  z = 3; // ok, can set immutable that doesn't
+	         // have static initializer
+	}
+	---
+
 	$(P
 	The initializer for a non-local immutable declaration must be
 	evaluatable
 	at compile time:
 	)
 
----
-int foo(int f) { return f * 3; }
-int i = 5;
-immutable x = 3 * 4;      // ok, 12
-immutable y = i + 1;      // error, cannot evaluate at compile time
-immutable z = foo(2) + 1; // ok, foo(2) can be evaluated at compile time, 7
----
+	---
+	int foo(int f) { return f * 3; }
+	int i = 5;
+	immutable x = 3 * 4;      // ok, 12
+	immutable y = i + 1;      // error, cannot evaluate at compile time
+	immutable z = foo(2) + 1; // ok, foo(2) can be evaluated at compile time, 7
+	---
 
 	$(P The initializer for a non-static local immutable declaration
 	is evaluated at run time:
 	)
----
-int foo(int f)
-{
-  immutable x = f + 1;  // evaluated at run time
-  x = 3;                // error, x is immutable
-}
----
+
+	---
+	int foo(int f)
+	{
+	  immutable x = f + 1;  // evaluated at run time
+	  x = 3;                // error, x is immutable
+	}
+	---
 
 	$(P
 	Because immutable is transitive, data referred to by an immutable is
 	also immutable:
 	)
 
----
-immutable char[] s = "foo";
-s[0] = 'a';  // error, s refers to immutable data
-s = "bar";   // error, s is immutable
----
+	---
+	immutable char[] s = "foo";
+	s[0] = 'a';  // error, s refers to immutable data
+	s = "bar";   // error, s is immutable
+	---
 
 	$(P Immutable declarations can appear as lvalues, i.e. they can
 	have their address taken, and occupy storage.
@@ -200,9 +203,9 @@ $(SECTION2 Immutable Type,
 	The immutable keyword can be used as a $(I type constructor):
 	)
 
----
-immutable(char)[] s = "hello";
----
+	---
+	immutable(char)[] s = "hello";
+	---
 
 	$(P
 	The immutable applies to the type within the following parentheses.
@@ -210,32 +213,32 @@ immutable(char)[] s = "hello";
 	the contents of $(CODE s[]) cannot be:
 	)
 
----
-s[0] = 'b';  // error, s[] is immutable
-s = null;    // ok, s itself is not immutable
----
+	---
+	s[0] = 'b';  // error, s[] is immutable
+	s = null;    // ok, s itself is not immutable
+	---
 
 	$(P
 	Immutableness is transitive, meaning it applies to anything that
 	can be referenced from the immutable type:
 	)
 
----
-immutable(char*)** p = ...;
-p = ...;        // ok, p is not immutable
-*p = ...;       // ok, *p is not immutable
-**p = ...;      // error, **p is immutable
-***p = ...;     // error, ***p is immutable
----
+	---
+	immutable(char*)** p = ...;
+	p = ...;        // ok, p is not immutable
+	*p = ...;       // ok, *p is not immutable
+	**p = ...;      // error, **p is immutable
+	***p = ...;     // error, ***p is immutable
+	---
 
 	$(P Immutable used as a storage class is equivalent to using
 	immutable as a type constructor for the entire type of a
 	declaration:)
 
----
-immutable int x = 3;   // x is typed as immutable(int)
-immutable(int) y = 3;  // y is immutable
----
+	---
+	immutable int x = 3;   // x is typed as immutable(int)
+	immutable(int) y = 3;  // y is immutable
+	---
 )
 
 
@@ -246,11 +249,11 @@ $(SECTION2 Creating Immutable Data,
 	such as string literals. String literals are always immutable.
 	)
 
----
-auto s = "hello";   // s is immutable(char)[5]
-char[] p = "world"; // error, cannot implicitly convert immutable
-		    // to mutable
----
+	---
+	auto s = "hello";   // s is immutable(char)[5]
+	char[] p = "world"; // error, cannot implicitly convert immutable
+			    // to mutable
+	---
 
 	$(P
 	The second way is to cast data to immutable.
@@ -258,21 +261,21 @@ char[] p = "world"; // error, cannot implicitly convert immutable
 	other mutable references to the same data exist.
 	)
 
----
-char[] s = ...;
-immutable(char)[] p = cast(immutable)s;     // undefined behavior
-immutable(char)[] p = cast(immutable)s.dup; // ok, unique reference
----
+	---
+	char[] s = ...;
+	immutable(char)[] p = cast(immutable)s;     // undefined behavior
+	immutable(char)[] p = cast(immutable)s.dup; // ok, unique reference
+	---
 
 	$(P
 	The $(CODE .idup) property is a convenient way to create an immutable
 	copy of an array:
 	)
 
----
-auto p = s.idup;
-p[0] = ...;	  // error, p[] is immutable
----
+	---
+	auto p = s.idup;
+	p[0] = ...;	  // error, p[] is immutable
+	---
 
 $(H2 Removing Immutable With A Cast)
 
@@ -280,18 +283,18 @@ $(H2 Removing Immutable With A Cast)
 	The immutable type can be removed with a cast:
 	)
 
----
-immutable int* p = ...;
-int* q = cast(int*)p;
----
+	---
+	immutable int* p = ...;
+	int* q = cast(int*)p;
+	---
 
 	$(P
 	This does not mean, however, that one can change the data:
 	)
 
----
-*q = 3; // allowed by compiler, but result is undefined behavior
----
+	---
+	*q = 3; // allowed by compiler, but result is undefined behavior
+	---
 
 	$(P
 	The ability to cast away immutable-correctness is necessary in
@@ -313,45 +316,49 @@ $(SECTION2 Immutable Member Functions,
 	They are declared as:
 	)
 
----
-struct S {
-  int x;
+	---
+	struct S {
+	  int x;
 
-  void foo() immutable {
-    x = 4;      // error, x is immutable
-    this.x = 4; // error, x is immutable
-  }
-}
----
+	  void foo() immutable {
+	    x = 4;      // error, x is immutable
+	    this.x = 4; // error, x is immutable
+	  }
+	}
+	---
+
     $(P Note that using $(D_KEYWORD immutable) on the left hand side of a method does not apply to the return type:
     )
 
----
-struct S {
-  immutable int[] bar()  // bar is still immutable, return type is not!
-  {
-  }
-}
----
+	---
+	struct S {
+	  immutable int[] bar()  // bar is still immutable, return type is not!
+	  {
+	  }
+	}
+	---
+
     $(P To make the return type $(D_KEYWORD immutable), you need to surround the return type with parentheses:
     )
 
----
-struct S {
-  immutable(int[]) bar()  // bar is now mutable, return type is immutable.
-  {
-  }
-}
----
+	---
+	struct S {
+	  immutable(int[]) bar()  // bar is now mutable, return type is immutable.
+	  {
+	  }
+	}
+	---
+
     $(P To make both the return type and the method $(D_KEYWORD immutable), you can write:
     )
----
-struct S {
-  immutable(int[]) bar() immutable
-  {
-  }
-}
----
+
+	---
+	struct S {
+	  immutable(int[]) bar() immutable
+	  {
+	  }
+	}
+	---
 )
 
 
@@ -392,11 +399,11 @@ $(TABLE_SPECIAL $(ARGS Const, Immutable Comparison),
 	$(TROW $(D const) keyword, Yes, Yes)
 	$(TROW $(D immutable) keyword, Yes, No)
 	$(TROW const notation,
----
-// Functional:
-//ptr to const ptr to const int
-const(int*)* p;
----
+	---
+	// Functional:
+	//ptr to const ptr to const int
+	const(int*)* p;
+	---
 ,
 $(CPPLISTING
 // Postfix:
@@ -406,12 +413,12 @@ const int *const *p;
 	)
 
 	$(TROW transitive const,
----
-// Yes:
-//const ptr to const ptr to const int
-const int** p;
-**p = 3; // error
----
+	---
+	// Yes:
+	//const ptr to const ptr to const int
+	const int** p;
+	**p = 3; // error
+	---
 ,
 $(CPPLISTING
 // No:
@@ -422,12 +429,12 @@ int** const p;
 	)
 
 	$(TROW cast away const,
----
-// Yes:
-// ptr to const int
-const(int)* p;
-int* q = cast(int*)p; // ok
----
+	---
+	// Yes:
+	// ptr to const int
+	const(int)* p;
+	int* q = cast(int*)p; // ok
+	---
 ,
 $(CPPLISTING
 // Yes:
@@ -438,13 +445,13 @@ int* q = const_cast<int*>p; //ok
 	)
 
 	$(TROW cast+mutate,
----
-// No:
-// ptr to const int
-const(int)* p;
-int* q = cast(int*)p;
-*q = 3;   // undefined behavior
----
+	---
+	// No:
+	// ptr to const int
+	const(int)* p;
+	int* q = cast(int*)p;
+	*q = 3;   // undefined behavior
+	---
 ,
 $(CPPLISTING
 // Yes:
@@ -456,11 +463,11 @@ int* q = const_cast<int*>p;
 	)
 
 	$(TROW overloading,
----
-// Yes:
-void foo(int x);
-void foo(const int x);  //ok
----
+	---
+	// Yes:
+	void foo(int x);
+	void foo(const int x);  //ok
+	---
 ,
 $(CPPLISTING
 // No:
@@ -470,18 +477,18 @@ void foo(const int x);  //error
 	)
 
 	$(TROW const/mutable aliasing,
----
-// Yes:
-void foo(const int* x, int* y)
-{
-   bar(*x); // bar(3)
-   *y = 4;
-   bar(*x); // bar(4)
-}
-...
-int i = 3;
-foo(&i, &i);
----
+	---
+	// Yes:
+	void foo(const int* x, int* y)
+	{
+	   bar(*x); // bar(3)
+	   *y = 4;
+	   bar(*x); // bar(4)
+	}
+	...
+	int i = 3;
+	foo(&i, &i);
+	---
 ,
 $(CPPLISTING
 // Yes:
@@ -498,17 +505,17 @@ foo(&i, &i);
 	)
 
 	$(TROW immutable/mutable aliasing,
----
-// No:
-void foo(immutable int* x, int* y) {
- bar(*x); // bar(3)
- *y = 4;  // undefined behavior
- bar(*x); // bar(??)
-}
-...
-int i = 3;
-foo(cast(immutable)&i, &i);
----
+	---
+	// No:
+	void foo(immutable int* x, int* y) {
+	 bar(*x); // bar(3)
+	 *y = 4;  // undefined behavior
+	 bar(*x); // bar(??)
+	}
+	...
+	int i = 3;
+	foo(cast(immutable)&i, &i);
+	---
 ,
 	No immutables
 	)

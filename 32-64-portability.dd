@@ -13,14 +13,14 @@ $(SECTION2 Versions,
 	and must be versioned. The following works:
 	)
 
----
-version (X86)
-    ... 32 bit code ...
-else version (X86_64)
-    ... 64 bit code ...
-else
-    static assert("unsupported target")
----
+	---
+	version (X86)
+	    ... 32 bit code ...
+	else version (X86_64)
+	    ... 64 bit code ...
+	else
+	    static assert("unsupported target")
+	---
 
 	$(P It is best to write versioning in that manner to give a compile
 	time error on a new target, rather than guessing in advance what, for example,
@@ -85,12 +85,12 @@ $(SECTION2 printf,
 	should be done explicitly:
 	)
 
----
-string s;
-...
-printf("s = '%.*s'\n", s);               // 32 bit only
-printf("s = '%.*s'\n", s.length, s.ptr); // 32 and 64 bit
----
+	---
+	string s;
+	...
+	printf("s = '%.*s'\n", s);               // 32 bit only
+	printf("s = '%.*s'\n", s.length, s.ptr); // 32 and 64 bit
+	---
 )
 
 $(SECTION2 Inline Assembly,
@@ -99,14 +99,14 @@ $(SECTION2 Inline Assembly,
 	The versioning statements to use are:
 	)
 
----
-version (D_InlineAsm_X86)
-    ... 32 bit assembler ...
-version (D_InlineAsm_X86_64)
-    ... 64 bit assembler ...
-else
-    static assert("unsupported target");
----
+	---
+	version (D_InlineAsm_X86)
+	    ... 32 bit assembler ...
+	version (D_InlineAsm_X86_64)
+	    ... 64 bit assembler ...
+	else
+	    static assert("unsupported target");
+	---
 
 	$(P The 64 bit inline assembler uses the syntax found in the Intel
 	and AMD instruction set references.

@@ -511,14 +511,14 @@ $(SECTION3 Productivity,
 	$(P Example:
 	)
 
------------------------
-class ABC
-{
-    int func() { return 7; }
-    static int z = 7;
-}
-int q;
------------------------
+	-----------------------
+	class ABC
+	{
+	    int func() { return 7; }
+	    static int z = 7;
+	}
+	int q;
+	-----------------------
 
 	$(P There is no longer a need for a separate definition of member functions, static
 	members, externs, nor for clumsy syntaxes like:
@@ -552,17 +552,17 @@ class Bar
 	$(P But the equivalent D code will work:
 	)
 
------------------------
-class Foo
-{
-    int foo(Bar c) { return c.bar; }
-}
+	-----------------------
+	class Foo
+	{
+	    int foo(Bar c) { return c.bar; }
+	}
 
-class Bar
-{
-    int bar() { return 3; }
-}
------------------------
+	class Bar
+	{
+	    int bar() { return 3; }
+	}
+	-----------------------
 
 	$(P Whether a D function is inlined or not is determined by the
 	optimizer settings.
@@ -714,10 +714,10 @@ int (*array)[3];
 	$(P In D, the [] for the array go on the left:
 	)
 
------------------------
-int[3]* array;		// declares a pointer to an array of 3 ints
-long[] func(int x);	// declares a function returning an array of longs
------------------------
+	-----------------------
+	int[3]* array;      // declares a pointer to an array of 3 ints
+	long[] func(int x); // declares a function returning an array of longs
+	-----------------------
 
 	$(P which is much simpler to understand.
 	)
@@ -890,9 +890,9 @@ $(SECTION3 Reliability,
 	Synchronization can be done at either the method or the object level.
 	)
 
------------------------
-synchronized int func() { ... }
------------------------
+	-----------------------
+	synchronized int func() { ... }
+	-----------------------
 
 	$(P Synchronized functions allow only one thread at a time to be
 	executing that function.
@@ -1037,41 +1037,41 @@ $(SECTION3 Project Management,
 
 
 $(SECTION2 Sample D Program (sieve.d),
-----
-/* Sieve of Eratosthenes prime numbers */
+	----
+	/* Sieve of Eratosthenes prime numbers */
 
-import std.stdio;
+	import std.stdio;
 
-bool[8191] flags;
+	bool[8191] flags;
 
-int main()
-{
-    int i, count, prime, k, iter;
+	int main()
+	{
+	    int i, count, prime, k, iter;
 
-    writefln("10 iterations");
-    for (iter = 1; iter <= 10; iter++)
-    {
-        count = 0;
-        flags[] = 1;
-        for (i = 0; i < flags.length; i++)
-        {
-            if (flags[i])
-            {
-                prime = i + i + 3;
-                k = i + prime;
-                while (k < flags.length)
-                {
-                    flags[k] = 0;
-                    k += prime;
-                }
-                count += 1;
-            }
-        }
-    }
-    writefln("%d primes", count);
-    return 0;
-}
-----
+	    writefln("10 iterations");
+	    for (iter = 1; iter <= 10; iter++)
+	    {
+	        count = 0;
+	        flags[] = 1;
+	        for (i = 0; i < flags.length; i++)
+	        {
+	            if (flags[i])
+	            {
+	                prime = i + i + 3;
+	                k = i + prime;
+	                while (k < flags.length)
+	                {
+	                    flags[k] = 0;
+	                    k += prime;
+	                }
+	                count += 1;
+	            }
+	        }
+	    }
+	    writefln("%d primes", count);
+	    return 0;
+	}
+	----
 )
 
 )

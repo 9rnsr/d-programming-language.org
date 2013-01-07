@@ -24,18 +24,18 @@ $(H2 Calling C Functions)
 	most likely the "C" calling convention, for example:
 	)
 
-------
-extern (C) int strcmp(char* string1, char* string2);
-------
+	------
+	extern (C) int strcmp(char* string1, char* string2);
+	------
 
 	$(P and then it can be called within D code in the obvious way:)
 
-------
-import std.string;
-int myDfunction(char[] s) {
-  return strcmp(std.string.toStringz(s), "foo");
-}
-------
+	------
+	import std.string;
+	int myDfunction(char[] s) {
+	  return strcmp(std.string.toStringz(s), "foo");
+	}
+	------
 
 	$(P There are several things going on here:)
 
@@ -69,14 +69,14 @@ int myDfunction(char[] s) {
 	use an attribute that is compatible with the C compiler, most likely
 	the extern (C):)
 
-------
-// myfunc() can be called from any C function
-extern (C) {
-  void myfunc(int a, int b) {
-    ...
-  }
-}
-------
+	------
+	// myfunc() can be called from any C function
+	extern (C) {
+	  void myfunc(int a, int b) {
+	    ...
+	  }
+	}
+	------
 
 $(H2 Storage Allocation)
 
@@ -195,12 +195,12 @@ $(H2 Passing D Array Arguments to C Functions)
 	$(P For example:)
 
 $(CCODE void foo(int a[3]) { ... } // C code)
----
-extern (C)
-{
-  void foo(ref int[3] a); // D prototype
-}
----
+	---
+	extern (C)
+	{
+	  void foo(ref int[3] a); // D prototype
+	}
+	---
 
 
 $(H2 Calling printf())
@@ -214,11 +214,11 @@ $(H2 Calling printf())
 	the $(D %.*s) format works:
 	)
 
-------
-void foo(char[] string) {
-  printf("my string is: %.*s\n", string.length, string.ptr);
-}
-------
+	------
+	void foo(char[] string) {
+	  printf("my string is: %.*s\n", string.length, string.ptr);
+	}
+	------
 
 	$(P The $(CODE printf) format string literal
 	in the example doesn't end with $(CODE '\0').
@@ -262,16 +262,16 @@ union Info  // C code
     } file;
 };
 )
----
-union Info  // D code
-{
-    private struct File
-    {
-        char* name;
-    }
-    File file;
-}
----
+	---
+	union Info  // D code
+	{
+	    private struct File
+	    {
+	        char* name;
+	    }
+	    File file;
+	}
+	---
 
 $(H2 Callbacks)
 
@@ -290,15 +290,15 @@ extern "C" Callback getCallback(void)
 }
 )
 
----
-alias extern(C) int function(int, int) Callback;  // D code
-extern(C) Callback getCallback();
-void main()
-{
-    Callback cb = getCallback();
-    cb();  // invokes the callback
-}
----
+	---
+	alias extern(C) int function(int, int) Callback;  // D code
+	extern(C) Callback getCallback();
+	void main()
+	{
+	    Callback cb = getCallback();
+	    cb();  // invokes the callback
+	}
+	---
 
     $(P And an example of D code providing a callback to C code:)
 
@@ -309,15 +309,15 @@ extern "C" void printer(int (*callback)(int, int))  // C code
 }
 )
 
----
-alias extern(C) int function(int, int) Callback;  // D code
-extern(C) void printer(Callback callback);
-extern(C) int sum(int x, int y) { return x + y; }
-void main()
-{
-    printer(&sum);
-}
----
+	---
+	alias extern(C) int function(int, int) Callback;  // D code
+	extern(C) void printer(Callback callback);
+	extern(C) int sum(int x, int y) { return x + y; }
+	void main()
+	{
+	    printer(&sum);
+	}
+	---
 
     $(P For more info about callbacks read the $(XLINK2 function.html#closures, closures) section.)
 
@@ -346,9 +346,9 @@ $(H2 $(LNAME2 C Globals, Accessing C Globals))
 	from D, use the $(D __gshared) storage class.
 	)
 
----
-extern (C) extern __gshared int x;
----
+	---
+	extern (C) extern __gshared int x;
+	---
 
 )
 

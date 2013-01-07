@@ -45,9 +45,9 @@ $(H3 $(LNAME2 order-of-evaluation, Order Of Evaluation))
         to depend on order of evaluation when it is not specified.
         For example, the following are illegal:
         )
--------------
-i = i++;
--------------
+        -------------
+        i = i++;
+        -------------
         $(P If the compiler can determine that the result of an expression
         is illegally dependent on the order of evaluation, it can issue
         an error (but is not required to). The ability to detect these kinds
@@ -58,11 +58,11 @@ i = i++;
         right. This is similar to Java but different to C/C++ where the evaluation
         order is unspecified. Thus, the following code is valid and well defined.
         )
--------------
-import std.conv;
-int i = 0;
-assert(text(++i, ++i) == "12"); // left to right evaluation of arguments
--------------
+        -------------
+        import std.conv;
+        int i = 0;
+        assert(text(++i, ++i) == "12"); // left to right evaluation of arguments
+        -------------
 
         $(P But even though the order of evaluation is well defined writing code that
         depends on it is rarely recommended.
@@ -117,15 +117,15 @@ $(H4 Assignment Operator Expressions)
 
         Assignment operator expressions, such as:
 
---------------
-a op= b
---------------
+        --------------
+        a op= b
+        --------------
 
         are semantically equivalent to:
 
---------------
-a = cast(typeof(a))(a op b)
---------------
+        --------------
+        a = cast(typeof(a))(a op b)
+        --------------
 
         $(P except that:)
 
@@ -288,15 +288,15 @@ $(GNAME EqualExpression):
 
         $(P For complex numbers, equality is defined as equivalent to:)
 
----
-x.re == y.re && x.im == y.im
----
+        ---
+        x.re == y.re && x.im == y.im
+        ---
 
         and inequality is defined as equivalent to:
 
----
-x.re != y.re || x.im != y.im
----
+        ---
+        x.re != y.re || x.im != y.im
+        ---
 
         $(P For class and struct objects, the expression $(D (a == b))
         is rewritten as
@@ -311,14 +311,14 @@ x.re != y.re || x.im != y.im
         Use the $(CODE is) and $(CODE !is) operators instead.
         )
 
----
-class C;
-C c;
-if (c == null)  // error
-  ...
-if (c is null)  // ok
-  ...
----
+        ---
+        class C;
+        C c;
+        if (c == null)  // error
+          ...
+        if (c is null)  // ok
+          ...
+        ---
 
         $(P For static and dynamic arrays, equality is defined as the
         lengths of the arrays
@@ -385,9 +385,9 @@ $(GNAME RelExpression):
         operand, and 0 forms the right operand. The result of the
         relational expression (o1 op o2) is:)
 
----
-(o1.opCmp(o2) op 0)
----
+        ---
+        (o1.opCmp(o2) op 0)
+        ---
 
         $(P It is an error to compare objects if one is $(D null).)
 
@@ -472,12 +472,12 @@ $(H4 $(LNAME2 class_comparisons, Class comparisons))
         $(CODE null) is invalid, as $(CODE null) has no contents.
         )
 
----
-class C;
-C c;
-if (c < null)  // error
-  ...
----
+        ---
+        class C;
+        C c;
+        if (c < null)  // error
+          ...
+        ---
 
 $(H3 In Expressions)
 
@@ -490,12 +490,12 @@ $(GNAME InExpression):
         $(P An associative array can be tested to see if an element is in the array:
         )
 
--------------
-int foo[char[]];
-...
-if ("hello" in foo)
-    ...
--------------
+        -------------
+        int foo[char[]];
+        ...
+        if ("hello" in foo)
+            ...
+        -------------
 
         $(P The $(D in) expression has the same precedence as the
         relational expressions $(D <), $(D <)$(D =),
@@ -533,10 +533,10 @@ $(GNAME ShiftExpression):
         quantity being shifted:
         )
 
--------------
-int c;
-c << 33;        // error
--------------
+        -------------
+        int c;
+        c << 33;        // error
+        -------------
 
 $(H3 Add Expressions)
 
@@ -698,39 +698,39 @@ $(GNAME ArgumentList):
         in the same order as the prefix array declaration order.
         )
 
--------------
-char[][] foo;   // dynamic array of strings
-...
-foo = new char[][30]; // allocate array of 30 strings
--------------
+        -------------
+        char[][] foo;   // dynamic array of strings
+        ...
+        foo = new char[][30]; // allocate array of 30 strings
+        -------------
 
         $(P The above allocation can also be written as:)
 
--------------
-foo = new char[][](30); // allocate array of 30 strings
--------------
+        -------------
+        foo = new char[][](30); // allocate array of 30 strings
+        -------------
 
         $(P To allocate the nested arrays, multiple arguments can be used:)
 
----------------
-int[][][] bar;
-...
-bar = new int[][][](5,20,30);
----------------
+        ---------------
+        int[][][] bar;
+        ...
+        bar = new int[][][](5,20,30);
+        ---------------
 
         $(P Which is equivalent to:)
 
-----------
-bar = new int[][][5];
-foreach (ref a; bar)
-{
-  a = new int[][20];
-  foreach (ref b; a)
-  {
-    b = new int[30];
-  }
-}
------------
+        ----------
+        bar = new int[][][5];
+        foreach (ref a; bar)
+        {
+          a = new int[][20];
+          foreach (ref b; a)
+          {
+            b = new int[30];
+          }
+        }
+        -----------
 
         $(P If there is a $(D new $(LPAREN)) $(GLINK ArgumentList) $(D $(RPAREN)),
         then
@@ -1092,25 +1092,25 @@ $(H4 $(LNAME2 this, this))
         to $(D typeof(this)), a non-virtual call is made:
         )
 
--------------
-class A {
-  char get() { return 'A'; }
+        -------------
+        class A {
+          char get() { return 'A'; }
 
-  char foo() { return typeof(this).get(); }
-  char bar() { return this.get(); }
-}
+          char foo() { return typeof(this).get(); }
+          char bar() { return this.get(); }
+        }
 
-class B : A {
-  char get() { return 'B'; }
-}
+        class B : A {
+          char get() { return 'B'; }
+        }
 
-void main() {
-  B b = new B();
+        void main() {
+          B b = new B();
 
-  b.foo();  // returns 'A'
-  b.bar();  // returns 'B'
-}
--------------
+          b.foo();  // returns 'A'
+          b.bar();  // returns 'B'
+        }
+        -------------
 
         $(P Assignment to $(D this) is not allowed.)
 
@@ -1203,10 +1203,10 @@ $(GNAME ArrayLiteral):
         array.
         )
 
----
-[1,2,3];  // type is int[3], with elements 1, 2 and 3
-[1u,2,3]; // type is uint[3], with elements 1u, 2u, and 3u
----
+        ---
+        [1,2,3];  // type is int[3], with elements 1, 2 and 3
+        [1u,2,3]; // type is uint[3], with elements 1u, 2u, and 3u
+        ---
 
         $(P If any of the arguments in the $(GLINK ArgumentList) are
         an $(I ExpressionTuple), then the elements of the $(I ExpressionTuple)
@@ -1216,11 +1216,11 @@ $(GNAME ArrayLiteral):
         $(P Array literals are allocated on the memory managed heap.
         Thus, they can be returned safely from functions:)
 
----
-int[] foo() {
-  return [1, 2, 3];
-}
----
+        ---
+        int[] foo() {
+          return [1, 2, 3];
+        }
+        ---
 
         $(P When array literals are cast to another array type, each
         element of the array is cast to the new element type.
@@ -1228,19 +1228,19 @@ int[] foo() {
         reinterpreted as the new type, and the length is recomputed:
         )
 
----
-import std.stdio;
+        ---
+        import std.stdio;
 
-void main() {
-  // cast array literal
-  const short[] ct = cast(short[]) [cast(byte)1, 1];
-  writeln(ct);  // writes [1, 1]
+        void main() {
+          // cast array literal
+          const short[] ct = cast(short[]) [cast(byte)1, 1];
+          writeln(ct);  // writes [1, 1]
 
-  // cast other array expression
-  short[] rt = cast(short[]) [cast(byte)1, cast(byte)1].dup;
-  writeln(rt);  // writes [257]
-}
----
+          // cast other array expression
+          short[] rt = cast(short[]) [cast(byte)1, cast(byte)1].dup;
+          writeln(rt);  // writes [257]
+        }
+        ---
 
 
 $(H4 Associative Array Literals)
@@ -1277,11 +1277,11 @@ $(GNAME ValueExpression):
         anything.
         )
 
----
-[21u:"he",38:"ho",2:"hi"]; // type is char[2][uint],
-                           // with keys 21u, 38u and 2u
-                           // and values "he", "ho", and "hi"
----
+        ---
+        [21u:"he",38:"ho",2:"hi"]; // type is char[2][uint],
+                                   // with keys 21u, 38u and 2u
+                                   // and values "he", "ho", and "hi"
+        ---
 
         $(P If any of the keys or values in the $(I KeyValuePairs) are
         an $(I ExpressionTuple), then the elements of the $(I ExpressionTuple)
@@ -1508,11 +1508,11 @@ $(GNAME AssertExpression):
         $(D AssertError)'s message.
         )
 
-----
-void main() {
-  assert(0, "an" ~ " error message");
-}
-----
+        ----
+        void main() {
+          assert(0, "an" ~ " error message");
+        }
+        ----
 
         $(P When compiled and run, it will produce the message:)
 
@@ -1534,11 +1534,11 @@ $(GNAME MixinExpression):
         $(I AssignExpression), and is compiled as such.
         )
 
----
-int foo(int x) {
-  return mixin("x + 1") * 7;  // same as ((x + 1) * 7)
-}
----
+        ---
+        int foo(int x) {
+          return mixin("x + 1") * 7;  // same as ((x + 1) * 7)
+        }
+        ---
 
 $(H4 Import Expressions)
 
@@ -1560,12 +1560,12 @@ $(GNAME ImportExpression):
         in the file name.
         )
 
----
-void foo() {
-  // Prints contents of file foo.txt
-  writeln( import("foo.txt") );
-}
----
+        ---
+        void foo() {
+          // Prints contents of file foo.txt
+          writeln( import("foo.txt") );
+        }
+        ---
 
 $(H4 Typeid Expressions)
 
@@ -1591,20 +1591,20 @@ $(GNAME TypeidExpression):
         The $(I Expression) is always executed.
         )
 
----
-class A { }
-class B : A { }
+        ---
+        class A { }
+        class B : A { }
 
-void main() {
-  writeln(typeid(int));  // int
-  uint i;
-  writeln(typeid(i++));  // uint
-  writeln(i);            // 1
-  A a = new B();
-  writeln(typeid(a));    // B
-  writeln(typeid(typeof(a)));  // A
-}
----
+        void main() {
+          writeln(typeid(int));  // int
+          uint i;
+          writeln(typeid(i++));  // uint
+          writeln(i);            // 1
+          A a = new B();
+          writeln(typeid(a));    // B
+          writeln(typeid(typeof(a)));  // A
+        }
+        ---
 
 
 $(H4 IsExpression)
@@ -1668,19 +1668,19 @@ $(GNAME TypeSpecialization):
         The condition is satisfied if $(D Type) is semantically
         correct (it must be syntactically correct regardless).
 
--------------
-alias int func(int);    // func is a alias to a function type
-void foo() {
-  if (is(func[]) ) // not satisfied because arrays of
-                        // functions are not allowed
-    writeln("satisfied");
-  else
-    writeln("not satisfied");
+        -------------
+        alias int func(int);    // func is a alias to a function type
+        void foo() {
+          if (is(func[]) ) // not satisfied because arrays of
+                                // functions are not allowed
+            writeln("satisfied");
+          else
+            writeln("not satisfied");
 
-  if (is([][]))  // error, [][] is not a syntactically valid type
-    ...
-}
--------------
+          if (is([][]))  // error, [][] is not a syntactically valid type
+            ...
+        }
+        -------------
         )
 
         $(LI $(D is $(LPAREN)) $(I Type) $(D :) $(I TypeSpecialization) $(D $(RPAREN))$(BR)
@@ -1689,16 +1689,16 @@ void foo() {
         or can be implicitly converted to $(I TypeSpecialization).
         $(I TypeSpecialization) is only allowed to be a $(I Type).
 
--------------
-alias short bar;
-void foo(bar x) {
-  if ( is(bar : int) )   // satisfied because short can be
-                              // implicitly converted to int
-    writeln("satisfied");
-  else
-    writeln("not satisfied");
-}
--------------
+        -------------
+        alias short bar;
+        void foo(bar x) {
+          if ( is(bar : int) )   // satisfied because short can be
+                                      // implicitly converted to int
+            writeln("satisfied");
+          else
+            writeln("not satisfied");
+        }
+        -------------
         )
 
         $(LI $(D is $(LPAREN)) $(I Type) $(D ==) $(I TypeSpecialization) $(D $(RPAREN))$(BR)
@@ -1719,17 +1719,17 @@ void foo(bar x) {
                 $(D shared)
         then the condition is satisfied if $(I Type) is one of those.
 
--------------
-alias short bar;
+        -------------
+        alias short bar;
 
-void test(bar x) {
-  if ( is(bar == int) ) // not satisfied because short is not
-                        // the same type as int
-    writeln("satisfied");
-  else
-    writeln("not satisfied");
-}
--------------
+        void test(bar x) {
+          if ( is(bar == int) ) // not satisfied because short is not
+                                // the same type as int
+            writeln("satisfied");
+          else
+            writeln("not satisfied");
+        }
+        -------------
         )
 
         $(LI $(D is $(LPAREN)) $(I Type) $(I Identifier) $(D $(RPAREN))$(BR)
@@ -1737,20 +1737,20 @@ void test(bar x) {
         correct. If so, $(I Identifier)
         is declared to be an alias of $(I Type).
 
--------------
-alias short bar;
-void foo(bar x) {
-  static if ( is(bar T) )
-    alias T S;
-  else
-    alias long S;
+        -------------
+        alias short bar;
+        void foo(bar x) {
+          static if ( is(bar T) )
+            alias T S;
+          else
+            alias long S;
 
-  writeln(typeid(S));  // prints "short"
-  if ( is(bar T) )  // error, Identifier T form can
-                      // only be in StaticIfConditions
-    ...
-}
--------------
+          writeln(typeid(S));  // prints "short"
+          if ( is(bar T) )  // error, Identifier T form can
+                              // only be in StaticIfConditions
+            ...
+        }
+        -------------
         )
 
         $(LI $(D is $(LPAREN)) $(I Type) $(I Identifier) $(D :) $(I TypeSpecialization) $(D $(RPAREN))$(BR)
@@ -1765,24 +1765,24 @@ void foo(bar x) {
         dependent on $(I Identifier), the deduced type.
         )
 
--------------
-alias int bar;
-alias long* abc;
-void foo(bar x, abc a) {
-  static if ( is(bar T : int) )
-    alias T S;
-  else
-    alias long S;
+        -------------
+        alias int bar;
+        alias long* abc;
+        void foo(bar x, abc a) {
+          static if ( is(bar T : int) )
+            alias T S;
+          else
+            alias long S;
 
-  writeln(typeid(S));  // prints "int"
+          writeln(typeid(S));  // prints "int"
 
-  static if ( is(abc U : U*) )
-  {
-    U u;
-    writeln(typeid(typeof(u)));  // prints "long"
-  }
-}
--------------
+          static if ( is(abc U : U*) )
+          {
+            U u;
+            writeln(typeid(typeof(u)));  // prints "long"
+          }
+        }
+        -------------
 
         $(P The way the type of $(I Identifier) is determined is analogous
         to the way template parameter types are determined by
@@ -1845,18 +1845,18 @@ void foo(bar x, abc a) {
 
         )
 
--------------
-alias short bar;
-enum E : byte { Emember }
-void foo(bar x) {
-  static if ( is(bar T == int) ) // not satisfied, short is not int
-    alias T S;
-  alias T U;       // error, T is not defined
+        -------------
+        alias short bar;
+        enum E : byte { Emember }
+        void foo(bar x) {
+          static if ( is(bar T == int) ) // not satisfied, short is not int
+            alias T S;
+          alias T U;       // error, T is not defined
 
-  static if ( is(E V == enum) )  // satisified, E is an enum
-    V v;           // v is declared to be a byte
-}
--------------
+          static if ( is(E V == enum) )  // satisified, E is an enum
+            V v;           // v is declared to be a byte
+        }
+        -------------
 
 
         )
@@ -1872,43 +1872,43 @@ void foo(bar x) {
         way implied template parameters are matched.
         )
 
----
-import std.stdio, std.typecons;
+        ---
+        import std.stdio, std.typecons;
 
-void main() {
-  alias Tuple!(int, string) Tup;
-  alias long[char[]] AA;
+        void main() {
+          alias Tuple!(int, string) Tup;
+          alias long[char[]] AA;
 
-  static if (is(Tup : TX!TL, alias TX, TL...))
-  {
-    writeln(is(TX!(int, long) == Tuple!(int, long)));  // true
-    writeln(typeid(TL[0]));  // int
-    writeln(typeid(TL[1]));  // immutable(char)[]
-  }
+          static if (is(Tup : TX!TL, alias TX, TL...))
+          {
+            writeln(is(TX!(int, long) == Tuple!(int, long)));  // true
+            writeln(typeid(TL[0]));  // int
+            writeln(typeid(TL[1]));  // immutable(char)[]
+          }
 
-  static if (is(AA T : T[U], U : const char[]))
-  {
-    writeln(typeid(T));  // long
-    writeln(typeid(U));  // const char[]
-  }
+          static if (is(AA T : T[U], U : const char[]))
+          {
+            writeln(typeid(T));  // long
+            writeln(typeid(U));  // const char[]
+          }
 
-  static if (is(AA A : A[B], B : int))
-  {
-    assert(0);  // should not match, as B is not an int
-  }
+          static if (is(AA A : A[B], B : int))
+          {
+            assert(0);  // should not match, as B is not an int
+          }
 
-  static if (is(int[10] W : W[V], int V))
-  {
-    writeln(typeid(W));  // int
-    writeln(V);          // 10
-  }
+          static if (is(int[10] W : W[V], int V))
+          {
+            writeln(typeid(W));  // int
+            writeln(V);          // 10
+          }
 
-  static if (is(int[10] X : X[Y], int Y : 5))
-  {
-    assert(0);  // should not match, Y should be 10
-  }
-}
----
+          static if (is(int[10] X : X[Y], int Y : 5))
+          {
+            assert(0);  // should not match, Y should be 10
+          }
+        }
+        ---
 
         )
 

@@ -84,23 +84,23 @@ $(H3 Class Invariants)
 
 	Consider a class invariant in D:
 
-----------
-class A
-{
-    $(CODE_HIGHLIGHT invariant)() { ...contracts... }
+	----------
+	class A
+	{
+	    $(CODE_HIGHLIGHT invariant)() { ...contracts... }
 
-    this() { ... }	// constructor
-    ~this() { ... }	// destructor
+	    this() { ... }  // constructor
+	    ~this() { ... } // destructor
 
-    void foo() { ... }	// public member function
-}
+	    void foo() { ... }  // public member function
+	}
 
-class B : A
-{
-    $(CODE_HIGHLIGHT invariant)() { ...contracts... }
-    ...
-}
-----------
+	class B : A
+	{
+	    $(CODE_HIGHLIGHT invariant)() { ...contracts... }
+	    ...
+	}
+	----------
 
 	To accomplish the equivalent in C++ (thanks to Bob Bell for providing
 	this):
@@ -219,15 +219,15 @@ $(H2 Preconditions and Postconditions)
 
 	Consider the following in D:
 
-----------
-void foo()
-    in { ...preconditions... }
-    out { ...postconditions... }
-    body
-    {
-	...implementation...
-    }
-----------
+	----------
+	void foo()
+	    in { ...preconditions... }
+	    out { ...postconditions... }
+	    body
+	    {
+	        ...implementation...
+	    }
+	----------
 
 	This is nicely handled in C++ with the nested Sentry struct:
 
@@ -272,18 +272,18 @@ void foo()
 	$(P Let's add a return value to $(D foo()) that needs to be checked in
 	the postconditions. In D:)
 
-----------
-int foo()
-    in { ...preconditions... }
-    out (result) { ...postconditions... }
-    body
-    {
-	...implementation...
-	if (...)
-	    return bar();
-	return 3;
-    }
-----------
+	----------
+	int foo()
+	    in { ...preconditions... }
+	    out (result) { ...postconditions... }
+	    body
+	    {
+	        ...implementation...
+	        if (...)
+	            return bar();
+	        return 3;
+	    }
+	----------
 
 	In C++:
 
@@ -314,18 +314,18 @@ int foo()
 
 	Now add a couple parameters to $(D foo()). In D:
 
-----------
-int foo(int a, int b)
-    in { ...preconditions... }
-    out (result) { ...postconditions... }
-    body
-    {
-	...implementation...
-	if (...)
-	    return bar();
-	return 3;
-    }
-----------
+	----------
+	int foo(int a, int b)
+	    in { ...preconditions... }
+	    out (result) { ...postconditions... }
+	    body
+	    {
+	        ...implementation...
+	        if (...)
+	            return bar();
+	        return 3;
+	    }
+	----------
 
 	In C++:
 
@@ -364,29 +364,29 @@ $(H2 Preconditions and Postconditions for Member Functions)
 	Consider the use of preconditions and postconditions for a
 	polymorphic function in D:
 
-----------
-class A
-{
-    void foo()
-	in { ...Apreconditions... }
-	out { ...Apostconditions... }
-	body
+	----------
+	class A
 	{
-	    ...implementation...
+	    void foo()
+	        in { ...Apreconditions... }
+	        out { ...Apostconditions... }
+	        body
+	        {
+	            ...implementation...
+	        }
 	}
-}
 
-class B : A
-{
-    void foo()
-	in { ...Bpreconditions... }
-	out { ...Bpostconditions... }
-	body
+	class B : A
 	{
-	    ...implementation...
+	    void foo()
+	        in { ...Bpreconditions... }
+	        out { ...Bpostconditions... }
+	        body
+	        {
+	            ...implementation...
+	        }
 	}
-}
-----------
+	----------
 
 	The semantics for a call to $(D B.foo()) are:
 

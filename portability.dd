@@ -22,9 +22,9 @@ $(SPEC_S Portability Guide,
 	$(LI Avoid depending on the order of side effects in a computation
 	that may get reordered by the compiler. For example:
 
--------
-a + b + c
--------
+	-------
+	a + b + c
+	-------
 
 	$(P can be evaluated as (a + b) + c, a + (b + c), (a + c) + b, (c + b) + a,
 	etc. Parentheses control operator precedence, parentheses do not
@@ -45,9 +45,9 @@ a + b + c
 	$(LI If size dependencies are inevitable, put an $(D assert) in
 	the code to verify it:
 
--------
-assert(int.sizeof == (int*).sizeof);
--------
+	-------
+	assert(int.sizeof == (int*).sizeof);
+	-------
 	)
 	)
 

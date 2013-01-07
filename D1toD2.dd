@@ -46,10 +46,10 @@ $(ITEM global_variables, Global Variables)
 	storage. To put them back in global storage, use the $(D_KEYWORD __gshared)
 	storage class:)
 
----
-int foo = 7; // D1 code
-$(B __gshared) int foo = 7; // D2 equivalent
----
+	---
+	int foo = 7; // D1 code
+	$(B __gshared) int foo = 7; // D2 equivalent
+	---
 
 	$(P Carefully consider whether or not those variables actually should
 	go into thread local storage, rather than being implicitly shared
@@ -71,10 +71,10 @@ $(ITEM static_arrays, Static Arrays are now Value Types)
 	$(P To migrate, add the keyword $(D_KEYWORD ref) to the parameter
 	declaration:)
 
----
-void foo(int[3] array);      // D1 code
-void foo($(B ref) int[3] array);  // D2 equivalent
----
+	---
+	void foo(int[3] array);      // D1 code
+	void foo($(B ref) int[3] array);  // D2 equivalent
+	---
 
 $(ITEM immutable_string, String Literals are Immutable)
 

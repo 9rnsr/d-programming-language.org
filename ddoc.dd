@@ -93,41 +93,41 @@ $(OL
 
 $(P The following are all embedded documentation comments:)
 
----------------------------
-/// This is a one line documentation comment.
+    ---------------------------
+    /// This is a one line documentation comment.
 
-/** So is this. */
+    /** So is this. */
 
-/++ And this. +/
+    /++ And this. +/
 
-/**
-   This is a brief documentation comment.
- */
+    /**
+       This is a brief documentation comment.
+     */
 
-/**
- * The leading * on this line is not part of the documentation comment.
- */
+    /**
+     * The leading * on this line is not part of the documentation comment.
+     */
 
-/*********************************
-   The extra *'s immediately following the /** are not
-   part of the documentation comment.
- */
+    /*********************************
+       The extra *'s immediately following the /** are not
+       part of the documentation comment.
+     */
 
-/++
-   This is a brief documentation comment.
- +/
+    /++
+       This is a brief documentation comment.
+     +/
 
-/++
- + The leading + on this line is not part of the documentation comment.
- +/
+    /++
+     + The leading + on this line is not part of the documentation comment.
+     +/
 
-/+++++++++++++++++++++++++++++++++
-   The extra +'s immediately following the / ++ are not
-   part of the documentation comment.
- +/
+    /+++++++++++++++++++++++++++++++++
+       The extra +'s immediately following the / ++ are not
+       part of the documentation comment.
+     +/
 
-/**************** Closing *'s are not part *****************/
----------------------------
+    /**************** Closing *'s are not part *****************/
+    ---------------------------
 
 $(P
 The extra *'s and +'s on the comment opening, closing and left margin are
@@ -165,34 +165,34 @@ may not appear in the output. To ensure it does appear in the output,
 put an empty declaration comment for it.
 )
 
-------------------------------------
-int a;  /// documentation for a; b has no documentation
-int b;
+    ------------------------------------
+    int a;  /// documentation for a; b has no documentation
+    int b;
 
-/** documentation for c and d */
-/** more documentation for c and d */
-int c;
-/** ditto */
-int d;
+    /** documentation for c and d */
+    /** more documentation for c and d */
+    int c;
+    /** ditto */
+    int d;
 
-/** documentation for e and f */ int e;
-int f;	/// ditto
+    /** documentation for e and f */ int e;
+    int f;  /// ditto
 
-/** documentation for g */
-int g; /// more documentation for g
+    /** documentation for g */
+    int g; /// more documentation for g
 
-/// documentation for C and D
-class C {
-  int x; /// documentation for C.x
+    /// documentation for C and D
+    class C {
+      int x; /// documentation for C.x
 
-  /** documentation for C.y and C.z */
-  int y;
-  int z; /// ditto
-}
+      /** documentation for C.y and C.z */
+      int y;
+      int z; /// ditto
+    }
 
-/// ditto
-class D { }
-------------------------------------
+    /// ditto
+    class D { }
+    ------------------------------------
 
 $(H3 Sections)
 
@@ -225,19 +225,19 @@ While the $(I Description) section is optional,
 there cannot be a $(I Description) without a $(I Summary) section.
 )
 
-------------------------------------
-/***********************************
- * Brief summary of what
- * myfunc does, forming the summary section.
- *
- * First paragraph of synopsis description.
- *
- * Second paragraph of
- * synopsis description.
- */
+    ------------------------------------
+    /***********************************
+     * Brief summary of what
+     * myfunc does, forming the summary section.
+     *
+     * First paragraph of synopsis description.
+     *
+     * Second paragraph of
+     * synopsis description.
+     */
 
-void myfunc() { }
-------------------------------------
+    void myfunc() { }
+    ------------------------------------
 
 $(P
 Named sections follow the $(I Summary) and $(I Description) unnamed sections.
@@ -253,122 +253,122 @@ None of these are required to be present.
 $(DL
 $(DT $(B Authors:))
 $(DD Lists the author(s) of the declaration.)
-------------------------------------
-/**
- * Authors: Melvin D. Nerd, melvin@mailinator.com
- */
-------------------------------------
+    ------------------------------------
+    /**
+     * Authors: Melvin D. Nerd, melvin@mailinator.com
+     */
+    ------------------------------------
 
 $(DT  $(B Bugs:))
 $(DD Lists any known bugs.)
-------------------------------------
-/**
- * Bugs: Doesn't work for negative values.
- */
-------------------------------------
+    ------------------------------------
+    /**
+     * Bugs: Doesn't work for negative values.
+     */
+    ------------------------------------
 
 $(DT  $(B Date:))
 $(DD Specifies the date of the current revision. The date should be in a form
      parseable by std.date.)
 
-------------------------------------
-/**
- * Date: March 14, 2003
- */
-------------------------------------
+    ------------------------------------
+    /**
+     * Date: March 14, 2003
+     */
+    ------------------------------------
 
 $(DT  $(B Deprecated:))
 $(DD Provides an explanation for and corrective action to take if the associated
      declaration is marked as deprecated.)
 
-------------------------------------
-/**
- * Deprecated: superseded by function bar().
- */
+    ------------------------------------
+    /**
+     * Deprecated: superseded by function bar().
+     */
 
-deprecated void foo() { ... }
-------------------------------------
+    deprecated void foo() { ... }
+    ------------------------------------
 
 $(DT  $(B Examples:))
 $(DD Any usage examples)
-------------------------------------
-/**
- * Examples:
- * --------------------
- * writefln("3"); // writes '3' to stdout
- * --------------------
- */
-------------------------------------
+    ------------------------------------
+    /**
+     * Examples:
+     * --------------------
+     * writefln("3"); // writes '3' to stdout
+     * --------------------
+     */
+    ------------------------------------
 
 $(DT  $(B History:))
 $(DD Revision history.)
-------------------------------------
-/**
- * History:
- *	V1 is initial version
- *
- *	V2 added feature X
- */
-------------------------------------
+    ------------------------------------
+    /**
+     * History:
+     *	V1 is initial version
+     *
+     *	V2 added feature X
+     */
+    ------------------------------------
 
 $(DT  $(B License:))
 $(DD Any license information for copyrighted code.)
-------------------------------------
-/**
- * License: use freely for any purpose
- */
+    ------------------------------------
+    /**
+     * License: use freely for any purpose
+     */
 
-void bar() { ... }
-------------------------------------
+    void bar() { ... }
+    ------------------------------------
 
 $(DT  $(B Returns:))
 $(DD Explains the return value of the function.
      If the function returns $(B void), don't redundantly document it.)
-------------------------------------
-/**
- * Read the file.
- * Returns: The contents of the file.
- */
+    ------------------------------------
+    /**
+     * Read the file.
+     * Returns: The contents of the file.
+     */
 
-void[] readFile(char[] filename) { ... }
-------------------------------------
+    void[] readFile(char[] filename) { ... }
+    ------------------------------------
 
 $(DT  $(B See$(UNDERSCORE)Also:))
 $(DD List of other symbols and URL's to related items.)
-------------------------------------
-/**
- * See_Also:
- *    foo, bar, http://www.digitalmars.com/d/phobos/index.html
- */
-------------------------------------
+    ------------------------------------
+    /**
+     * See_Also:
+     *    foo, bar, http://www.digitalmars.com/d/phobos/index.html
+     */
+    ------------------------------------
 
 $(DT  $(B Standards:))
 $(DD If this declaration is compliant with any particular standard,
 the description of it goes here.)
-------------------------------------
-/**
- * Standards: Conforms to DSPEC-1234
- */
-------------------------------------
+    ------------------------------------
+    /**
+     * Standards: Conforms to DSPEC-1234
+     */
+    ------------------------------------
 
 $(DT $(B Throws:))
 $(DD Lists exceptions thrown and under what circumstances they are thrown.)
-------------------------------------
-/**
- * Write the file.
- * Throws: WriteException on failure.
- */
+    ------------------------------------
+    /**
+     * Write the file.
+     * Throws: WriteException on failure.
+     */
 
-void writeFile(char[] filename) { ... }
-------------------------------------
+    void writeFile(char[] filename) { ... }
+    ------------------------------------
 
 $(DT  $(B Version:))
 $(DD Specifies the current version of the declaration.)
-------------------------------------
-/**
- * Version: 1.6a
- */
-------------------------------------
+    ------------------------------------
+    /**
+     * Version: 1.6a
+     */
+    ------------------------------------
 )
 
 $(H3 Special Sections)
@@ -384,11 +384,11 @@ $(DD This contains the copyright notice. The macro COPYRIGHT is set to
      The copyright section only gets this special treatment when it
      is for the module declaration.)
 
-------------------------------------
-/** Copyright: Public Domain */
+    ------------------------------------
+    /** Copyright: Public Domain */
 
-module foo;
-------------------------------------
+    module foo;
+    ------------------------------------
 
 $(DT  $(B Params:))
 $(DD Function parameters can be documented by listing them in a params
@@ -396,34 +396,34 @@ $(DD Function parameters can be documented by listing them in a params
      an '=' starts a new parameter description. A description can
      span multiple lines.)
 
-------------------------
-/***********************************
- * foo does this.
- * Params:
- *	x =	is for this
- *		and not for that
- *	y =	is for that
- */
+    ------------------------
+    /***********************************
+     * foo does this.
+     * Params:
+     *  x = is for this
+     *      and not for that
+     *  y = is for that
+     */
 
-void foo(int x, int y)
-{
-}
--------------------------
+    void foo(int x, int y)
+    {
+    }
+    -------------------------
 
 $(DT  $(B Macros:))
 $(DD The macros section follows the same syntax as the $(B Params:) section.
      It's a series of $(I NAME)=$(I value) pairs.
      The $(I NAME) is the macro name, and $(I value) is the replacement
      text.)
-------------------------------------
-/**
- * Macros:
- *	FOO =	now is the time for
- *		all good men
- *	BAR =	bar
- *	MAGENTA =   <font color=magenta>$(DOLLAR)0</font>
- */
-------------------------------------
+    ------------------------------------
+    /**
+     * Macros:
+     *	FOO =	now is the time for
+     *		all good men
+     *	BAR =	bar
+     *	MAGENTA =   <font color=magenta>$(DOLLAR)0</font>
+     */
+    ------------------------------------
 
 
 $(DT  $(B Escapes=))
@@ -435,16 +435,16 @@ $(DD The syntax is $(B /c/string/), where $(B c)
      is either a single character, or multiple characters separated by
      whitespace or commas, and $(B string) is the replacement text.)
 
-------------------------------------
-/**
- * ESCAPES = /&/AddressOf!/
- *           /!/Exclamation/
- *           /?/QuestionMark/
- *           /,/Comma/
- *           /{ }/Parens/
- *           /<,>/Arrows/
- */
-------------------------------------
+    ------------------------------------
+    /**
+     * ESCAPES = /&/AddressOf!/
+     *           /!/Exclamation/
+     *           /?/QuestionMark/
+     *           /,/Comma/
+     *           /{ }/Parens/
+     *           /<,>/Arrows/
+     */
+    ------------------------------------
 )
 
 $(H2 Highlighting)
@@ -464,21 +464,21 @@ $(P
 	hyphens (ignoring whitespace) to delineate the code section:
 )
 
-------------------------------------
-/++
- + Our function.
- +
- + Example:
- + ---
- + import std.stdio;
- +
- + void foo()
- + {
- +     writefln("foo!");  /* print the string */
- + }
- + ---
- +/
-------------------------------------
+    ------------------------------------
+    /++
+     + Our function.
+     +
+     + Example:
+     + ---
+     + import std.stdio;
+     +
+     + void foo()
+     + {
+     +     writefln("foo!");  /* print the string */
+     + }
+     + ---
+     +/
+    ------------------------------------
 
 $(P
 	Note that the documentation comment uses the $(D_COMMENT /++ ... +/)
@@ -496,16 +496,16 @@ output format of the embedded documentation comment extractor, it is
 best to avoid using it where practical.
 )
 
-------------------------------------
-/**
- * Example of embedded HTML:
- *
- * <ol>
- *   <li><a href="http://www.digitalmars.com">Digital Mars</a></li>
- *   <li><a href="http://www.classicempire.com">Empire</a></li>
- * </ol>
- */
-------------------------------------
+    ------------------------------------
+    /**
+     * Example of embedded HTML:
+     *
+     * <ol>
+     *   <li><a href="http://www.digitalmars.com">Digital Mars</a></li>
+     *   <li><a href="http://www.classicempire.com">Empire</a></li>
+     * </ol>
+     */
+    ------------------------------------
 
 $(H4 Emphasis)
 

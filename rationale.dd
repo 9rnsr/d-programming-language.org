@@ -23,13 +23,13 @@ $(H3 Why not name them operator+(), operator*(), etc.?)
 	function, to overload the reverse operation. For example,
 	)
 
-------
-class A
-{
-    int operator/(int i);		// overloads (a/i)
-    static operator/(int i, A a)	// overloads (i/a)
-}
-------
+	------
+	class A
+	{
+	    int operator/(int i);		// overloads (a/i)
+	    static operator/(int i, A a)	// overloads (i/a)
+	}
+	------
 
 	$(P The second overload does the reverse overload, but
 	it cannot be virtual, and so has a confusing asymmetry with
@@ -44,21 +44,21 @@ $(H3 Why not allow globally defined operator overload functions?)
 	of that object. That does leave the case of what to do
 	when the operands are objects of different types:
 
-------
-class A { }
-class B { }
-int opAdd(class A, class B);
-------
+	------
+	class A { }
+	class B { }
+	int opAdd(class A, class B);
+	------
 
 	Should opAdd() be in class A or B? The obvious stylistic solution
 	would be to put it in the class of the first operand,
 
-------
-class A
-{
-    int opAdd(class B) { }
-}
-------
+	------
+	class A
+	{
+	    int opAdd(class B) { }
+	}
+	------
 	)
 
 	$(LI Operator overloads usually need access to private members
@@ -154,13 +154,13 @@ infinity of a floating point type, rather than doing it in a library like C++:
 
 	$(P To illustrate, if either op1 or op2 or both are NaN, then:)
 
-------
-(op1 < op2)
-------
+	------
+	(op1 < op2)
+	------
 	$(P does not yield the same result as:)
-------
-!(op1 >= op2)
-------
+	------
+	!(op1 >= op2)
+	------
 	$(P if the NaNs are done correctly.)
 
 $(H2 Why use $(D static if(0)) rather than $(D if (0)?))
@@ -171,50 +171,50 @@ $(H2 Why use $(D static if(0)) rather than $(D if (0)?))
     $(LI if (0) introduces a new scope, static if(...) does not. Why does this
     matter? It matters if one wants to conditionally declare a new variable:
 
-------
-static if (...) int x; else long x;
-x = 3;
-------
+    ------
+    static if (...) int x; else long x;
+    x = 3;
+    ------
 
     whereas:
 
-------
-if (...) int x; else long x;
-x = 3;    // error, x is not defined
-------
+    ------
+    if (...) int x; else long x;
+    x = 3;    // error, x is not defined
+    ------
     )
 
     $(LI False static if conditionals don't have to semantically work. For
     example, it may depend on a conditionally compiled declaration somewhere
     else:
 
-------
-static if (...) int x;
-int test()
-{
-    static if (...) return x;
-    else return 0;
-}
-------
+    ------
+    static if (...) int x;
+    int test()
+    {
+        static if (...) return x;
+        else return 0;
+    }
+    ------
     )
 
     $(LI Static if's can appear where only declarations are allowed:
 
-------
-class Foo
-{
-	static if (...)
-	    int x;
-}
-------
+    ------
+    class Foo
+    {
+        static if (...)
+            int x;
+    }
+    ------
     )
 
     $(LI Static if's can declare new type aliases:
 
-------
-static if (0 || is(int T)) T x;
+    ------
+    static if (0 || is(int T)) T x;
+    ------
     )
-------
     )
 
 )

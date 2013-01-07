@@ -60,9 +60,9 @@ $(SPEC_S Deprecated Features,
 
 $(H3 $(DEPNAME Cast T[] to integral type))
 	At some point in time you could do:
----
-ulong u = cast(ulong)[1,2];
----
+	---
+	ulong u = cast(ulong)[1,2];
+	---
 	To get the length of the array.
 $(H4 Corrective Action)
 	$(P Use the $(LINK2 http://dlang.org/arrays.html#array-properties, .length) property instead.)
@@ -74,11 +74,11 @@ $(H4 Rationale)
 
 $(H3 $(DEPNAME Base Class Protection))
 	Base class protections are things like:
----
-class A : $(B protected) B {
-   ...
-}
----
+	---
+	class A : $(B protected) B {
+	   ...
+	}
+	---
 $(H4 Corrective Action)
 	$(P Delete the protection attribute keyword from in front of the base class
 	and base interfaces.
@@ -91,10 +91,10 @@ $(H4 Rationale)
 
 $(H3 $(DEPNAME Using length in index expressions))
 	When used inside an indexing or slicing expression, length is rewritten to be the length of the array being sliced.
----
-auto a = new int[5];
-a = a[0..length-1];
----
+	---
+	auto a = new int[5];
+	a = a[0..length-1];
+	---
 $(H4 Corrective Action)
 	$(P Replace length with the equivalent $(LINK2 arrays.html#array-length, '$')
 	)
@@ -106,10 +106,10 @@ $(H4 Rationale)
 
 $(H3 $(DEPNAME typedef))
 	typedef can be used to construct a strongly-typed alias of a type.
----
-typedef int myint;
-static assert(!is(myint == int));
----
+	---
+	typedef int myint;
+	static assert(!is(myint == int));
+	---
 $(H4 Corrective Action)
 	$(P Replace use of typedef with alias or use $(FULL_STDREF typecons, Typedef).
 	)
@@ -123,17 +123,17 @@ $(H4 Rationale)
 
 $(H3 $(DEPNAME Variable shadowing inside functions))
 	Variable shadowing is when a variable in an inner scope has the same name as a variable in an enclosing scope.
----
-void myFun()
-{
-    int var;
-    if (x)
-    {
-        int var;
-        var = 3; // which var was meant?
-    }
-}
----
+	---
+	void myFun()
+	{
+	    int var;
+	    if (x)
+	    {
+	        int var;
+	        var = 3; // which var was meant?
+	    }
+	}
+	---
 $(H4 Corrective Action)
 	$(P Rename shadowing variables so they don't conflict.
 	)
@@ -147,9 +147,9 @@ $(H4 Rationale)
 
 $(H3 $(DEPNAME invariant as an alias for immutable))
 	The invariant storage class and type modifier is an alias for immutable.
----
-static assert(is(invariant(int) == immutable(int)));
----
+	---
+	static assert(is(invariant(int) == immutable(int)));
+	---
 $(H4 Corrective Action)
 	$(P Replace all uses of invariant as a storage class or type modifier with immutable.  The invariant() syntax for struct and class invariants is still supported.
 	)
@@ -164,16 +164,16 @@ $(H4 Rationale)
 
 $(H3 $(DEPNAME Using * to dereference arrays))
 	D array variables can be dereferenced to get the first element, much like pointers.
----
-int[] arr = [1, 2, 3];
-assert(*arr == 1);
----
+	---
+	int[] arr = [1, 2, 3];
+	assert(*arr == 1);
+	---
 $(H4 Corrective Action)
 	$(P Use indexing syntax to access first member.
----
-int[] arr = [1, 2, 3];
-assert(arr[0] == 1);
----
+	---
+	int[] arr = [1, 2, 3];
+	assert(arr[0] == 1);
+	---
 	)
 $(H4 Rationale)
 	$(P D arrays are not pointers.
@@ -184,18 +184,18 @@ $(H4 Rationale)
 
 $(H3 $(DEPNAME Removing an item from an associative array with delete))
 	delete can be used to remove an item from an associative array.
----
-int[int] aa = [1 : 2];
-delete aa[1];
-assert(1 !in aa);
----
+	---
+	int[int] aa = [1 : 2];
+	delete aa[1];
+	assert(1 !in aa);
+	---
 $(H4 Corrective Action)
 	$(P Use .remove instead.
----
-int[int] aa = [1 : 2];
-aa.remove(1);
-assert(1 !in aa);
----
+	---
+	int[int] aa = [1 : 2];
+	aa.remove(1);
+	assert(1 !in aa);
+	---
 	)
 $(H4 Rationale)
 	$(P The delete syntax is confusing and conflicts with the normal delete syntax.
@@ -207,16 +207,16 @@ $(H4 Rationale)
 
 $(H3 $(DEPNAME .offset property))
 	The .offset property can be used to get member offset information.
----
-struct S { int a, b; }
-static assert(S.b.offset == 4);
----
+	---
+	struct S { int a, b; }
+	static assert(S.b.offset == 4);
+	---
 $(H4 Corrective Action)
 	$(P Use .offsetof instead
----
-struct S { int a, b; }
-static assert(S.b.offsetof == 4);
----
+	---
+	struct S { int a, b; }
+	static assert(S.b.offsetof == 4);
+	---
 	)
 $(H4 Rationale)
 	$(P The .offset syntax has been superseded by .offsetof
@@ -229,16 +229,16 @@ $(H4 Rationale)
 
 $(H3 $(DEPNAME .size property))
 	The .size property can be used to get type size information
----
-struct S { int a, b; }
-static assert(S.size == 8);
----
+	---
+	struct S { int a, b; }
+	static assert(S.size == 8);
+	---
 $(H4 Corrective Action)
 	$(P Use .sizeof instead
----
-struct S { int a, b; }
-static assert(S.sizeof == 8);
----
+	---
+	struct S { int a, b; }
+	static assert(S.sizeof == 8);
+	---
 	)
 $(H4 Rationale)
 	$(P The .size syntax has been superseded by .sizeof
@@ -249,15 +249,15 @@ $(H4 Rationale)
 
 $(H3 $(DEPNAME Escape string literals))
 	Escape string literals can be used to describe characters using escape sequences.
----
-// deprecated code
-// string x = "hello" ~ \n;
----
+	---
+	// deprecated code
+	// string x = "hello" ~ \n;
+	---
 $(H4 Corrective Action)
 	$(P Put escape sequences inside a regular string literal.
----
-string x = "hello\n";
----
+	---
+	string x = "hello\n";
+	---
 	)
 $(H4 Rationale)
 	$(P Escape string literals are unintuitive and unnecessary.
@@ -268,15 +268,15 @@ $(H4 Rationale)
 
 $(H3 $(DEPNAME Lower case 'l' suffix for integer literals))
 	Lower case 'l' is an alternative suffix to denote 64 bit integer literals.
----
-// deprecated code
-// auto x = 123l;
----
+	---
+	// deprecated code
+	// auto x = 123l;
+	---
 $(H4 Corrective Action)
 	$(P Use the upper case 'L' suffix.
----
-auto x = 123L;
----
+	---
+	auto x = 123L;
+	---
 	)
 $(H4 Rationale)
 	$(P The lower case suffix is easily confused with the digit '1'.
@@ -287,15 +287,15 @@ $(H4 Rationale)
 
 $(H3 $(DEPNAME Octal literals))
 	Octal literals can be used to enter literals in base 8.
----
-// deprecated code
-// auto x = 0123;
----
+	---
+	// deprecated code
+	// auto x = 0123;
+	---
 $(H4 Corrective Action)
 	$(P Use the octal!num template.
----
-auto x = octal!123;
----
+	---
+	auto x = octal!123;
+	---
 	)
 $(H4 Rationale)
 	$(P The use of a leading zero is confusing, as 0123 != 123.
@@ -307,15 +307,15 @@ $(H4 Rationale)
 
 $(H3 $(DEPNAME Upper case 'I' suffix for imaginary literals))
 	The 'I' suffix can be used to denote imaginary floating point values.
----
-// deprecated code
-// auto x = 1.234I;
----
+	---
+	// deprecated code
+	// auto x = 1.234I;
+	---
 $(H4 Corrective Action)
 	$(P Use the lower case 'i' suffix.
----
-auto x = 1.234i;
----
+	---
+	auto x = 1.234i;
+	---
 	)
 $(H4 Rationale)
 	$(P The 'I' suffix is easily confused with the digit '1'.
@@ -327,13 +327,13 @@ $(H4 Rationale)
 
 $(H3 $(DEPNAME HTML source files))
 	The D compiler can parse html files by ignoring everything not contained in &lt;code&gt&lt/code&gt tags.
----
-<html>
-<code>
-    ... source ...
-</code>
-</html>
----
+	---
+	<html>
+	<code>
+	    ... source ...
+	</code>
+	</html>
+	---
 $(H4 Corrective Action)
 	$(P Extract code to regular source files.
 	)
@@ -346,14 +346,14 @@ $(H4 Rationale)
 
 $(H3 $(DEPNAME .typeinfo property))
 	The .typeinfo property can be used to get the associated TypeInfo class.
----
-T.typeinfo
----
+	---
+	T.typeinfo
+	---
 $(H4 Corrective Action)
 	$(P Use typeid() instead
----
-typeid(T)
----
+	---
+	typeid(T)
+	---
 	)
 $(H4 Rationale)
 	$(P The .typeinfo syntax has been superseded by typeid()
@@ -364,14 +364,14 @@ $(H4 Rationale)
 
 $(H3 $(DEPNAME C-style function pointers))
 	C-style function pointers can be used in D.
----
-alias void(*fptr)(int, long);
----
+	---
+	alias void(*fptr)(int, long);
+	---
 $(H4 Corrective Action)
 	$(P Replace with D-style function pointers.
----
-alias void function(int, long) fptr;
----
+	---
+	alias void function(int, long) fptr;
+	---
 	)
 $(H4 Rationale)
 	$(P The D syntax is much cleaner and easier to use.
@@ -381,14 +381,14 @@ $(H4 Rationale)
 
 $(H3 $(DEPNAME C-style array pointers))
 	C-style array pointers can be used in D.
----
-alias float *arrayptr[10][15];
----
+	---
+	alias float *arrayptr[10][15];
+	---
 $(H4 Corrective Action)
 	$(P Replace with D-style array pointers.
----
-alias float[15][10]* arrayptr;
----
+	---
+	alias float[15][10]* arrayptr;
+	---
 	)
 $(H4 Rationale)
 	$(P The D syntax is much cleaner and easier to use.
@@ -399,14 +399,14 @@ $(H4 Rationale)
 
 $(H3 $(DEPNAME if (v; e)))
 	This syntax can be used to declare a variable in an if statement condition.
----
-if (v; calculateAndReturnPointer()) { ... }
----
+	---
+	if (v; calculateAndReturnPointer()) { ... }
+	---
 $(H4 Corrective Action)
 	$(P Replace with an auto declaration.
----
-if (auto v = calculateAndReturnPointer()) { ... }
----
+	---
+	if (auto v = calculateAndReturnPointer()) { ... }
+	---
 	)
 $(H4 Rationale)
 	$(P The syntax is clearer with auto.
@@ -416,12 +416,12 @@ $(H4 Rationale)
 
 $(H3 $(DEPNAME volatile))
 	volatile can be used to mark statement, in order to prevent some compiler optimizations.
----
-volatile
-{
-    ... do something involving ghared variables ...
-}
----
+	---
+	volatile
+	{
+	    ... do something involving ghared variables ...
+	}
+	---
 $(H4 Corrective Action)
 	$(P Convert the code to use synchronized statements instead.
 	)
@@ -434,31 +434,31 @@ $(H4 Rationale)
 
 $(H3 $(DEPNAME Non-final switch statements without a default case))
 	Switch statements can be declared without a default case, and the compiler automatically adds one.
----
-switch(a)
-{
-case 1:
-    break;
-case 2:
-    break;
-// the compiler adds
-// default:
-//     throw new SwitchError();
-}
----
+	---
+	switch(a)
+	{
+	case 1:
+	    break;
+	case 2:
+	    break;
+	// the compiler adds
+	// default:
+	//     throw new SwitchError();
+	}
+	---
 $(H4 Corrective Action)
 	$(P Add the default case manually.
----
-switch(a)
-{
-case 1:
-    break;
-case 2:
-    break;
-default:
-    assert(0);
-}
----
+	---
+	switch(a)
+	{
+	case 1:
+	    break;
+	case 2:
+	    break;
+	default:
+	    assert(0);
+	}
+	---
 	)
 $(H4 Rationale)
 	$(P Missing default cases can hide bugs, and making the default case explicit should be mandatory.
@@ -469,30 +469,30 @@ $(H4 Rationale)
 
 $(H3 $(DEPNAME Hiding base class functions))
 	Declaration functions in a derived class that can be called with the same arguments as a function in a base class, but do not override that function causes the base class function to be hidden.
----
-class A
-{
-    void fun(int x) {}
-}
-class B : A
-{
-    void fun(long x) {}
-}
----
+	---
+	class A
+	{
+	    void fun(int x) {}
+	}
+	class B : A
+	{
+	    void fun(long x) {}
+	}
+	---
 $(H4 Corrective Action)
 	$(P Add the function to the base class, or use an alias to bring the base class overload into the derived class.
----
-class A
-{
-    void fun(int x) {}
-    void fun(long x) {} // this fixes it
-}
-class B : A
-{
-    void fun(long x) {}
-    alias A.fun fun; // so does this
-}
----
+	---
+	class A
+	{
+	    void fun(int x) {}
+	    void fun(long x) {} // this fixes it
+	}
+	class B : A
+	{
+	    void fun(long x) {}
+	    alias A.fun fun; // so does this
+	}
+	---
 	)
 $(H4 Rationale)
 	$(P This is an error that is already detected at runtime, and is being extended to compile time.
@@ -513,14 +513,14 @@ $(H4 Rationale)
 
 $(H3 $(DEPNAME .min property for floating point types))
 	Floating point types have the .min property to access the smallest value.
----
-enum m = real.min;
----
+	---
+	enum m = real.min;
+	---
 $(H4 Corrective Action)
 	$(P Replace with .min_normal
----
-enum m = real.min_normal;
----
+	---
+	enum m = real.min_normal;
+	---
 	)
 $(H4 Rationale)
 	$(P The name min_normal is more accurate, as .min does not include denormalized floating point values.
@@ -529,12 +529,12 @@ $(H4 Rationale)
 
 $(H3 $(DEPNAME imaginary and complex types))
 	D currently supports imaginary and complex versions of all floating point types.
----
-float a = 2;
-ifloat b = 4i;
-cfloat c = a + b;
-assert(c == 2 + 4i);
----
+	---
+	float a = 2;
+	ifloat b = 4i;
+	cfloat c = a + b;
+	assert(c == 2 + 4i);
+	---
 $(H4 Corrective Action)
 	$(P Use the library types in $(STDFILEREF complex).
 	)
@@ -561,10 +561,10 @@ $(H4 Rationale)
 
 $(H3 $(DEPNAME .sort and .reverse properties for arrays))
 	D arrays can be manipulated using these built-in properties.
----
-int[] x = [2, 3, 1];
-assert(x.sort == [1, 2, 3]);
----
+	---
+	int[] x = [2, 3, 1];
+	assert(x.sort == [1, 2, 3]);
+	---
 $(H4 Corrective Action)
 	$(P Use the generic functions in $(STDFILEREF algorithm).
 	)
@@ -578,16 +578,16 @@ $(H4 Rationale)
 
 $(H3 $(DEPNAME delete))
 	Memory allocated on the GC heap can be freed with delete.
----
-auto a = new Class();
-delete a;
----
+	---
+	auto a = new Class();
+	delete a;
+	---
 $(H4 Corrective Action)
 	$(P Use $(LINK2 phobos/object.html#destroy, object.destroy()) instead.
----
-auto a = new Class();
-destroy(a);
----
+	---
+	auto a = new Class();
+	destroy(a);
+	---
 	)
 $(H4 Rationale)
 	$(P delete makes assumptions about the type of garbage collector available that limits which implementations can be used, and can be replaced by a library solution.
@@ -599,29 +599,29 @@ $(H4 Rationale)
 
 $(H3 $(DEPNAME overriding without override))
 	Virtual functions can currently override a function in a base class without the 'override' attribute.
----
-class A
-{
-    void fun() {}
-}
-class B : A
-{
-    // overrides but is not marked with override
-    void fun() {}
-}
----
+	---
+	class A
+	{
+	    void fun() {}
+	}
+	class B : A
+	{
+	    // overrides but is not marked with override
+	    void fun() {}
+	}
+	---
 $(H4 Corrective Action)
 	$(P Mark overriding functions with 'override'
----
-class A
-{
-    void fun() {}
-}
-class B : A
-{
-    override void fun() {}
-}
----
+	---
+	class A
+	{
+	    void fun() {}
+	}
+	class B : A
+	{
+	    override void fun() {}
+	}
+	---
 	)
 $(H4 Rationale)
 	$(P Making the 'override' attribute mandatory makes it explicit, and can catch errors when a base class function is accidentally overridden.
@@ -629,35 +629,35 @@ $(H4 Rationale)
 
 $(H3 $(DEPNAME scope for allocating classes on the stack))
 	The $(D scope) keyword can be used to allocate class objects on the stack:
----
-class A
-{
-    int x;
-    this(int x) { this.x = x; }
-}
+	---
+	class A
+	{
+	    int x;
+	    this(int x) { this.x = x; }
+	}
 
-void main()
-{
-    A obj;
-    {
-        scope A a = new A(1);
-        obj = a;
-    }
-    assert(obj.x == 1);  // fails, 'a' has been destroyed
-}
----
+	void main()
+	{
+	    A obj;
+	    {
+	        scope A a = new A(1);
+	        obj = a;
+	    }
+	    assert(obj.x == 1);  // fails, 'a' has been destroyed
+	}
+	---
 $(H4 Corrective Action)
 	$(P Use $(B scoped) from std.typecons
----
-class A
-{
-    this(int x) { }
-}
-void main()
-{
-    A a = scoped!A(1);
-}
----
+	---
+	class A
+	{
+	    this(int x) { }
+	}
+	void main()
+	{
+	    A a = scoped!A(1);
+	}
+	---
 	)
 $(H4 Rationale)
 	$(P $(D scope) was an unsafe feature. A reference to a scoped class could easily

@@ -35,9 +35,11 @@ $(H2 Assert Contract)
 	$(GLINK2 expression, AssertExpression).
 	An $(B assert) inserts a checkable expression into
 	the code, and that expression must evaluate to true:
-------
-assert(expression);
-------
+
+	------
+	assert(expression);
+	------
+
 	C programmers will find it familiar. Unlike C, however, an <code>assert</code>
 	in function bodies
 	works by throwing an <code>AssertError</code>,
@@ -58,20 +60,21 @@ $(H2 Pre and Post Contracts)
 	would be in validating the return value of a function and of any side effects it has.
 	The syntax is:
 
-------
-in
-{
-  ...contract preconditions...
-}
-out (result)
-{
-  ...contract postconditions...
-}
-body
-{
-  ...code...
-}
-------
+	------
+	in
+	{
+	  ...contract preconditions...
+	}
+	out (result)
+	{
+	  ...contract postconditions...
+	}
+	body
+	{
+	  ...code...
+	}
+	------
+
 	$(P By definition, if a pre contract fails, then the body received bad
 	parameters.
 	An AssertError is thrown. If a post contract fails,
@@ -81,21 +84,23 @@ body
 	If the <code>out</code> clause is for a function
 	body, the variable <code>result</code> is declared and assigned the return
 	value of the function. For example, let's implement a square root function:)
-------
-long square_root(long x)
-  in
-  {
-    assert(x >= 0);
-  }
-  out (result)
-  {
-    assert((result * result) <= x && (result+1) * (result+1) >= x);
-  }
-  body
-  {
-    return cast(long)std.math.sqrt(cast(real)x);
-  }
-------
+
+	------
+	long square_root(long x)
+	  in
+	  {
+	    assert(x >= 0);
+	  }
+	  out (result)
+	  {
+	    assert((result * result) <= x && (result+1) * (result+1) >= x);
+	  }
+	  body
+	  {
+	    return cast(long)std.math.sqrt(cast(real)x);
+	  }
+	------
+
 	$(P The assert's in the in and out bodies are called <dfn>contracts</dfn>.
 	Any other D
 	statement or expression is allowed in the bodies, but it is important
@@ -108,17 +113,18 @@ long square_root(long x)
 	$(P If the function returns a void, there is no result, and so there can be no
 	result declaration in the out clause.
 	In that case, use:)
-------
-void func()
-  out
-  {
-    ...contracts...
-  }
-  body
-  {
-    ...
-  }
-------
+
+	------
+	void func()
+	  out
+	  {
+	    ...contracts...
+	  }
+	  body
+	  {
+	    ...
+	  }
+	------
 	In an out statement, $(I result) is initialized and set to the
 	return value of the function.
 
@@ -154,18 +160,18 @@ $(H2 Invariants)
 	day must be 1..31 and the hour must be 0..23:
 	)
 
-------
-class Date
-{
-  int day;
-  int hour;
+	------
+	class Date
+	{
+	  int day;
+	  int hour;
 
-  invariant() {
-    assert(1 <= day && day <= 31);
-    assert(0 <= hour && hour < 24);
-  }
-}
-------
+	  invariant() {
+	    assert(1 <= day && day <= 31);
+	    assert(0 <= hour && hour < 24);
+	  }
+	}
+	------
 
 	$(P The invariant is a contract saying that the asserts must hold true.
 	The invariant is checked when a class or struct constructor completes,
@@ -194,17 +200,17 @@ class Date
 	constructors.
 	)
 
-------
-class Foo {
-  public void f() { }
-  private void g() { }
+	------
+	class Foo {
+	  public void f() { }
+	  private void g() { }
 
-  invariant() {
-    f();  // error, cannot call public member function from invariant
-    g();  // ok, g() is not public
-  }
-}
-------
+	  invariant() {
+	    f();  // error, cannot call public member function from invariant
+	    g();  // ok, g() is not public
+	  }
+	}
+	------
 
 	The invariant can be checked with an <code>assert()</code> expression:
 
@@ -213,13 +219,13 @@ class Foo {
 	$(LI structs need to pass the address of an instance)
 	)
 
-------
-auto mydate = new Date(); //class
-auto s = S();             //struct
-...
-assert(mydate);           // check that class Date invariant holds
-assert(&s);               // check that struct S invariant holds
-------
+	------
+	auto mydate = new Date(); //class
+	auto s = S();             //struct
+	...
+	assert(mydate);           // check that class Date invariant holds
+	assert(&s);               // check that struct S invariant holds
+	------
 
 	$(P Invariants contain assert expressions, and so when they fail,
 	they throw a $(D AssertError)s.

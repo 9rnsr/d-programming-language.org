@@ -88,50 +88,50 @@ $(UL
 
         A class is defined:
 
-------
-class Foo {
-  ... members ...
-}
-------
+        ------
+        class Foo {
+          ... members ...
+        }
+        ------
 
         $(P Note that there is no trailing $(D ;) after the closing $(D }) of the class
         definition.
         It is also not possible to declare a variable var like:)
 
-------
-class Foo { } var;
-------
+        ------
+        class Foo { } var;
+        ------
 
         Instead:
 
-------
-class Foo { }
-Foo var;
-------
+        ------
+        class Foo { }
+        Foo var;
+        ------
 
 $(H3 Access Control)
 
-	$(P Access to class members is controlled using $(GLINK2 attribute, ProtectionAttribute)s.
-	The default protection attribute is $(D public).
-	Access control does not affect visibility.
-	)
+        $(P Access to class members is controlled using $(GLINK2 attribute, ProtectionAttribute)s.
+        The default protection attribute is $(D public).
+        Access control does not affect visibility.
+        )
 
 $(H3 Fields)
 
         $(P Class members are always accessed with the . operator.
         )
 
-	$(P Members of a base class can be accessed by prepending the name of
-	the base class followed by a dot:)
+        $(P Members of a base class can be accessed by prepending the name of
+        the base class followed by a dot:)
 
----
-class A { int a; }
-class B : A { int a; }
+        ---
+        class A { int a; }
+        class B : A { int a; }
 
-void foo(B b) {
-  b.a = 3;   // accesses field B.a
-  b.A.a = 4; // accesses field A.a
----
+        void foo(B b) {
+          b.a = 3;   // accesses field B.a
+          b.A.a = 4; // accesses field A.a
+        ---
 
         $(P The D compiler is free to rearrange the order of fields in a class to
         optimally pack them in an implementation-defined manner.
@@ -157,18 +157,18 @@ $(H3 Field Properties)
         the field itself, not the class type:
         )
 
-------
-class Foo {
-  int x;
-}
-...
-void test(Foo foo) {
-  size_t o;
+        ------
+        class Foo {
+          int x;
+        }
+        ...
+        void test(Foo foo) {
+          size_t o;
 
-  o = Foo.x.offsetof; // error, Foo.x needs a 'this' reference
-  o = foo.x.offsetof; // ok
-}
-------
+          o = Foo.x.offsetof; // error, Foo.x needs a 'this' reference
+          o = foo.x.offsetof; // ok
+        }
+        ------
 
 $(H3 Class Properties)
 
@@ -177,15 +177,15 @@ $(H3 Class Properties)
         in the class, excluding the hidden fields and the fields in the
         base class.
         )
----
-class Foo { int x; long y; }
-void test(Foo foo) {
-  foo.tupleof[0] = 1; // set foo.x to 1
-  foo.tupleof[1] = 2; // set foo.y to 2
-  foreach (x; foo.tupleof)
-    writef(x);        // prints 12
-}
----
+        ---
+        class Foo { int x; long y; }
+        void test(Foo foo) {
+          foo.tupleof[0] = 1; // set foo.x to 1
+          foo.tupleof[1] = 2; // set foo.y to 2
+          foreach (x; foo.tupleof)
+            writef(x);        // prints 12
+        }
+        ---
 
         $(P The properties $(D .__vptr) and $(D .__monitor) give access
         to the class object's vtbl[] and monitor, respectively, but
@@ -205,21 +205,21 @@ $(H3 $(LNAME2 member-functions, Member Functions))
         can be accessed.
         )
 
-	$(P Non-static member functions can have, in addition to the usual
-	$(GLINK2 declaration, FunctionAttribute)s, the attributes
-	$(D const), $(D immutable), $(D shared), or $(D inout).
-	These attributes apply to the hidden $(I this) parameter.
-	)
----
-class C {
-  int a;
-  const void foo() {
-    a = 3; // error, 'this' is const
-  }
-  void foo() immutable {
-    a = 3; // error, 'this' is immutable
-  }
----
+        $(P Non-static member functions can have, in addition to the usual
+        $(GLINK2 declaration, FunctionAttribute)s, the attributes
+        $(D const), $(D immutable), $(D shared), or $(D inout).
+        These attributes apply to the hidden $(I this) parameter.
+        )
+        ---
+        class C {
+          int a;
+          const void foo() {
+            a = 3; // error, 'this' is const
+          }
+          void foo() immutable {
+            a = 3; // error, 'this' is immutable
+          }
+        ---
 
 
 $(H3 $(LNAME2 synchronized-functions, Synchronized Functions))
@@ -233,22 +233,22 @@ $(H3 $(LNAME2 synchronized-functions, Synchronized Functions))
         part of the class object. For example:
         )
 
----
-class Foo {
-  synchronized void bar() { ...statements... }
-}
----
+        ---
+        class Foo {
+          synchronized void bar() { ...statements... }
+        }
+        ---
 
         $(P is equivalent to (as far as the monitors go):
         )
 
----
-class Foo {
-  void bar() {
-    synchronized (this) { ...statements... }
-  }
-}
----
+        ---
+        class Foo {
+          void bar() {
+            synchronized (this) { ...statements... }
+          }
+        }
+        ---
 
         $(P Structs do not have synchronized member functions.)
 
@@ -544,14 +544,11 @@ $(GNAME StaticConstructor):
     $(B static this ( )) $(GLINK2 function, FunctionBody)
 )
 
-	$(P
-
-
-        A static constructor is a function that performs
+        $(P A static constructor is a function that performs
         initializations of thread local data before the $(D main()) function gets control for
-	the main thread, and upon thread startup.
+        the main thread, and upon thread startup.
 
-	Static constructors are used to initialize
+        Static constructors are used to initialize
         static class members
         with values that cannot be computed at compile time.
         )
@@ -561,14 +558,14 @@ $(GNAME StaticConstructor):
         initializers that can't be computed at compile time. The trouble with
         this stems from not
         having good control over exactly when the code is executed, for example:
-	)
+        )
 
-------
-class Foo {
-  static int a = b + 1;
-  static int b = a * 2;
-}
-------
+        ------
+        class Foo {
+          static int a = b + 1;
+          static int b = a * 2;
+        }
+        ------
 
         What values do a and b end up with, what order are the initializations
         executed in, what
@@ -587,23 +584,22 @@ class Foo {
         initialization is performed by a static constructor, defined with
         a special syntax $(D static this()).)
 
-------
-class Foo {
-  static int a;         // default initialized to 0
-  static int b = 1;
-  static int c = b + a; // error, not a constant initializer
+        ------
+        class Foo {
+          static int a;         // default initialized to 0
+          static int b = 1;
+          static int c = b + a; // error, not a constant initializer
 
-  $(CODE_HIGHLIGHT static this)()    // static constructor
-  {
-    a = b + 1;          // a is set to 2
-    b = a * 2;          // b is set to 4
-  }
-}
-------
+          $(CODE_HIGHLIGHT static this)()    // static constructor
+          {
+            a = b + 1;          // a is set to 2
+            b = a * 2;          // b is set to 4
+          }
+        }
+        ------
 
-	$(P
-
-		If $(D main()) or the thread returns normally,
+        $(P
+        If $(D main()) or the thread returns normally,
         (does not throw an exception), the static destructor is added
         to the list of functions to be
         called on thread termination.
@@ -611,7 +607,7 @@ class Foo {
         Static constructors have empty parameter lists.
         )
 
-	$(P
+        $(P
         Static constructors within a module are executed in the lexical
         order in which they appear.
         All the static constructors for modules that are directly or
@@ -619,22 +615,22 @@ class Foo {
         are executed before the static constructors for the importer.
         )
 
-	$(P
+        $(P
         The $(B static) in the static constructor declaration is not
         an attribute, it must appear immediately before the $(B this):
-	)
+        )
 
-------
-class Foo {
-  static this() { ... } // a static constructor
-  static private this() { ... } // not a static constructor
-  static {
-    this() { ... }      // not a static constructor
-  }
-  static:
-    this() { ... }      // not a static constructor
-}
-------
+        ------
+        class Foo {
+          static this() { ... } // a static constructor
+          static private this() { ... } // not a static constructor
+          static {
+            this() { ... }      // not a static constructor
+          }
+          static:
+            this() { ... }      // not a static constructor
+        }
+        ------
 
 $(H3 Static Destructors)
 
@@ -646,40 +642,40 @@ $(GNAME StaticDestructor):
         A static destructor is defined as a special static function with the
         syntax $(D static ~this()).
 
-------
-class Foo {
-  static ~this() // static destructor
-  {
-  }
-}
-------
+        ------
+        class Foo {
+          static ~this() // static destructor
+          {
+          }
+        }
+        ------
 
-	$(P
+        $(P
         A static destructor gets called on thread termination,
-	but only if the static constructor
+        but only if the static constructor
         completed successfully.
         Static destructors have empty parameter lists.
         Static destructors get called in the reverse order that the static
         constructors were called in.
         )
 
-	$(P
+        $(P
         The $(B static) in the static destructor declaration is not
         an attribute, it must appear immediately before the $(B ~this):
-	)
+        )
 
-------
-class Foo {
-  static ~this() { ... }  // a static destructor
-  static private ~this() { ... } // not a static destructor
-  static
-  {
-    ~this() { ... }  // not a static destructor
-  }
-  static:
-    ~this() { ... }  // not a static destructor
-}
-------
+        ------
+        class Foo {
+          static ~this() { ... }  // a static destructor
+          static private ~this() { ... } // not a static destructor
+          static
+          {
+            ~this() { ... }  // not a static destructor
+          }
+          static:
+            ~this() { ... }  // not a static destructor
+        }
+        ------
 
 $(H3 Shared Static Constructors)
 
@@ -725,11 +721,11 @@ $(GNAME ClassAllocator):
 
         A class member function of the form:
 
-------
-new(uint size) {
-  ...
-}
-------
+        ------
+        new(uint size) {
+          ...
+        }
+        ------
 
         is called a class allocator.
         The class allocator can have any number of parameters, provided
@@ -738,9 +734,9 @@ new(uint size) {
         determined by the usual function overloading rules.
         When a new expression:
 
-------
-new Foo;
-------
+        ------
+        new Foo;
+        ------
 
         is executed, and Foo is a class that has
         an allocator, the allocator is called with the first argument
@@ -754,19 +750,19 @@ new Foo;
         additional arguments are specified within parentheses after
         the $(B new) in the $(I NewExpression):
 
-------
-class Foo {
-  this(char[] a) { ... }
+        ------
+        class Foo {
+          this(char[] a) { ... }
 
-  new(uint size, int x, int y) {
-    ...
-  }
-}
+          new(uint size, int x, int y) {
+            ...
+          }
+        }
 
-...
+        ...
 
-new(1,2) Foo(a);        // calls new(Foo.sizeof,1,2)
-------
+        new(1,2) Foo(a);        // calls new(Foo.sizeof,1,2)
+        ------
 
         $(P Derived classes inherit any allocator from their base class,
         if one is not specified.
@@ -786,12 +782,12 @@ Use the $(B destroy) function to finalize an object by calling its destructor.
 The memory of the object is $(B not) immediately deallocated, instead the GC
 will collect the memory of the object at an undetermined point after finalization:
 
-------
-class Foo { int x; this() { x = 1; } }
-Foo foo = new Foo;
-destroy(foo);
-assert(foo.x == int.init);  // object is still accessible
-------
+        ------
+        class Foo { int x; this() { x = 1; } }
+        Foo foo = new Foo;
+        destroy(foo);
+        assert(foo.x == int.init);  // object is still accessible
+        ------
 
 $(GRAMMAR
 $(GNAME ClassDeallocator):
@@ -800,20 +796,20 @@ $(GNAME ClassDeallocator):
 
         A class member function of the form:
 
-------
-delete(void *p) {
-  ...
-}
-------
+        ------
+        delete(void *p) {
+          ...
+        }
+        ------
 
         is called a class deallocator.
         The deallocator must have exactly one parameter of type $(D void*).
         Only one can be specified for a class.
         When a delete expression:
 
-------
-delete f;
-------
+        ------
+        delete f;
+        ------
 
         $(P is executed, and f is a reference to a class instance that has
         a deallocator, the deallocator is called with a pointer to the
@@ -849,70 +845,70 @@ $(GNAME AliasThis):
         member.
         )
 
----
-struct S {
-  int x;
-  alias x this;
-}
+        ---
+        struct S {
+          int x;
+          alias x this;
+        }
 
-int foo(int i) { return i * 2; }
+        int foo(int i) { return i * 2; }
 
-void test() {
-  S s;
-  s.x = 7;
-  int i = -s;  // i == -7
-  i = s + 8;   // i == 15
-  i = s + s;   // i == 14
-  i = 9 + s;   // i == 16
-  i = foo(s);  // implicit conversion to int
-}
----
+        void test() {
+          S s;
+          s.x = 7;
+          int i = -s;  // i == -7
+          i = s + 8;   // i == 15
+          i = s + s;   // i == 14
+          i = 9 + s;   // i == 16
+          i = foo(s);  // implicit conversion to int
+        }
+        ---
 
         $(P If the member is a class or struct, undefined lookups will
         be forwarded to the $(I AliasThis) member.
         )
 
----
-struct Foo
-{
-  int baz = 4;
-  int get() { return 7; }
-}
+        ---
+        struct Foo
+        {
+          int baz = 4;
+          int get() { return 7; }
+        }
 
-class Bar
-{
-  Foo foo;
-  alias foo this;
-}
+        class Bar
+        {
+          Foo foo;
+          alias foo this;
+        }
 
-void test() {
-  auto bar = new Bar;
-  int i = bar.baz; // i == 4
-  i = bar.get(); // i == 7
-}
----
+        void test() {
+          auto bar = new Bar;
+          int i = bar.baz; // i == 4
+          i = bar.get(); // i == 7
+        }
+        ---
 
         $(P If the $(I Identifier) refers to a property member
         function with no parameters, conversions and undefined
         lookups are forwarded to the return value of the function.
         )
 
----
-struct S
-{
-  int x;
-  @property int get() {
-    return x * 2;
-  }
-  alias get this;
-}
+        ---
+        struct S
+        {
+          int x;
+          @property int get() {
+            return x * 2;
+          }
+          alias get this;
+        }
 
-void test() {
-  S s;
-  s.x = 2;
-  int i = s; // i == 4
-}
----
+        void test() {
+          S s;
+          s.x = 2;
+          int i = s; // i == 4
+        }
+        ---
 
         $(P Multiple $(I AliasThis) are allowed. For implicit conversions
         and forwarded lookups, all $(I AliasThis) declarations are attempted;
@@ -926,9 +922,9 @@ $(H3 $(LNAME2 auto, Scope Classes))
 
         A scope class is a class with the $(B scope) attribute, as in:
 
-------
-scope class Foo { ... }
-------
+        ------
+        scope class Foo { ... }
+        ------
 
         The scope characteristic is inherited, so if any classes derived
         from a scope class are also scope.
@@ -936,14 +932,14 @@ scope class Foo { ... }
         $(P An scope class reference can only appear as a function local variable.
         It must be declared as being $(B scope):)
 
-------
-scope class Foo { ... }
+        ------
+        scope class Foo { ... }
 
-void func() {
-  Foo f;    // error, reference to scope class must be scope
-  scope Foo g = new Foo(); // correct
-}
-------
+        void func() {
+          Foo f;    // error, reference to scope class must be scope
+          scope Foo g = new Foo(); // correct
+        }
+        ------
 
         When an scope class reference goes out of scope, the destructor
         (if any) for it is automatically called. This holds true even if
@@ -953,10 +949,10 @@ $(H3 $(LNAME2 final, Final Classes))
 
         $(P Final classes cannot be subclassed:)
 
----
-final class A { }
-class B : A { }  // error, class A is final
----
+        ---
+        final class A { }
+        class B : A { }  // error, class A is final
+        ---
 
 $(H2 $(LNAME2 nested, Nested Classes))
 
@@ -965,57 +961,57 @@ $(H2 $(LNAME2 nested, Nested Classes))
         A nested class has access to the variables and other symbols
         of the classes and functions it is nested inside:
 
-------
-class Outer {
-  int m;
+        ------
+        class Outer {
+          int m;
 
-  class Inner {
-    int foo() {
-      return m;   // Ok to access member of Outer
-    }
-  }
-}
+          class Inner {
+            int foo() {
+              return m;   // Ok to access member of Outer
+            }
+          }
+        }
 
-void func() {
-  int m;
+        void func() {
+          int m;
 
-  class Inner {
-    int foo() {
-      return m; // Ok to access local variable m of func()
-    }
-  }
-}
-------
+          class Inner {
+            int foo() {
+              return m; // Ok to access local variable m of func()
+            }
+          }
+        }
+        ------
 
         If a nested class has the $(B static) attribute, then it can
         not access variables of the enclosing scope that are local to the
         stack or need a $(B this):
 
-------
-class Outer {
-  int m;
-  static int n;
+        ------
+        class Outer {
+          int m;
+          static int n;
 
-  static class Inner {
-    int foo() {
-      return m;   // Error, Inner is static and m needs a this
-      return n;   // Ok, n is static
-    }
-  }
-}
+          static class Inner {
+            int foo() {
+              return m;   // Error, Inner is static and m needs a this
+              return n;   // Ok, n is static
+            }
+          }
+        }
 
-void func() {
-  int m;
-  static int n;
+        void func() {
+          int m;
+          static int n;
 
-  static class Inner {
-    int foo() {
-      return m;   // Error, Inner is static and m is local to the stack
-      return n;   // Ok, n is static
-    }
-  }
-}
-------
+          static class Inner {
+            int foo() {
+              return m;   // Error, Inner is static and m is local to the stack
+              return n;   // Ok, n is static
+            }
+          }
+        }
+        ------
 
         Non-static nested classes work by containing an extra hidden member
         (called the context pointer)
@@ -1029,23 +1025,23 @@ void func() {
         A non-static nested class can only be instantiated when the necessary
         context pointer information is available:)
 
-------
-class Outer {
-  class Inner { }
+        ------
+        class Outer {
+          class Inner { }
 
-  static class SInner { }
-}
+          static class SInner { }
+        }
 
-void func() {
-  class Nested { }
+        void func() {
+          class Nested { }
 
-  Outer o = new Outer;        // Ok
-  Outer.Inner oi = new Outer.Inner;   // Error, no 'this' for Outer
-  Outer.SInner os = new Outer.SInner; // Ok
+          Outer o = new Outer;        // Ok
+          Outer.Inner oi = new Outer.Inner;   // Error, no 'this' for Outer
+          Outer.SInner os = new Outer.SInner; // Ok
 
-  Nested n = new Nested;      // Ok
-}
-------
+          Nested n = new Nested;      // Ok
+        }
+        ------
 
 
 
@@ -1053,24 +1049,24 @@ void func() {
         inner class instance by prefixing it to the $(I NewExpression):
         )
 
----------
-class Outer {
-  int a;
+        ---------
+        class Outer {
+          int a;
 
-  class Inner {
-    int foo() {
-      return a;
-    }
-  }
-}
+          class Inner {
+            int foo() {
+              return a;
+            }
+          }
+        }
 
-int bar() {
-  Outer o = new Outer;
-  o.a = 3;
-  Outer.Inner oi = $(CODE_HIGHLIGHT o).new Inner;
-  return oi.foo();    // returns 3
-}
----------
+        int bar() {
+          Outer o = new Outer;
+          o.a = 3;
+          Outer.Inner oi = $(CODE_HIGHLIGHT o).new Inner;
+          return oi.foo();    // returns 3
+        }
+        ---------
 
         $(P Here $(B o) supplies the $(I this) to the outer class
         instance of $(B Outer).
@@ -1082,25 +1078,25 @@ int bar() {
         to it as a $(B void*) type.
         )
 
-----
-class Outer {
-  class Inner {
-    Outer foo() {
-      return this.$(CODE_HIGHLIGHT outer);
-    }
-  }
+        ----
+        class Outer {
+          class Inner {
+            Outer foo() {
+              return this.$(CODE_HIGHLIGHT outer);
+            }
+          }
 
-  void bar() {
-    Inner i = new Inner;
-    assert(this == i.foo());
-  }
-}
+          void bar() {
+            Inner i = new Inner;
+            assert(this == i.foo());
+          }
+        }
 
-void test() {
-  Outer o = new Outer;
-  o.bar();
-}
-----
+        void test() {
+          Outer o = new Outer;
+          o.bar();
+        }
+        ----
 
 $(H3 $(LNAME2 anonymous, Anonymous Nested Classes))
 
@@ -1114,7 +1110,7 @@ $(GNAME NewAnonClassExpression):
     $(GLINK ClassBody)
 
 $(GNAME ClassArguments):
-	$(B $(LPAREN)) $(GLINK2 expression, ArgumentList)$(OPT) $(B $(RPAREN))
+    $(B $(LPAREN)) $(GLINK2 expression, ArgumentList)$(OPT) $(B $(RPAREN))
 )
 
         $(P which is equivalent to:

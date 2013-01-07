@@ -119,13 +119,14 @@ $(SECTION3 $(LNAME2 template-aliases, Template aliases for C++),
 	Both $(LINK2 template.html, templates and template instantiations)
 	can be $(LINK2 declaration.html#alias, aliased):
 	)
----
-struct S(T) { T int; }
-alias S X;       // alias template
-alias S!(int) Y; // alias template instantiation
-X!(int) x;
-Y y;  // x and y are the same type
----
+
+	---
+	struct S(T) { T int; }
+	alias S X;       // alias template
+	alias S!(int) Y; // alias template instantiation
+	X!(int) x;
+	Y y;  // x and y are the same type
+	---
 )
 
 $(SECTION3 $(LNAME2 extern-template, Extern template),
@@ -174,17 +175,17 @@ $(SECTION3 $(LNAME2 strong-enums, Strongly Typed Enums),
 	$(OL
 	$(LI Comparisons between different enum types should be an error,
 	but is not:
----
-void main() {
-    enum Color { ClrRed, ClrOrange, ClrYellow, ClrGreen, ClrBlue, ClrViolet };
-    enum Alert { CndGreen, CndYellow, CndRed };
-    Color c = Color.ClrRed;
-    Alert a = Alert.CndGreen;
-    a = c; // error
-    a = Color.ClrYellow; // error
-    bool armWeapons = ( a >= Color.ClrYellow ); // ok; oops
-}
----
+	---
+	void main() {
+	    enum Color { ClrRed, ClrOrange, ClrYellow, ClrGreen, ClrBlue, ClrViolet };
+	    enum Alert { CndGreen, CndYellow, CndRed };
+	    Color c = Color.ClrRed;
+	    Alert a = Alert.CndGreen;
+	    a = c; // error
+	    a = Color.ClrYellow; // error
+	    bool armWeapons = ( a >= Color.ClrYellow ); // ok; oops
+	}
+	---
 	)
 	$(LI The underlying type can be specified.)
 	$(LI Named enums are strongly scoped. Anonymous enum members are
@@ -435,18 +436,18 @@ $(SECTION3 $(LNAME2 sizeof, Extending sizeof),
 
 	$(P $(LINK2 $(NDOCS)2007/n2253.html, N2253):
 	Using $(LINK2 property.html#sizeof, sizeof) without a $(I this) object:
----
-struct S {
-    int a;
-    static int foo() {
-	return a.sizeof;
-    }
-}
+	---
+	struct S {
+	    int a;
+	    static int foo() {
+		return a.sizeof;
+	    }
+	}
 
-void test() {
-    int x = S.a.sizeof;
-}
----
+	void test() {
+	    int x = S.a.sizeof;
+	}
+	---
 	works correctly in D.
 	)
 
@@ -717,9 +718,9 @@ $(SECTION3 $(LNAME2 forward-enums, Forward declaration of enumerations),
 	are resolved essentially in parallel.
 	Incomplete $(LINK2 enum.html, enum) types, however, are possible:
 	)
----
-enum E : int;
----
+	---
+	enum E : int;
+	---
 	$(P where the member values are hidden from the user.
 	)
 

@@ -39,21 +39,21 @@ $(GNAME DeclarationBlock):
         The general forms are:
         )
 
----
-attribute declaration; // affects the declaration
+        ---
+        attribute declaration; // affects the declaration
 
-attribute:     // affects all declarations until the end of
-               // the current scope
-  declaration;
-  declaration;
-  ...
+        attribute:     // affects all declarations until the end of
+                       // the current scope
+          declaration;
+          declaration;
+          ...
 
-attribute {    // affects all declarations in the block
-  declaration;
-  declaration;
-  ...
-}
----
+        attribute {    // affects all declarations in the block
+          declaration;
+          declaration;
+          ...
+        }
+        ---
 
 $(H3 $(LNAME2 linkage, Linkage Attribute))
 
@@ -87,28 +87,28 @@ $(GNAME LinkageType):
         specified by:
         )
 
----------------
-extern (C):
-  int foo(); // call foo() with C conventions
----------------
+        ---------------
+        extern (C):
+          int foo(); // call foo() with C conventions
+        ---------------
 
         $(P D conventions are:)
 
----------------
-extern (D):
----------------
+        ---------------
+        extern (D):
+        ---------------
 
         $(P Windows API conventions are:)
 
----------------
-extern (Windows):
-  void *VirtualAlloc(
-    void *lpAddress,
-    uint dwSize,
-    uint flAllocationType,
-    uint flProtect
-    );
----------------
+        ---------------
+        extern (Windows):
+          void *VirtualAlloc(
+            void *lpAddress,
+            uint dwSize,
+            uint flAllocationType,
+            uint flProtect
+            );
+        ---------------
 
         $(P Note that a lone $(D extern) declaration is used as a
         $(XLINK2 declaration.html#extern, storage class).)
@@ -124,30 +124,30 @@ $(GNAME AlignAttribute):
 
         $(P Specifies the alignment of:)
 
-	$(OL
-	$(LI variables)
-	$(LI struct fields)
-	$(LI union fields)
-	$(LI class fields)
-	$(LI struct, union, and class types)
-	)
+        $(OL
+        $(LI variables)
+        $(LI struct fields)
+        $(LI union fields)
+        $(LI class fields)
+        $(LI struct, union, and class types)
+        )
 
-	$(P $(D align) by itself
+        $(P $(D align) by itself
         sets it to the default, which matches the default member alignment
         of the companion C compiler.)
 
---------
-struct S {
-  align:
-     byte a;   // placed at offset 0
-     int b;    // placed at offset 4
-     long c;   // placed at offset 8
-}
+        --------
+        struct S {
+          align:
+             byte a;   // placed at offset 0
+             int b;    // placed at offset 4
+             long c;   // placed at offset 8
+        }
 
-auto sz = S.sizeof;  // 16
---------
+        auto sz = S.sizeof;  // 16
+        --------
 
-	$(P $(I IntegerLiteral) specifies the alignment
+        $(P $(I IntegerLiteral) specifies the alignment
         which matches the behavior of the companion C compiler when non-default
         alignments are used. It must be a positive power of 2.
         )
@@ -156,45 +156,45 @@ auto sz = S.sizeof;  // 16
         fields are packed together.
         )
 
---------
-struct S {
-  align (1):
-     byte a;   // placed at offset 0
-     int b;    // placed at offset 1
-     long c;   // placed at offset 5
-}
+        --------
+        struct S {
+          align (1):
+             byte a;   // placed at offset 0
+             int b;    // placed at offset 1
+             long c;   // placed at offset 5
+        }
 
-auto sz = S.sizeof;  // 16
---------
+        auto sz = S.sizeof;  // 16
+        --------
 
-	$(P The alignment for the fields of an aggregate does not affect the alignment
-	of the aggregate itself - that is affected by the alignment setting outside
-	of the aggregate.)
+        $(P The alignment for the fields of an aggregate does not affect the alignment
+        of the aggregate itself - that is affected by the alignment setting outside
+        of the aggregate.)
 
---------
-align (2) struct S {
-  align (1):
-     byte a;   // placed at offset 0
-     int b;    // placed at offset 1
-     long c;   // placed at offset 5
-}
+        --------
+        align (2) struct S {
+          align (1):
+             byte a;   // placed at offset 0
+             int b;    // placed at offset 1
+             long c;   // placed at offset 5
+        }
 
-auto sz = S.sizeof;  // 14
---------
+        auto sz = S.sizeof;  // 14
+        --------
 
-	$(P Setting the alignment of a field aligns it to that power of 2, regardless
-	of the size of the field.)
+        $(P Setting the alignment of a field aligns it to that power of 2, regardless
+        of the size of the field.)
 
---------
-struct S {
-  align (4):
-     byte a;   // placed at offset 0
-     byte b;   // placed at offset 4
-     short c;  // placed at offset 8
-}
+        --------
+        struct S {
+          align (4):
+             byte a;   // placed at offset 0
+             byte b;   // placed at offset 4
+             short c;  // placed at offset 8
+        }
 
-auto sz = S.sizeof;  // 12
---------
+        auto sz = S.sizeof;  // 12
+        --------
 
 
         $(P Do not align references or pointers that were allocated
@@ -307,23 +307,23 @@ $(GNAME ProtectionAttribute):
         For example:
         )
 
----------------
-module A;
-private class Foo {}
----------------
+        ---------------
+        module A;
+        private class Foo {}
+        ---------------
 
----------------
-module B;
-public class Foo {}
----------------
+        ---------------
+        module B;
+        public class Foo {}
+        ---------------
 
----------------
-import A;
-import B;
+        ---------------
+        import A;
+        import B;
 
-Foo f1; // error, could be either A.Foo or B.Foo
-B.Foo f2; // ok
----------------
+        Foo f1; // error, could be either A.Foo or B.Foo
+        B.Foo f2; // ok
+        ---------------
 
 $(H3 $(LNAME2 const, $(D const) Attribute))
 
@@ -444,19 +444,19 @@ $(H3 $(LNAME2 override, Override Attribute))
         their overriding functions updated.
         )
 
----------------
-class Foo {
-  int bar();
-  int abc(int x);
-}
+        ---------------
+        class Foo {
+          int bar();
+          int abc(int x);
+        }
 
-class Foo2 : Foo {
-  override {
-    int bar(char c); // error, no bar(char) in Foo
-    int abc(int x);  // ok
-  }
-}
----------------
+        class Foo2 : Foo {
+          override {
+            int bar(char c); // error, no bar(char) in Foo
+            int abc(int x);  // ok
+          }
+        }
+        ---------------
 
 $(H3 $(LNAME2 static, Static Attribute))
 
@@ -467,20 +467,20 @@ $(H3 $(LNAME2 static, Static Attribute))
         $(D static) is ignored when applied to other declarations.
         )
 
----------------
-class Foo {
-  static int bar() { return 6; }
-  int foobar() { return 7; }
-}
+        ---------------
+        class Foo {
+          static int bar() { return 6; }
+          int foobar() { return 7; }
+        }
 
-...
+        ...
 
-Foo f = new Foo;
-Foo.bar();      // produces 6
-Foo.foobar();   // error, no instance of Foo
-f.bar();        // produces 6;
-f.foobar();     // produces 7;
----------------
+        Foo f = new Foo;
+        Foo.bar();      // produces 6
+        Foo.foobar();   // error, no instance of Foo
+        f.bar();        // produces 6;
+        f.foobar();     // produces 7;
+        ---------------
 
 $(P
         Static functions are never virtual.
@@ -495,11 +495,11 @@ $(P
         For example:
 )
 
----------------
-module foo;
-int x = 3;         // x is global
-private int y = 4; // y is local to module foo
----------------
+        ---------------
+        module foo;
+        int x = 3;         // x is global
+        private int y = 4; // y is local to module foo
+        ---------------
 
 
 $(H3 $(LNAME2 auto, Auto Attribute))
@@ -508,9 +508,9 @@ $(H3 $(LNAME2 auto, Auto Attribute))
         and type inference is desired.
         )
 
----
-auto i = 6.8;   // declare i as a double
----
+        ---
+        auto i = 6.8;   // declare i as a double
+        ---
 
 $(H3 $(LNAME2 scope, Scope Attribute))
 
@@ -584,40 +584,40 @@ $(GNAME UserDefinedAttribute):
             And looks like:
         )
 
----
-@(3) int a;
-@("string", 7) int b;
+        ---
+        @(3) int a;
+        @("string", 7) int b;
 
-enum Foo;
-@Foo int c;
+        enum Foo;
+        @Foo int c;
 
-struct Bar
-{
-    int x;
-}
+        struct Bar
+        {
+            int x;
+        }
 
-@Bar(3) int d;
----
+        @Bar(3) int d;
+        ---
 
         $(P
             If there are multiple UDAs in scope for a declaration, they are concatenated:
         )
 
----
-@(1) {
-    @(2) int a;         // has UDA's (1, 2)
-    @("string") int b;  // has UDA's (1, "string")
-}
----
+        ---
+        @(1) {
+            @(2) int a;         // has UDA's (1, 2)
+            @("string") int b;  // has UDA's (1, "string")
+        }
+        ---
 
         $(P
             UDA's can be extracted into an expression tuple using $(D __traits):
         )
 
----
-@('c') string s;
-pragma(msg, __traits(getAttributes, s)); // prints tuple('c')
----
+        ---
+        @('c') string s;
+        pragma(msg, __traits(getAttributes, s)); // prints tuple('c')
+        ---
 )
 
         $(P
@@ -625,37 +625,37 @@ pragma(msg, __traits(getAttributes, s)); // prints tuple('c')
             The expression tuple can be turned into a manipulatable tuple:
         )
 
----
-template Tuple (T...)
-{
-    alias T Tuple;
-}
+        ---
+        template Tuple (T...)
+        {
+            alias T Tuple;
+        }
 
-enum EEE = 7;
-@("hello") struct SSS { }
-@(3) { @(4) @EEE @SSS int foo; }
+        enum EEE = 7;
+        @("hello") struct SSS { }
+        @(3) { @(4) @EEE @SSS int foo; }
 
-alias Tuple!(__traits(getAttributes, foo)) TP;
+        alias Tuple!(__traits(getAttributes, foo)) TP;
 
-pragma(msg, TP); // prints tuple(3, 4, 7, (SSS))
-pragma(msg, TP[2]); // prints 7
----
+        pragma(msg, TP); // prints tuple(3, 4, 7, (SSS))
+        pragma(msg, TP[2]); // prints 7
+        ---
 
         $(P
             Of course the tuple types can be used to declare things:
         )
 
----
-TP[3] a; // a is declared as an SSS
----
+        ---
+        TP[3] a; // a is declared as an SSS
+        ---
 
         $(P
             The attribute of the type name is not the same as the attribute of the variable:
         )
 
----
-pragma(msg, __traits(getAttributes, typeof(a))); // prints tuple("hello")
----
+        ---
+        pragma(msg, __traits(getAttributes, typeof(a))); // prints tuple("hello")
+        ---
 
         $(P
             Of course, the real value of UDA's is to be able to create user defined types with

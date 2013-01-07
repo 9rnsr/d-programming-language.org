@@ -15,9 +15,9 @@ $(CCODE
 	$(P of C, in D there is:)
 
 
---------------------
-import core.sys.windows.windows;
---------------------
+	--------------------
+	import core.sys.windows.windows;
+	--------------------
 
 
 $(H2 Calling Conventions)
@@ -26,12 +26,12 @@ $(H2 Calling Conventions)
 	In D, it is simply:
 	)
 
---------------------
-extern (Windows)
-{
-	/* ... function declarations ... */
-}
---------------------
+	--------------------
+	extern (Windows)
+	{
+	    /* ... function declarations ... */
+	}
+	--------------------
 
 
 	$(P The Windows linkage attribute sets both the calling convention
@@ -42,9 +42,9 @@ extern (Windows)
 	$(CODE __declspec(dllexport)), use the $(CODE export) attribute:
 	)
 
---------------------
-export void func(int foo);
---------------------
+	--------------------
+	export void func(int foo);
+	--------------------
 
 	$(P If no function body is given, it's imported. If a function body
 	is given, it's exported.
@@ -66,44 +66,44 @@ $(H2 Windows Executables)
 
 	$(LI $(CODE WinMain) must follow this form:
 
---------------------
-import core.runtime;
-import core.sys.windows.windows;
-import std.string;
+	--------------------
+	import core.runtime;
+	import core.sys.windows.windows;
+	import std.string;
 
-extern (Windows)
-int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
-            LPSTR lpCmdLine, int nCmdShow)
-{
-    int result;
+	extern (Windows)
+	int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
+	            LPSTR lpCmdLine, int nCmdShow)
+	{
+	    int result;
 
-    void exceptionHandler(Throwable e) {
-        throw e;
-    }
+	    void exceptionHandler(Throwable e) {
+	        throw e;
+	    }
 
-    try
-    {
-        Runtime.initialize(&exceptionHandler);
-        result = myWinMain(hInstance, hPrevInstance, lpCmdLine, nCmdShow);
-        Runtime.terminate(&exceptionHandler);
-    }
-    catch (Throwable e) // catch any uncaught exceptions
-    {
-        MessageBoxA(null, e.toString().toStringz(), "Error",
-                    MB_OK | MB_ICONEXCLAMATION);
-        result = 0;     // failed
-    }
+	    try
+	    {
+	        Runtime.initialize(&exceptionHandler);
+	        result = myWinMain(hInstance, hPrevInstance, lpCmdLine, nCmdShow);
+	        Runtime.terminate(&exceptionHandler);
+	    }
+	    catch (Throwable e) // catch any uncaught exceptions
+	    {
+	        MessageBoxA(null, e.toString().toStringz(), "Error",
+	                    MB_OK | MB_ICONEXCLAMATION);
+	        result = 0;     // failed
+	    }
 
-  return result;
-}
+	    return result;
+	}
 
-int myWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
-              LPSTR lpCmdLine, int nCmdShow)
-{
-    // ... insert user code here ...
-    return 0;
-}
---------------------
+	int myWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
+	              LPSTR lpCmdLine, int nCmdShow)
+	{
+	    // ... insert user code here ...
+	    return 0;
+	}
+	--------------------
 
 
 	The $(D myWinMain()) function is where the user code goes, the

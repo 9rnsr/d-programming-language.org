@@ -8,9 +8,9 @@ $(D_S Variadic Templates,
 	appropriate to the type. For example, the code:
 	)
 
-----
-print(7, 'a', 6.8);
-----
+	----
+	print(7, 'a', 6.8);
+	----
 
 	$(P should output:
 	)
@@ -120,7 +120,7 @@ template&lt;class T, class... U&gt; void print(T a1, U... an)
 	$(P It uses recursive function template instantiation
 	to pick off the arguments one by one.
 	A specialization with no arguments ends the recursion.
-  	It's a neat and tidy solution, but with one glaring problem:
+	It's a neat and tidy solution, but with one glaring problem:
 	it's a proposed extension, which means it isn't part
 	of the C++ standard, may not get into the C++ standard
 	in its current form, may not get into the standard
@@ -137,19 +137,19 @@ $(H4 The D Look Ma No Templates Solution)
 	variadic function parameters.
 	)
 
-------
-import std.stdio;
+	------
+	import std.stdio;
 
-void print(...)
-{
-    foreach (arg; _arguments)
-    {
-	writefx(stdout, (&arg)[0 .. 1], _argptr, 1);
-	auto size = arg.tsize();
-	_argptr += ((size + size_t.sizeof - 1) & ~(size_t.sizeof - 1));
-    }
-}
-------
+	void print(...)
+	{
+	    foreach (arg; _arguments)
+	    {
+	        writefx(stdout, (&arg)[0 .. 1], _argptr, 1);
+	        auto size = arg.tsize();
+	        _argptr += ((size + size_t.sizeof - 1) & ~(size_t.sizeof - 1));
+	    }
+	}
+	------
 
 	$(P It isn't elegant or the most efficient,
 	but it does work, and it is neatly
@@ -164,17 +164,17 @@ $(H4 Translating the Variadic C++ Solution into D)
 	of the proposed C++ variadic syntax:
 	)
 
----
-void print()()
-{
-}
+	---
+	void print()()
+	{
+	}
 
-void print(T, A...)(T t, A a)
-{
-    writefln(t);
-    print(a);
-}
----
+	void print(T, A...)(T t, A a)
+	{
+	    writefln(t);
+	    print(a);
+	}
+	---
 
 	$(P There are two function templates. The first provides the
 	degenerate case of no arguments, and a terminus for the
@@ -200,17 +200,17 @@ $(H4 The Static If Solution)
 	static if's, which provide for conditional compilation:
 	)
 
----
-void print(A...)(A a)
-{
-    static if (a.length)
-    {
-	writefln(a[0]);
-	static if (a.length > 1)
-	    print(a[1 .. length]);
-    }
-}
----
+	---
+	void print(A...)(A a)
+	{
+	    static if (a.length)
+	    {
+	        writefln(a[0]);
+	        static if (a.length > 1)
+	            print(a[1 .. length]);
+	    }
+	}
+	---
 
 	$(P Tuples can be manipulated much like arrays.
 	So a.length resolves to the number of expressions
@@ -226,13 +226,13 @@ $(H4 The Foreach Solution)
 	the tuple's expressions:
 	)
 
----
-void print(A...)(A a)
-{
-    foreach(t; a)
-	writefln(t);
-}
----
+	---
+	void print(A...)(A a)
+	{
+	    foreach(t; a)
+	        writefln(t);
+	}
+	---
 
 	$(P The end result is remarkably simple, self-contained, compact
 	and efficient.

@@ -158,11 +158,11 @@ $(GNAME Characters):
 	comment are ignored.
 	)
 
--------------
-a = /+ // +/ 1;    // parses as if 'a = 1;'
-a = /+ "+/" +/ 1"; // parses as if 'a = " +/ 1";'
-a = /+ /* +/ */ 3; // parses as if 'a = */ 3;'
--------------
+	-------------
+	a = /+ // +/ 1;    // parses as if 'a = 1;'
+	a = /+ "+/" +/ 1"; // parses as if 'a = " +/ 1";'
+	a = /+ /* +/ */ 3; // parses as if 'a = */ 3;'
+	-------------
 
 	Comments cannot be used as token concatenators, for example,
 	$(D abc/**/def) is two tokens, $(D abc) and $(D def),
@@ -378,12 +378,12 @@ $(H4 Wysiwyg Strings)
 	There are no escape sequences inside r" ":
 	)
 
----------------
-r"hello"
-r"c:\root\foo.exe"
-r"ab\n" // string is 4 characters,
-        // 'a', 'b', '\', 'n'
----------------
+	---------------
+	r"hello"
+	r"c:\root\foo.exe"
+	r"ab\n" // string is 4 characters,
+	        // 'a', 'b', '\', 'n'
+	---------------
 
 	$(P
 	An alternate form of wysiwyg strings are enclosed by backquotes,
@@ -393,27 +393,27 @@ r"ab\n" // string is 4 characters,
 	it is useful to delineate strings with " in them.
 	)
 
----------------
-`hello`
-`c:\root\foo.exe`
-`ab\n`  // string is 4 characters,
-        // 'a', 'b', '\', 'n'
----------------
+	---------------
+	`hello`
+	`c:\root\foo.exe`
+	`ab\n`  // string is 4 characters,
+	        // 'a', 'b', '\', 'n'
+	---------------
 
 $(H4 Double Quoted Strings)
 
 	$(P Double quoted strings are enclosed by "". Escape sequences can be
 	embedded into them with the typical $(D \) notation.)
 
----------------
-"hello"
-"c:\\root\\foo.exe"
-"ab\n"   // string is 3 characters,
-         // 'a', 'b', and a linefeed
-"ab
-"        // string is 3 characters,
-         // 'a', 'b', and a linefeed
----------------
+	---------------
+	"hello"
+	"c:\\root\\foo.exe"
+	"ab\n"   // string is 3 characters,
+	         // 'a', 'b', and a linefeed
+	"ab
+	"        // string is 3 characters,
+	         // 'a', 'b', and a linefeed
+	---------------
 
 
 
@@ -423,11 +423,11 @@ $(H4 Hex Strings)
 	The hex data need not form valid UTF characters.
 	)
 
---------------
-x"0A"              // same as "\x0A"
-x"00 FBCD 32FD 0A" // same as
-                   // "\x00\xFB\xCD\x32\xFD\x0A"
---------------
+	--------------
+	x"0A"              // same as "\x0A"
+	x"00 FBCD 32FD 0A" // same as
+	                   // "\x00\xFB\xCD\x32\xFD\x0A"
+	--------------
 
 	Whitespace and newlines are ignored, so the hex data can be
 	easily formatted.
@@ -437,20 +437,20 @@ x"00 FBCD 32FD 0A" // same as
 	Adjacent strings are concatenated with the ~ operator, or by simple
 	juxtaposition:
 
---------------
-"hello " ~ "world" ~ "\n" // forms the string
-       // 'h','e','l','l','o',' ',
-       // 'w','o','r','l','d',linefeed
---------------
+	--------------
+	"hello " ~ "world" ~ "\n" // forms the string
+	       // 'h','e','l','l','o',' ',
+	       // 'w','o','r','l','d',linefeed
+	--------------
 
 	The following are all equivalent:
 
------------------
-"ab" "c"
-r"ab" r"c"
-r"a" "bc"
-"a" ~ "b" ~ "c"
------------------
+	-----------------
+	"ab" "c"
+	r"ab" r"c"
+	r"a" "bc"
+	"a" ~ "b" ~ "c"
+	-----------------
 
 	$(P The optional $(I StringPostfix) character gives a specific type
 	to the string, rather than it being inferred from the context.
@@ -467,11 +467,11 @@ r"a" "bc"
 	$(TROW $(B d), $(D immutable(dchar)[]), $(D dstring))
 	)
 
----
-"hello"c  // string
-"hello"w  // wstring
-"hello"d  // dstring
----
+	---
+	"hello"c  // string
+	"hello"w  // wstring
+	"hello"d  // dstring
+	---
 
 	$(P The string literals are assembled as UTF-8 char arrays,
 	and the postfix is applied
@@ -499,24 +499,24 @@ $(H4 Delimited Strings)
 	$(TROW $(CODE_LCURL), $(CODE_RCURL))
 	)
 
----
-q"(foo(xxx))"   // "foo(xxx)"
-q"[foo{]"       // "foo{"
----
+	---
+	q"(foo(xxx))"   // "foo(xxx)"
+	q"[foo{]"       // "foo{"
+	---
 
 	$(P If the delimiter is an identifier, the identifier must
 	be immediately followed by a newline, and the matching
 	delimiter is the same identifier starting at the beginning
 	of the line:
 	)
----
-writefln(q"EOS
-This
-is a multi-line
-heredoc string
-EOS"
-);
----
+	---
+	writefln(q"EOS
+	This
+	is a multi-line
+	heredoc string
+	EOS"
+	);
+	---
 	$(P The newline following the opening identifier is not part
 	of the string, but the last newline before the closing
 	identifier is part of the string. The closing identifier
@@ -526,10 +526,10 @@ EOS"
 	$(P Otherwise, the matching delimiter is the same as
 	the delimiter character:)
 
----
-q"/foo]/"          // "foo]"
-// q"/abc/def/"    // error
----
+	---
+	q"/foo]/"          // "foo]"
+	// q"/abc/def/"    // error
+	---
 
 $(H4 Token Strings)
 
@@ -540,15 +540,15 @@ $(H4 Token Strings)
 	and closing of the token string, including comments.
 	)
 
----
-q{foo}              // "foo"
-q{/*}*/ }           // "/*}*/ "
-q{ foo(q{hello}); } // " foo(q{hello}); "
-q{ __TIME__ }       // " __TIME__ "
-    // i.e. it is not replaced with the time
-// q{ __EOF__ }     // error
-    // __EOF__ is not a token, it's end of file
----
+	---
+	q{foo}              // "foo"
+	q{/*}*/ }           // "/*}*/ "
+	q{ foo(q{hello}); } // " foo(q{hello}); "
+	q{ __TIME__ }       // " __TIME__ "
+	    // i.e. it is not replaced with the time
+	// q{ __EOF__ }     // error
+	    // __EOF__ is not a token, it's end of file
+	---
 
 
 
@@ -727,10 +727,10 @@ $(GNAME HexLetter):
 	as using them as a thousands separator:
 	)
 
--------------
-123_456       // 123456
-1_2_3_4_5_6_  // 123456
--------------
+	-------------
+	123_456       // 123456
+	1_2_3_4_5_6_  // 123456
+	-------------
 
 	$(P Integers can be immediately followed by one $(SINGLEQUOTE L) or one of
 	$(SINGLEQUOTE u) or $(SINGLEQUOTE U) or both.
@@ -860,11 +860,11 @@ $(GNAME LeadingDecimal):
 	as using them as a thousands separator:
 	)
 
----------
-123_456.567_8         // 123456.5678
-1_2_3_4_5_6_._5_6_7_8 // 123456.5678
-1_2_3_4_5_6_._5e-6_   // 123456.5e-6
----------
+	---------
+	123_456.567_8         // 123456.5678
+	1_2_3_4_5_6_._5_6_7_8 // 123456.5678
+	1_2_3_4_5_6_._5e-6_   // 123456.5e-6
+	---------
 
 	$(P Floating literals with no suffix are of type double.
 	Floats can be followed by one $(B f), $(B F),
@@ -879,14 +879,14 @@ $(GNAME LeadingDecimal):
 
 	$(P Examples:)
 
----------
-0x1.FFFFFFFFFFFFFp1023 // double.max
-0x1p-52                // double.epsilon
-1.175494351e-38F       // float.min
-6.3i                   // idouble 6.3
-6.3fi                  // ifloat 6.3
-6.3Li                  // ireal 6.3
----------
+	---------
+	0x1.FFFFFFFFFFFFFp1023 // double.max
+	0x1p-52                // double.epsilon
+	1.175494351e-38F       // float.min
+	6.3i                   // idouble 6.3
+	6.3fi                  // ifloat 6.3
+	6.3Li                  // ireal 6.3
+	---------
 
 	$(P It is an error if the literal exceeds the range of the type.
 	It is not an error if the literal is rounded to fit into
@@ -897,9 +897,9 @@ $(GNAME LeadingDecimal):
 	real and imaginary expressions during semantic analysis:
 	)
 
----------
-4.5 + 6.2i  // complex number (phased out)
----------
+	---------
+	4.5 + 6.2i  // complex number (phased out)
+	---------
 
 $(H3 Keywords)
 
@@ -1097,7 +1097,7 @@ $(GNAME Filespec):
 	)
 
 	$(P This sets the source line number to $(GLINK IntegerLiteral),
-	and optionally the source file 	name to $(GLINK Filespec),
+	and optionally the source file name to $(GLINK Filespec),
 	beginning with the next line of source text.
 	The source file and line number is used for printing error messages
 	and for mapping generated code back to the source for the symbolic
@@ -1107,10 +1107,10 @@ $(GNAME Filespec):
 	$(P For example:
 	)
 
------------------
-int #line 6 "foo\bar"
-x;  // this is now line 6 of file foo\bar
------------------
+	-----------------
+	int #line 6 "foo\bar"
+	x;  // this is now line 6 of file foo\bar
+	-----------------
 
 	$(P Note that the backslash character is not treated specially inside
 	$(GLINK Filespec) strings.

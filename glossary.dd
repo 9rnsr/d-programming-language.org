@@ -90,39 +90,39 @@ $(DL
 	caller's stack frame, and the return value is copied there.
 	For example:
 	)
----
-struct S { int a, b, c, d; }
+	---
+	struct S { int a, b, c, d; }
 
-S foo()
-{
-    S result;
-    result.a = 3;
-    return result;
-}
+	S foo()
+	{
+	    S result;
+	    result.a = 3;
+	    return result;
+	}
 
-void test()
-{
-    S s = foo();
-}
----
+	void test()
+	{
+	    S s = foo();
+	}
+	---
 
 	$(P is rewritten as:)
 
----
-S* foo(S* hidden)
-{
-    S result;
-    result.a = 3;
-    *hidden = result;
-    return hidden;
-}
+	---
+	S* foo(S* hidden)
+	{
+	    S result;
+	    result.a = 3;
+	    *hidden = result;
+	    return hidden;
+	}
 
-void test()
-{
-    S tmp;
-    S s = *foo(&tmp);
-}
----
+	void test()
+	{
+	    S tmp;
+	    S s = *foo(&tmp);
+	}
+	---
 	$(P This rewrite gives us an extra temporary object $(D tmp),
 	and copies the struct contents twice.
 	What NRVO does is recognize that the sole purpose of $(D result)
@@ -130,22 +130,22 @@ void test()
 	can be replaced with $(D *hidden).
 	$(D foo) is then rewritten as:
 	)
----
-S* foo(S* hidden)
-{
-    hidden.a = 3;
-    return hidden;
-}
----
+	---
+	S* foo(S* hidden)
+	{
+	    hidden.a = 3;
+	    return hidden;
+	}
+	---
 	$(P A further optimization is done on the call to $(D foo) to eliminate
 	the other copy, giving:)
----
-void test()
-{
-    S s;
-    foo(&s);
-}
----
+	---
+	void test()
+	{
+	    S s;
+	    foo(&s);
+	}
+	---
 	$(P The result is written directly into the destination $(D s),
 	instead of passing through two other instances.)
 	)

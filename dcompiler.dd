@@ -267,13 +267,15 @@ unzip dmd.$(I VERSION).zip
 
 	$(LI Verify that this works by creating $(D hello.d) in your home directory
 	with these contents:
----
-import std.stdio;
 
-void main() {
-    writeln("hello world!");
-}
----
+	---
+	import std.stdio;
+
+	void main() {
+	    writeln("hello world!");
+	}
+	---
+
 	and compile and run it with:
 $(CONSOLE
 $(DMDDIR)/osx/bin/dmd hello

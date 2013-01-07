@@ -64,14 +64,14 @@ $(H3 $(LNAME2 vtls, Identifying TLS variables))
 	variables that are now defaulting to thread local storage.
 	)
 
----
-int x;
+	---
+	int x;
 
-void main()
-{
-    static int y;
-}
----
+	void main()
+	{
+	    static int y;
+	}
+	---
 
 $(CONSOLE
 dmd test $(B -vtls)
@@ -92,13 +92,15 @@ $(H3 $(LNAME2 immutable, Switch to Immutable))
 	Just mark it as $(B immutable) and it's done.
 	)
 
----
-int[3] table = [6, 123, 0x87];
----
+	---
+	int[3] table = [6, 123, 0x87];
+	---
+
 	$(P becomes:)
----
-immutable int[3] table = [6, 123, 0x87];
----
+
+	---
+	immutable int[3] table = [6, 123, 0x87];
+	---
 
 	$(P Immutability is also nice because it opens the door
 	for further compiler optimizations.
@@ -110,18 +112,18 @@ $(H3 $(LNAME2 shared, Marking As Shared))
 	threads should be marked with the $(B shared) keyword:
 	)
 
----
-shared int flag;
----
+	---
+	shared int flag;
+	---
 
 	$(P Not only does this cause $(CODE flag) to be put into
 	classic global storage, it is also typed as being shared:
 	)
 
----
-int* p = &flags;           // error, flags is shared
-shared(int)* q = &flags;   // ok
----
+	---
+	int* p = &flags;           // error, flags is shared
+	shared(int)* q = &flags;   // ok
+	---
 
 	$(P The $(CODE shared) type attribute is transitive (like
 	$(CODE const) and $(CODE immutable)) are. This enables
@@ -147,14 +149,14 @@ $(H3 $(LNAME2 __gshared, Cowboying With __gshared))
 	do this. Use the storage class $(B __gshared):
 	)
 
----
-__gshared int x;
+	---
+	__gshared int x;
 
-void main()
-{
-    __gshared int y;
-}
----
+	void main()
+	{
+	    __gshared int y;
+	}
+	---
 
 	$(P $(B __gshared) stores the variable in the classic global
 	data segment.
@@ -173,10 +175,11 @@ $(H3 $(LNAME2 compile-errors, Compile Errors))
 	$(P The most common compiler error related to TLS will be:
 	)
 
----
-int x;
-int* p = &x;
----
+	---
+	int x;
+	int* p = &x;
+	---
+
 $(CONSOLE
 test.d(2): Error: non-constant expression & x
 )
@@ -212,14 +215,14 @@ extern int y;
 __thread int z;
 )
 
----
-extern (C)
-{
-    extern shared int x;
-    shared int y;
-    extern int z;
-}
----
+	---
+	extern (C)
+	{
+	    extern shared int x;
+	    shared int y;
+	    extern int z;
+	}
+	---
 
 )
 

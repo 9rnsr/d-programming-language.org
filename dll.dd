@@ -43,38 +43,38 @@ $(H2 <a name="Cinterface">DLLs with a C Interface</a>)
 	is required, looking like:
 	)
 
---------------------------------
-import std.c.windows.windows;
-import core.sys.windows.dll;
+	--------------------------------
+	import std.c.windows.windows;
+	import core.sys.windows.dll;
 
-__gshared HINSTANCE g_hInst;
+	__gshared HINSTANCE g_hInst;
 
-extern (Windows)
-BOOL DllMain(HINSTANCE hInstance, ULONG ulReason, LPVOID pvReserved)
-{
-    switch (ulReason)
-    {
-	case DLL_PROCESS_ATTACH:
-	    g_hInst = hInstance;
-	    dll_process_attach( hInstance, true );
-	    break;
+	extern (Windows)
+	BOOL DllMain(HINSTANCE hInstance, ULONG ulReason, LPVOID pvReserved)
+	{
+	    switch (ulReason)
+	    {
+	        case DLL_PROCESS_ATTACH:
+	            g_hInst = hInstance;
+	            dll_process_attach( hInstance, true );
+	            break;
 
-	case DLL_PROCESS_DETACH:
-	    dll_process_detach( hInstance, true );
-	    break;
+	        case DLL_PROCESS_DETACH:
+	            dll_process_detach( hInstance, true );
+	            break;
 
-	case DLL_THREAD_ATTACH:
-	    dll_thread_attach( true, true );
-	    break;
+	        case DLL_THREAD_ATTACH:
+	            dll_thread_attach( true, true );
+	            break;
 
-	case DLL_THREAD_DETACH:
-	    dll_thread_detach( true, true );
-	    break;
-    }
-    return true;
-}
+	        case DLL_THREAD_DETACH:
+	            dll_thread_detach( true, true );
+	            break;
+	    }
+	    return true;
+	}
 
--------------------------------
+	-------------------------------
 
 	$(P Notes:)
 	$(UL
@@ -120,11 +120,11 @@ EXPORTS
 	)
 
 	$(H4 mydll.d:)
--------------------------------
-module mydll;
-import std.c.stdio;
-export void dllprint() { printf("hello dll world\n"); }
--------------------------------
+	-------------------------------
+	module mydll;
+	import std.c.stdio;
+	export void dllprint() { printf("hello dll world\n"); }
+	-------------------------------
 
 	$(P Note: We use $(CODE printf)s in these examples
 	instead of $(CODE writefln)
@@ -156,22 +156,22 @@ C:>
 	)
 
 	$(H4 test.d:)
--------------------------------
-import mydll;
+	-------------------------------
+	import mydll;
 
-int main()
-{
-   mydll.dllprint();
-   return 0;
-}
--------------------------------
+	int main()
+	{
+	   mydll.dllprint();
+	   return 0;
+	}
+	-------------------------------
 
 	$(P Create an interface file mydll.di that doesn't have the function bodies:)
 
 	$(H4 mydll.di:)
--------------------------------
-export void dllprint();
--------------------------------
+	-------------------------------
+	export void dllprint();
+	-------------------------------
 
 	Compile and link with the command:
 
@@ -252,15 +252,15 @@ $(H2 <a name="com">COM Programming</a>)
 
 	$(P So, to write a COM object:)
 
--------------------------------
-import std.c.windows.com;
+	-------------------------------
+	import std.c.windows.com;
 
-class MyCOMobject : ComObject
-{
-    extern (Windows):
-	...
-}
--------------------------------
+	class MyCOMobject : ComObject
+	{
+	    extern (Windows):
+	        ...
+	}
+	-------------------------------
 
 	The sample code includes an example COM client program and server DLL.
 
@@ -284,94 +284,94 @@ $(H2 <a name="Dcode">D code calling D code in DLLs</a>)
 	to dynamically load/unload it.)
 
 	$(P Starting with the code for the DLL, mydll.d:)
--------------------------------
-/*
- * MyDll demonstration of how to write D DLLs.
- */
+	-------------------------------
+	/*
+	 * MyDll demonstration of how to write D DLLs.
+	 */
 
-import core.runtime;
-import std.c.stdio;
-import std.c.stdlib;
-import std.string;
-import std.c.windows.windows;
+	import core.runtime;
+	import std.c.stdio;
+	import std.c.stdlib;
+	import std.string;
+	import std.c.windows.windows;
 
-HINSTANCE   g_hInst;
+	HINSTANCE   g_hInst;
 
-extern (C)
-{
-    void  gc_setProxy(void* p);
-    void  gc_clrProxy();
-}
+	extern (C)
+	{
+	    void  gc_setProxy(void* p);
+	    void  gc_clrProxy();
+	}
 
-extern (Windows)
-    BOOL $(B DllMain)(HINSTANCE hInstance, ULONG ulReason, LPVOID pvReserved)
-{
-    switch (ulReason)
-    {
-        case DLL_PROCESS_ATTACH:
-	    printf("DLL_PROCESS_ATTACH\n");
-	    Runtime.initialize();
-	    break;
+	extern (Windows)
+	    BOOL $(B DllMain)(HINSTANCE hInstance, ULONG ulReason, LPVOID pvReserved)
+	{
+	    switch (ulReason)
+	    {
+	        case DLL_PROCESS_ATTACH:
+		    printf("DLL_PROCESS_ATTACH\n");
+		    Runtime.initialize();
+		    break;
 
-        case DLL_PROCESS_DETACH:
-	    printf("DLL_PROCESS_DETACH\n");
-	    Runtime.terminate();
-	    break;
+	        case DLL_PROCESS_DETACH:
+		    printf("DLL_PROCESS_DETACH\n");
+		    Runtime.terminate();
+		    break;
 
-        case DLL_THREAD_ATTACH:
-	    printf("DLL_THREAD_ATTACH\n");
-	    return false;
+	        case DLL_THREAD_ATTACH:
+		    printf("DLL_THREAD_ATTACH\n");
+		    return false;
 
-        case DLL_THREAD_DETACH:
-	    printf("DLL_THREAD_DETACH\n");
-	    return false;
-    }
-    g_hInst = hInstance;
-    return true;
-}
+	        case DLL_THREAD_DETACH:
+		    printf("DLL_THREAD_DETACH\n");
+		    return false;
+	    }
+	    g_hInst = hInstance;
+	    return true;
+	}
 
-export void $(B MyDLL_Initialize)(void* gc)
-{
-    printf("MyDLL_Initialize()\n");
-    gc_setProxy(gc);
-}
+	export void $(B MyDLL_Initialize)(void* gc)
+	{
+	    printf("MyDLL_Initialize()\n");
+	    gc_setProxy(gc);
+	}
 
-export void $(B MyDLL_Terminate)()
-{
-    printf("MyDLL_Terminate()\n");
-    gc_clrProxy();
-}
+	export void $(B MyDLL_Terminate)()
+	{
+	    printf("MyDLL_Terminate()\n");
+	    gc_clrProxy();
+	}
 
-$(B static this)()
-{
-    printf("static this for mydll\n");
-}
+	$(B static this)()
+	{
+	    printf("static this for mydll\n");
+	}
 
-$(B static ~this)()
-{
-    printf("static ~this for mydll\n");
-}
+	$(B static ~this)()
+	{
+	    printf("static ~this for mydll\n");
+	}
 
-/* --------------------------------------------------------- */
+	/* --------------------------------------------------------- */
 
-class $(B MyClass)
-{
-    char[] $(B concat)(char[] a, char[] b)
-    {
-	return a ~ " " ~ b;
-    }
+	class $(B MyClass)
+	{
+	    char[] $(B concat)(char[] a, char[] b)
+	    {
+		return a ~ " " ~ b;
+	    }
 
-    void $(B free)(char[] s)
-    {
-	delete s;
-    }
-}
+	    void $(B free)(char[] s)
+	    {
+		delete s;
+	    }
+	}
 
-export MyClass $(B getMyClass)()
-{
-    return new MyClass();
-}
--------------------------------
+	export MyClass $(B getMyClass)()
+	{
+	    return new MyClass();
+	}
+	-------------------------------
 
 	<dl>
 	$(DT $(B DllMain))
@@ -447,7 +447,7 @@ export MyClass $(B getMyClass)()
 $(MODDEFFILE
 LIBRARY         MYDLL
 DESCRIPTION     'MyDll demonstration DLL'
-EXETYPE		NT
+EXETYPE         NT
 CODE            PRELOAD DISCARDABLE
 DATA            PRELOAD MULTIPLE
 )
@@ -470,84 +470,84 @@ DATA            PRELOAD MULTIPLE
 	the DLL, and the other dynamically loads it.
 	)
 
--------------------------------
-import core.runtime;
-import std.stdio;
-import std.gc;
+	-------------------------------
+	import core.runtime;
+	import std.stdio;
+	import std.gc;
 
-import mydll;
+	import mydll;
 
-//version=DYNAMIC_LOAD;
+	//version=DYNAMIC_LOAD;
 
-version (DYNAMIC_LOAD)
-{
-    import std.c.windows.windows;
+	version (DYNAMIC_LOAD)
+	{
+	    import std.c.windows.windows;
 
-    alias MyClass function() getMyClass_fp;
+	    alias MyClass function() getMyClass_fp;
 
-    int main()
-    {   HMODULE h;
-        FARPROC fp;
+	    int main()
+	    {   HMODULE h;
+	        FARPROC fp;
 
-        getMyClass_fp getMyClass;
-        MyClass c;
+	        getMyClass_fp getMyClass;
+	        MyClass c;
 
-        printf("Start Dynamic Link...\n");
+	        printf("Start Dynamic Link...\n");
 
-        h = cast(HMODULE) Runtime.loadLibrary("mydll.dll");
-        if (h is null)
-        {
-            printf("error loading mydll.dll\n");
-            return 1;
-        }
+	        h = cast(HMODULE) Runtime.loadLibrary("mydll.dll");
+	        if (h is null)
+	        {
+	            printf("error loading mydll.dll\n");
+	            return 1;
+	        }
 
-        fp = GetProcAddress(h, "D5mydll10getMyClassFZC5mydll7MyClass");
-        if (fp is null)
-        {   printf("error loading symbol getMyClass()\n");
-            return 1;
-        }
+	        fp = GetProcAddress(h, "D5mydll10getMyClassFZC5mydll7MyClass");
+	        if (fp is null)
+	        {   printf("error loading symbol getMyClass()\n");
+	            return 1;
+	        }
 
-        getMyClass = cast(getMyClass_fp) fp;
-        c = (*getMyClass)();
-        foo(c);
+	        getMyClass = cast(getMyClass_fp) fp;
+	        c = (*getMyClass)();
+	        foo(c);
 
-        if (!Runtime.unloadLibrary(h))
-        {   printf("error freeing mydll.dll\n");
-            return 1;
-        }
+	        if (!Runtime.unloadLibrary(h))
+	        {   printf("error freeing mydll.dll\n");
+	            return 1;
+	        }
 
-        printf("End...\n");
-        return 0;
-    }
-}
-else
-{   // static link the DLL
-    extern (C)
-    {
-        void* gc_getProxy();
-    }
+	        printf("End...\n");
+	        return 0;
+	    }
+	}
+	else
+	{   // static link the DLL
+	    extern (C)
+	    {
+	        void* gc_getProxy();
+	    }
 
-    int main()
-    {
-	printf("Start Static Link...\n");
-	MyDLL_Initialize(gc_getProxy());
-	foo(getMyClass());
-	MyDLL_Terminate();
-	printf("End...\n");
-	return 0;
-    }
-}
+	    int main()
+	    {
+	        printf("Start Static Link...\n");
+	        MyDLL_Initialize(gc_getProxy());
+	        foo(getMyClass());
+	        MyDLL_Terminate();
+	        printf("End...\n");
+	        return 0;
+	    }
+	}
 
-void foo(MyClass c)
-{
-    char[] s;
+	void foo(MyClass c)
+	{
+	    char[] s;
 
-    s = c.concat("Hello", "world!");
-    writefln(s);
-    c.free(s);
-    delete c;
-}
--------------------------------
+	    s = c.concat("Hello", "world!");
+	    writefln(s);
+	    c.free(s);
+	    delete c;
+	}
+	-------------------------------
 
 	$(P Let's start with the statically linked version, which is simpler.
 	It's compiled and linked with the command:

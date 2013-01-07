@@ -31,61 +31,61 @@ $(H3 Comments)
 
 $(UL
     $(LI Use // comments to document a single line:
--------------------------------
-statement;  // comment
-statement;  // comment
--------------------------------
+    -------------------------------
+    statement;  // comment
+    statement;  // comment
+    -------------------------------
     )
 
     $(LI Use block comments to document a multiple line block of
     statements:
--------------------------------
-/* comment
- * comment
- */
- statement;
- statement;
--------------------------------
+    -------------------------------
+    /* comment
+     * comment
+     */
+     statement;
+     statement;
+    -------------------------------
     )
 
     $(LI Use $(CODE version (none)) to $(SINGLEQUOTE comment out) a piece of trial code
     that is syntactically valid:
--------------------------------
-  version (none)
-  {
-    /* comment
-     * comment
-     */
-     statement;
-     statement;
-  }
--------------------------------
+    -------------------------------
+      version (none)
+      {
+        /* comment
+         * comment
+         */
+         statement;
+         statement;
+      }
+    -------------------------------
 
     It can be turned on with $(CODE version(all)):
 
--------------------------------
-  version (all)
-  {
-    /* comment
-     * comment
-     */
-     statement;
-     statement;
-  }
--------------------------------
+    -------------------------------
+      version (all)
+      {
+        /* comment
+         * comment
+         */
+         statement;
+         statement;
+      }
+    -------------------------------
 
     )
 
     $(LI Use nesting comments to $(SINGLEQUOTE comment out) a piece of syntactically invalid code:
--------------------------------
-/+++++
-    /* comment
-     * comment
-     */
-     { statement;
-       statement;
- +++++/
--------------------------------
+    -------------------------------
+    /+++++
+        /* comment
+         * comment
+         */
+         { statement;
+           statement;
+     +++++/
+    -------------------------------
     )
 )
 
@@ -99,19 +99,19 @@ $(DL
          do not begin with an underscore $(SINGLEQUOTE _) unless they are
          private.
 
--------------------------------
-int myFunc();
-string myLocalVar;
--------------------------------
+        -------------------------------
+        int myFunc();
+        string myLocalVar;
+        -------------------------------
     )
 
     $(DT Modules)
     $(DD Module and package names should be all lowercase, and only contain
          the characters [a..z][0..9][_]. This avoids problems when dealing with
          case-insensitive file systems.
--------------------------------
-import std.algorithm;
--------------------------------
+        -------------------------------
+        import std.algorithm;
+        -------------------------------
     )
 
 
@@ -120,49 +120,49 @@ import std.algorithm;
     $(DD The names of user-defined types should be PascalCased, which is the
          same as camelCased except that the first letter is uppercase.
 
--------------------------------
-class Foo;
-struct FooAndBar;
--------------------------------
+        -------------------------------
+        class Foo;
+        struct FooAndBar;
+        -------------------------------
     )
 
     $(DD An exception is that eponymous templates that return a value instead of
          a type should not be capitalized, as they are conceptually more similar
          to functions.
 
--------------------------
-template GetSomeType(T) { alias T GetSomeType; }
-template isSomeType(T) { enum isSomeType = is(T == SomeType); }
--------------------------
+        -------------------------
+        template GetSomeType(T) { alias T GetSomeType; }
+        template isSomeType(T) { enum isSomeType = is(T == SomeType); }
+        -------------------------
      )
 
     $(DT Functions)
     $(DD Function names should be camelCased, so their first letter is lowercase.
          This includes properties and member functions.
 
--------------------------------
-int done();
-int doneProcessing();
--------------------------------
+        -------------------------------
+        int done();
+        int doneProcessing();
+        -------------------------------
     )
 
     $(DT Constants)
     $(DD The names of constants should be camelCased just like normal variables.
 
--------------------------------
-enum secondsPerMinute = 60;
-immutable hexDigits = "0123456789ABCDEF";
--------------------------------
+        -------------------------------
+        enum secondsPerMinute = 60;
+        immutable hexDigits = "0123456789ABCDEF";
+        -------------------------------
     )
 
     $(DT Enum members)
     $(DD The members of enums should be camelCased, so their first letter is
          lowercase.
 
--------------------------------
-enum Direction { bwd, fwd, both }
-enum OpenRight { no, yes }
--------------------------------
+        -------------------------------
+        enum Direction { bwd, fwd, both }
+        enum OpenRight { no, yes }
+        -------------------------------
     )
 
     $(DT Keywords)
@@ -171,9 +171,9 @@ enum OpenRight { no, yes }
          $(SINGLEQUOTE _) should be appended to it. Names should not be
          capitalized differently in order to avoid conflicting with keywords.
 
--------------------------------
-enum Attribute { nothrow_, pure_, safe }
--------------------------------
+        -------------------------------
+        enum Attribute { nothrow_, pure_, safe }
+        -------------------------------
     )
 
     $(DT Acronyms)
@@ -183,10 +183,10 @@ enum Attribute { nothrow_, pure_, safe }
          if the first letter in the acronym is uppercase, then all of the
          letters in the acronym are uppercase.
 
--------------------------------
-class UTFException;
-ubyte asciiChar;
--------------------------------
+        -------------------------------
+        class UTFException;
+        ubyte asciiChar;
+        -------------------------------
     )
 
 
@@ -196,11 +196,11 @@ $(H3 Meaningless Type Aliases)
 
     $(P Things like:)
 
--------------------------------
-alias void VOID;
-alias int INT;
-alias int* pint;
--------------------------------
+    -------------------------------
+    alias void VOID;
+    alias int INT;
+    alias int* pint;
+    -------------------------------
 
     $(P should be avoided.)
 
@@ -208,17 +208,17 @@ $(H3 Declaration Style)
 
     $(P Since the declarations are left-associative, left justify them:)
 
--------------------------------
-int[] x, y; // makes it clear that x and y are the same type
-int** p, q; // makes it clear that p and q are the same type
--------------------------------
+    -------------------------------
+    int[] x, y; // makes it clear that x and y are the same type
+    int** p, q; // makes it clear that p and q are the same type
+    -------------------------------
 
     $(P to emphasize their relationship. Do not use the C style:)
 
--------------------------------
-int []x, y; // confusing since y is also an int[]
-int **p, q; // confusing since q is also an int**
--------------------------------
+    -------------------------------
+    int []x, y; // confusing since y is also an int[]
+    int **p, q; // confusing since q is also an int**
+    -------------------------------
 
 $(H3 Operator Overloading)
 
@@ -280,19 +280,19 @@ $(UL
          (such as when declaring lambda functions), but with any normal function
          block or type definition, the braces should be on their own line.)
 
--------------------------------
-void func(int param)
-{
-    if(param < 0)
+    -------------------------------
+    void func(int param)
     {
-        ...
+        if(param < 0)
+        {
+            ...
+        }
+        else
+        {
+            ...
+        }
     }
-    else
-    {
-        ...
-    }
-}
--------------------------------
+    -------------------------------
 
     $(LI Lines have a soft limit of 80 characters and a hard limit of 120
          characters. This means that most lines of code should be no longer than

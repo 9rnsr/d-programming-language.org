@@ -39,13 +39,13 @@ $(H3 warning - statement is not reachable)
 
 	$(P Consider the following code:)
 
----
-int foo(int i)
-{
-    return i;
-    $(B return i + 1;)
-}
----
+	---
+	int foo(int i)
+	{
+	    return i;
+	    $(B return i + 1;)
+	}
+	---
 
 	$(P The second return statement is not reachable, i.e. it is dead
 	code. While dead code is poor style in released code, it can
@@ -59,28 +59,28 @@ int foo(int i)
 
 	$(OL
 	$(LI Commenting out the dead code with /+ ... +/ comments:
----
-int foo(int i)
-{
-    return i;
-    /+
-	return i + 1;
-     +/
-}
----
+	---
+	int foo(int i)
+	{
+	    return i;
+	    /+
+	        return i + 1;
+	     +/
+	}
+	---
 	)
 
 	$(LI Putting the dead code inside a $(D version(none)) conditional:
----
-int foo(int i)
-{
-    return i;
-    $(B version (none))
-    {
-	return i + 1;
-    }
-}
----
+	---
+	int foo(int i)
+	{
+	    return i;
+	    $(B version (none))
+	    {
+	        return i + 1;
+	    }
+	}
+	---
 	)
 
 	$(LI Only compile with warnings enabled when doing release builds.

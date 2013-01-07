@@ -85,15 +85,15 @@ $(D_S $(TITLE),
         $(DURATION) directly, then you'd use the $(D dur) function and make
         a call like $(D dur!"hours"(17)) or $(D dur!"seconds"(234)).)
 
---------------------
-auto duration = TimeOfDay(17, 2) - TimeOfDay(6, 7);
-assert(duration == dur!"hours"(10) + dur!"minutes"(55));
-assert(duration.hours == 10);
-assert(duration.minutes == 55);
-assert(duration.total!"hours"() == 10);
-assert(duration.total!"minutes"() == 655);
-assert(duration.total!"hnsecs"() == 393_000_000_000);
---------------------
+        --------------------
+        auto duration = TimeOfDay(17, 2) - TimeOfDay(6, 7);
+        assert(duration == dur!"hours"(10) + dur!"minutes"(55));
+        assert(duration.hours == 10);
+        assert(duration.minutes == 55);
+        assert(duration.total!"hours"() == 10);
+        assert(duration.total!"minutes"() == 655);
+        assert(duration.total!"hnsecs"() == 393_000_000_000);
+        --------------------
 
     $(P Like any number, $(DURATION)s can be added together or
         subtracted from. However, unlike a naked number, they have units
@@ -144,13 +144,13 @@ assert(duration.total!"hnsecs"() == 393_000_000_000);
         separated internally, those values don't have to be calculated every
         time that you ask for them.)
 
---------------------
-auto date = Date(1992, 12, 27);
-auto tod = TimeOfDay(7, 0, 22);
-auto dateTime = DateTime(1992, 12, 27, 7, 0, 22);
-assert(date == dateTime.date);
-assert(tod == dateTime.timeOfDay);
---------------------
+        --------------------
+        auto date = Date(1992, 12, 27);
+        auto tod = TimeOfDay(7, 0, 22);
+        auto dateTime = DateTime(1992, 12, 27, 7, 0, 22);
+        assert(date == dateTime.date);
+        assert(tod == dateTime.timeOfDay);
+        --------------------
 
     $(P A $(SYSTIME), however, is an entirely different beast. It represents
         a date and time - similar to $(DATETIME) - but it goes to hnsec
@@ -180,15 +180,15 @@ assert(tod == dateTime.timeOfDay);
         what you get from a $(DURATION) or $(SYSTIME) when you specifically
         ask for the fractional portion of the time.)
 
---------------------
-auto st1 = Clock.currTime(); //Current time in local time.
-auto st2 = Clock.currTime(UTC()); //Current time in UTC.
-auto st3 = SysTime(DateTime(1992, 12, 27, 7, 0, 22), FracSec.from!"usecs"(5));
-assert((cast(Date)st3) == Date(1992, 12, 27));
-assert((cast(TimeOfDay)st3) == TimeOfDay(7, 0, 22));
-assert((cast(DateTime)st3) == DateTime(1992, 12, 27, 7, 0, 22));
-assert(st3.fracSec == FracSec.from!"hnsecs"(50));
---------------------
+        --------------------
+        auto st1 = Clock.currTime(); //Current time in local time.
+        auto st2 = Clock.currTime(UTC()); //Current time in UTC.
+        auto st3 = SysTime(DateTime(1992, 12, 27, 7, 0, 22), FracSec.from!"usecs"(5));
+        assert((cast(Date)st3) == Date(1992, 12, 27));
+        assert((cast(TimeOfDay)st3) == TimeOfDay(7, 0, 22));
+        assert((cast(DateTime)st3) == DateTime(1992, 12, 27, 7, 0, 22));
+        assert(st3.fracSec == FracSec.from!"hnsecs"(50));
+        --------------------
 
     $(H3 Time Intervals)
 
@@ -218,13 +218,13 @@ assert(st3.fracSec == FracSec.from!"hnsecs"(50));
         constructor. And if you ever simply need a $(SYSTIME)'s std time for
         any reason, then use its $(D stdTime) property.)
 
---------------------
-time_t unixTime = core.stdc.time.time(null);
-auto stdTime = unixTimeToStdTime(unixTime);
-auto st = SysTime(stdTime);
-assert(unixTime == st.toUnixTime());
-assert(stdTime == st.stdTime);
---------------------
+        --------------------
+        time_t unixTime = core.stdc.time.time(null);
+        auto stdTime = unixTimeToStdTime(unixTime);
+        auto st = SysTime(stdTime);
+        assert(unixTime == st.toUnixTime());
+        assert(stdTime == st.stdTime);
+        --------------------
 
     $(P Hecto-nanoseconds were chosen as the internal representation of
         $(DURATION) and $(SYSTIME), because that is the highest precision that
@@ -281,14 +281,14 @@ assert(stdTime == st.stdTime);
         somewhat more humanly readable, but it isn't standard, so you probably
         shouldn't use it for saving time point values.)
 
---------------------
-auto dateTime = DateTime(1997, 5, 4, 12, 22, 3);
-assert(dateTime.toISOString() == "19970504T122203");
-assert(dateTime.toISOExtString() == "1997-05-04T12:22:03");
-assert(dateTime.toSimpleString() == "1997-May-04 12:22:03");
-auto restored = DateTime.fromISOExtString(dateTime.toISOExtString());
-assert(dateTime == restored);
---------------------
+        --------------------
+        auto dateTime = DateTime(1997, 5, 4, 12, 22, 3);
+        assert(dateTime.toISOString() == "19970504T122203");
+        assert(dateTime.toISOExtString() == "1997-05-04T12:22:03");
+        assert(dateTime.toSimpleString() == "1997-May-04 12:22:03");
+        auto restored = DateTime.fromISOExtString(dateTime.toISOExtString());
+        assert(dateTime == restored);
+        --------------------
 
     $(P One area with saving times as strings which gets a bit awkward is time
         zones. The time zone is included in the string as part of the ISO
@@ -306,34 +306,34 @@ assert(dateTime == restored);
         $(SYSTIME) was for. But you can't usually restore the original time zone
         from just the ISO string.)
 
---------------------
-auto local = SysTime(629_983_705_230_000_035);
-auto utc = local.toUTC();
-auto other = local.toOtherTZ(TimeZone.getTimeZone("America/New_York"));
+        --------------------
+        auto local = SysTime(629_983_705_230_000_035);
+        auto utc = local.toUTC();
+        auto other = local.toOtherTZ(TimeZone.getTimeZone("America/New_York"));
 
-//This assumes that you're in "America/Los_Angeles". You'd get a different
-//time if you're in a different time zone.
-assert(local.toISOExtString() == "1997-05-04T12:22:03.0000035");
+        //This assumes that you're in "America/Los_Angeles". You'd get a different
+        //time if you're in a different time zone.
+        assert(local.toISOExtString() == "1997-05-04T12:22:03.0000035");
 
-assert(utc.toISOExtString() == "1997-05-04T19:22:03.0000035Z");
-assert(other.toISOExtString() == "1997-05-04T15:22:03.0000035-04:00");
+        assert(utc.toISOExtString() == "1997-05-04T19:22:03.0000035Z");
+        assert(other.toISOExtString() == "1997-05-04T15:22:03.0000035-04:00");
 
-auto restLocal = SysTime.fromISOExtString(local.toISOExtString());
-auto restUTC = SysTime.fromISOExtString(utc.toISOExtString());
-auto restOther = SysTime.fromISOExtString(other.toISOExtString());
+        auto restLocal = SysTime.fromISOExtString(local.toISOExtString());
+        auto restUTC = SysTime.fromISOExtString(utc.toISOExtString());
+        auto restOther = SysTime.fromISOExtString(other.toISOExtString());
 
-//Only guaranteed because it's on the same machine.
-assert(restLocal == local);
+        //Only guaranteed because it's on the same machine.
+        assert(restLocal == local);
 
-//Guaranteed regardless of machine. Their internal values could differ however.
-assert(cast(DateTime)restLocal == cast(DateTime)local);
+        //Guaranteed regardless of machine. Their internal values could differ however.
+        assert(cast(DateTime)restLocal == cast(DateTime)local);
 
-//Time zone is UTC for both.
-assert(restUTC == utc);
+        //Time zone is UTC for both.
+        assert(restUTC == utc);
 
-//Time zone for restOther is SimpleTimeZone(-4 * 60), not "America/New_York".
-assert(restOther == other);
---------------------
+        //Time zone for restOther is SimpleTimeZone(-4 * 60), not "America/New_York".
+        assert(restOther == other);
+        --------------------
 
     $(P To summarize, $(UTC) and $(SIMPLETZ) can be restored exactly using an
         ISO or ISO extended string. However, none of the other $(TIMEZONE)s can
@@ -420,36 +420,36 @@ assert(restOther == other);
         query each of $(SYSTIME)'s properties individually rather than
         converting it to a $(DATETIME) and then querying it.)
 
---------------------
-auto st = Clock.currTime();
+        --------------------
+        auto st = Clock.currTime();
 
-//Each value must be individually calculated.
-{
-    auto year = st.year;
-    auto month = st.month;
-    auto day = st.day;
-    auto hour = st.hour;
-    auto minute = st.minute;
-    auto second = st.second;
-    auto fracSec = st.fracSec;
-}
+        //Each value must be individually calculated.
+        {
+            auto year = st.year;
+            auto month = st.month;
+            auto day = st.day;
+            auto hour = st.hour;
+            auto minute = st.minute;
+            auto second = st.second;
+            auto fracSec = st.fracSec;
+        }
 
-/+
-    You do the calculations only twice if you convert to a DateTime
-    (twice instead of once, because you're still asking for FracSec
-    separately, though that particular calculation is fairly cheap).
- +/
-auto dateTime = cast(DateTime)st;
-{
-    auto year = dateTime.year;
-    auto month = dateTime.month;
-    auto day = dateTime.day;
-    auto hour = dateTime.hour;
-    auto minute = dateTime.minute;
-    auto second = dateTime.second;
-    auto fracSec = st.fracSec;
-}
---------------------
+        /+
+            You do the calculations only twice if you convert to a DateTime
+            (twice instead of once, because you're still asking for FracSec
+            separately, though that particular calculation is fairly cheap).
+         +/
+        auto dateTime = cast(DateTime)st;
+        {
+            auto year = dateTime.year;
+            auto month = dateTime.month;
+            auto day = dateTime.day;
+            auto hour = dateTime.hour;
+            auto minute = dateTime.minute;
+            auto second = dateTime.second;
+            auto fracSec = st.fracSec;
+        }
+        --------------------
 
     $(H2 Migrating to std.datetime)
 
@@ -478,13 +478,13 @@ auto dateTime = cast(DateTime)st;
         as to avoid breaking existing code). The module that this impacts the
         most is $(STD_FILE). For example,)
 
---------------------
-d_time dTime = "myfile.txt".lastModified();
-SysTime sysTime = "myfile.txt".timeLastModified();
+        --------------------
+        d_time dTime = "myfile.txt".lastModified();
+        SysTime sysTime = "myfile.txt".timeLastModified();
 
-setTimes("yourfile.txt", dTime, dTime + 5);
-setTimes("yourfile.txt", sysTime, sysTime + dur!"msecs"(5));
---------------------
+        setTimes("yourfile.txt", dTime, dTime + 5);
+        setTimes("yourfile.txt", sysTime, sysTime + dur!"msecs"(5));
+        --------------------
 
     $(P With all such functions, it's simply a matter of changing the type of
         the argument that you're passing to the function or assigning its
@@ -549,14 +549,14 @@ setTimes("yourfile.txt", sysTime, sysTime + dur!"msecs"(5));
          the minutes to $(I add) to the time in UTC to get the time in the
          target time zone.)
 
---------------------
-//These are the same offsets as America/Los_Angeles.
-auto utcOffset = -8 * 60;
-auto dstOffset = 60;
+         --------------------
+         //These are the same offsets as America/Los_Angeles.
+         auto utcOffset = -8 * 60;
+         auto dstOffset = 60;
 
-immutable tzWithDST = new SimpleTimeZone(utcOffset + dstOffset);
-immutable tzWithoutDST = new SimpleTimeZone(utcOffset);
---------------------
+         immutable tzWithDST = new SimpleTimeZone(utcOffset + dstOffset);
+         immutable tzWithoutDST = new SimpleTimeZone(utcOffset);
+         --------------------
 
      $(P The last thing that I have to note is some differences in numerical
          values between $(STD_DATE) and $(STD_DATETIME).
@@ -613,13 +613,13 @@ immutable tzWithoutDST = new SimpleTimeZone(utcOffset);
                   by 1.))
         $(TR $(TD $(XREF date, Date).$(D tzcorrection))
              $(TD
---------------------
-immutable tz = sysTime.timezone;
-auto diff = tz.utcToTZ(sysTime.stdTime) - sysTime.stdTime;
-auto tzcorrection = convert!("hnsecs", "minutes")(diff);
---------------------
-However, it looks like $(D tzcorrection) is broken, so you're probably not using
-it in your code anyway.
+                  --------------------
+                  immutable tz = sysTime.timezone;
+                  auto diff = tz.utcToTZ(sysTime.stdTime) - sysTime.stdTime;
+                  auto tzcorrection = convert!("hnsecs", "minutes")(diff);
+                  --------------------
+                  However, it looks like $(D tzcorrection) is broken, so you're
+                  probably not using it in your code anyway.
               ))
         $(TR $(TD $(XREF date, Date).$(D parse))
              $(TD $(SYSTIME).$(D fromISOString),
@@ -656,34 +656,34 @@ it in your code anyway.
              $(TD $(SYSTIME).$(D toUTC)))
         $(TR $(TD $(XREF date, dateFromNthWeekdayOfMonth))
              $(TD
---------------------
-//There is no equivalent. This is a possible implementation.
-int dateFromNthWeekdayOfMonth(int year, Month month,
-                              DayOfWeek dow, int n)
-{
-    auto first = Date(year, month, 1);
-    auto target = first;
-    immutable targetDOTW = target.dayOfWeek;
+                  --------------------
+                  //There is no equivalent. This is a possible implementation.
+                  int dateFromNthWeekdayOfMonth(int year, Month month,
+                                                DayOfWeek dow, int n)
+                  {
+                      auto first = Date(year, month, 1);
+                      auto target = first;
+                      immutable targetDOTW = target.dayOfWeek;
 
-    if(targetDOTW != dow)
-    {
-        if(targetDOTW < dow)
-            target += dur!"days"(dow - targetDOTW);
-        else
-        {
-            target += dur!"days"((DayOfWeek.sat - targetDOTW) +
-                                 dow + 1);
-        }
-    }
+                      if(targetDOTW != dow)
+                      {
+                          if(targetDOTW < dow)
+                              target += dur!"days"(dow - targetDOTW);
+                          else
+                          {
+                              target += dur!"days"((DayOfWeek.sat - targetDOTW) +
+                                                   dow + 1);
+                          }
+                      }
 
-    target += dur!"weeks"(n - 1);
+                      target += dur!"weeks"(n - 1);
 
-    if(target.month != first.month)
-        target -= dur!"weeks"(1);
+                      if(target.month != first.month)
+                          target -= dur!"weeks"(1);
 
-    return cast(int)((target - first).total!"days"()) + 1;
-}
---------------------
+                      return cast(int)((target - first).total!"days"()) + 1;
+                  }
+                  --------------------
               ))
         $(TR $(TD $(XREF date, daysInMonth))
              $(TD $(SYSTIME).$(D endOfMonthDay); Actually, this name is overly

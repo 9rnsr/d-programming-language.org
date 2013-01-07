@@ -185,7 +185,7 @@ $(SECTION2 The SafeD Subset,
 	)
 	
 	---
-writeln ("Hello Safe World!");
+	writeln ("Hello Safe World!");
 	---
 	
 	$(P

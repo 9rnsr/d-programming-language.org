@@ -196,11 +196,11 @@ $(H2 Pointers and the Garbage Collector)
 	$(LI Do not store pointers into non-pointer variables using casts and
 	other tricks.
 
-------
-void* p;
-...
-int x = cast(int)p;   // error: undefined behavior
-------
+	------
+	void* p;
+	...
+	int x = cast(int)p;   // error: undefined behavior
+	------
 
 	The garbage collector does not scan non-pointer fields for GC pointers.
 	)
@@ -208,17 +208,17 @@ int x = cast(int)p;   // error: undefined behavior
 	$(LI Do not take advantage of alignment of pointers to store bit flags
 	in the low order bits:
 
-------
-p = cast(void*)(cast(int)p | 1);  // error: undefined behavior
-------
+	------
+	p = cast(void*)(cast(int)p | 1);  // error: undefined behavior
+	------
 	)
 
 	$(LI Do not store into pointers values that may point into the
 	garbage collected heap:
 
-------
-p = cast(void*)12345678;   // error: undefined behavior
-------
+	------
+	p = cast(void*)12345678;   // error: undefined behavior
+	------
 
 	A copying garbage collector may change this value.
 	)
@@ -238,10 +238,10 @@ p = cast(void*)12345678;   // error: undefined behavior
 
 	$(LI Do not depend on the ordering of pointers:
 
-------
-if (p1 < p2)  // error: undefined behavior
-  ...
-------
+	------
+	if (p1 < p2)  // error: undefined behavior
+	  ...
+	------
 	since, again, the garbage collector can move objects around in
 	memory.
 	)
@@ -250,24 +250,24 @@ if (p1 < p2)  // error: undefined behavior
 	points outside of the bounds of the garbage collected object originally
 	allocated.
 
-------
-char* p = new char[10];
-char* q = p + 6; // ok
-q = p + 11;      // error: undefined behavior
-q = p - 1;       // error: undefined behavior
-------
+	------
+	char* p = new char[10];
+	char* q = p + 6; // ok
+	q = p + 11;      // error: undefined behavior
+	q = p - 1;       // error: undefined behavior
+	------
 	)
 
 	$(LI Do not misalign pointers if those pointers may
 	point into the GC heap, such as:
 
-------
-struct Foo {
-align (1):
-  byte b;
-  char* p;  // misaligned pointer
-}
-------
+	------
+	struct Foo {
+	align (1):
+	  byte b;
+	  char* p;  // misaligned pointer
+	}
+	------
 
 	Misaligned pointers may be used if the underlying hardware
 	supports them $(B and) the pointer is never used to point
@@ -299,20 +299,20 @@ align (1):
 
 	$(LI Use a union to share storage with a pointer:
 
-------
-union U { void* ptr; int value }
-------
+	------
+	union U { void* ptr; int value }
+	------
 	)
 
 	$(LI A pointer to the start of a garbage collected object need not
 	be maintained if a pointer to the interior of the object exists.
 
-------
-char[] p = new char[10];
-char[] q = p[3..6];
-// q is enough to hold on to the object, don't need to keep
-// p as well.
-------
+	------
+	char[] p = new char[10];
+	char[] q = p[3..6];
+	// q is enough to hold on to the object, don't need to keep
+	// p as well.
+	------
 	)
 	)
 

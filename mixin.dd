@@ -14,18 +14,20 @@ $(D_S Mixins,
 	a struct with the named members:
 	)
 
----
-template GenStruct(string Name, string M1)
-{
-    const char[] GenStruct = "struct " ~ Name ~ "{ int " ~ M1 ~ "; }";
-}
+	---
+	template GenStruct(string Name, string M1)
+	{
+	    const char[] GenStruct = "struct " ~ Name ~ "{ int " ~ M1 ~ "; }";
+	}
 
-mixin(GenStruct!("Foo", "bar"));
----
+	mixin(GenStruct!("Foo", "bar"));
+	---
+
 	$(P which generates:)
----
-struct Foo { int bar; }
----
+
+	---
+	struct Foo { int bar; }
+	---
 
 
 	$(P Superficially, since D mixins can manipulate text and compile

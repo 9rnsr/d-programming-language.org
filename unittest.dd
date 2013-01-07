@@ -14,11 +14,11 @@ $(GNAME UnitTest):
 
 	$(P Unit tests are a special function defined like:)
 
-------
-unittest {
-  ...test code...
-}
-------
+	------
+	unittest {
+	  ...test code...
+	}
+	------
 
 	$(P There can be any number of unit test functions in a module,
 	including within struct, union and class declarations.
@@ -37,18 +37,18 @@ unittest {
 
 	$(P For example, given a class Sum that is used to add two values:)
 
-------
-class Sum {
-  int add(int x, int y) { return x + y; }
+	------
+	class Sum {
+	  int add(int x, int y) { return x + y; }
 
-  unittest
-  {
-    Sum sum = new Sum;
-    assert(sum.add(3,4) == 7);
-    assert(sum.add(-2,0) == -2);
-  }
-}
-------
+	  unittest
+	  {
+	    Sum sum = new Sum;
+	    assert(sum.add(3,4) == 7);
+	    assert(sum.add(-2,0) == -2);
+	  }
+	}
+	------
 
 $(H4 $(LNAME2 documented-unittests, Documented Unittests))
 
@@ -59,27 +59,27 @@ $(P Documented unittests allow the developer to deliver code examples to the use
 $(P If a declaration is followed by a documented unittest, the code in
     the unittest will be inserted in the $(B example) section of the declaration:)
 
-------
-/// Math class
-class Math
-{
-    /// add function
-    int add(int x, int y) { return x + y; }
+	------
+	/// Math class
+	class Math
+	{
+	    /// add function
+	    int add(int x, int y) { return x + y; }
 
-    ///
-    unittest
-    {
-        assert(add(2, 2) == 4);
-    }
-}
+	    ///
+	    unittest
+	    {
+	        assert(add(2, 2) == 4);
+	    }
+	}
 
-///
-unittest
-{
-    auto math = new Math();
-    auto result = math.add(2, 2);
-}
-------
+	///
+	unittest
+	{
+	    auto math = new Math();
+	    auto result = math.add(2, 2);
+	}
+	------
 
 $(P The above will generate the following documentation:)
 
@@ -107,35 +107,35 @@ $(P A unittest which is not documented, or is marked as private will not be
 $(P There can be multiple documented unittests and they can appear
     in any order. They will be attached to the last non-unittest declaration:)
 
-------
-/// add function
-int add(int x, int y) { return x + y; }
+	------
+	/// add function
+	int add(int x, int y) { return x + y; }
 
 
-/// code sample generated
-unittest
-{
-    assert(add(1, 1) == 2);
-}
+	/// code sample generated
+	unittest
+	{
+	    assert(add(1, 1) == 2);
+	}
 
-/// code sample not generated because the unittest is private
-private unittest
-{
-    assert(add(2, 2) == 4);
-}
+	/// code sample not generated because the unittest is private
+	private unittest
+	{
+	    assert(add(2, 2) == 4);
+	}
 
-unittest
-{
-    /// code sample not generated because the unittest isn't documented
-    assert(add(3, 3) == 6);
-}
+	unittest
+	{
+	    /// code sample not generated because the unittest isn't documented
+	    assert(add(3, 3) == 6);
+	}
 
-/// code sample generated, even if it only includes comments (or is empty)
-unittest
-{
-    /** assert(add(4, 4) == 8); */
-}
-------
+	/// code sample generated, even if it only includes comments (or is empty)
+	unittest
+	{
+	    /** assert(add(4, 4) == 8); */
+	}
+	------
 
 $(P The above will generate the following documentation:)
 

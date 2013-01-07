@@ -120,28 +120,28 @@ $(P
         of the $(I TemplateInstance):
 )
 
-------
-template TFoo(T) { alias T* t; }
-...
-TFoo!(int).t x; // declare x to be of type int*
-------
+        ------
+        template TFoo(T) { alias T* t; }
+        ...
+        TFoo!(int).t x; // declare x to be of type int*
+        ------
 
         $(P If the $(GLINK TemplateArgument) is one token long, the parentheses can be omitted:
         )
----
-TFoo!int.t x;   // same as TFoo!(int).t x;
----
+        ---
+        TFoo!int.t x;   // same as TFoo!(int).t x;
+        ---
 
 
 $(P
         A template instantiation can be aliased:
 )
 
-------
-template TFoo(T) { alias T* t; }
-alias TFoo!(int) abc;
-abc.t x;        // declare x to be of type int*
-------
+        ------
+        template TFoo(T) { alias T* t; }
+        alias TFoo!(int) abc;
+        abc.t x;        // declare x to be of type int*
+        ------
 
 $(P
         Multiple instantiations of a $(I TemplateDeclaration) with the same
@@ -150,14 +150,14 @@ $(P
         For example:
 )
 
-------
-template TFoo(T) { T f; }
-alias TFoo!(int) a;
-alias TFoo!(int) b;
-...
-a.f = 3;
-assert(b.f == 3);  // a and b refer to the same instance of TFoo
-------
+        ------
+        template TFoo(T) { T f; }
+        alias TFoo!(int) a;
+        alias TFoo!(int) b;
+        ...
+        a.f = 3;
+        assert(b.f == 3);  // a and b refer to the same instance of TFoo
+        ------
 
 $(P
         This is true even if the $(I TemplateInstance)s are done in
@@ -169,11 +169,11 @@ $(P
         template parameter type, they still refer to different instances:
 )
 
------
-struct TFoo(int x) { }
-static assert(is(TFoo!(3) == TFoo!(2 + 1))); // 3 and 2+1 are both 3 of type int
-static assert(!is(TFoo!(3) == TFoo!(3u)));   // 3u and 3 are different types
------
+        -----
+        struct TFoo(int x) { }
+        static assert(is(TFoo!(3) == TFoo!(2 + 1))); // 3 and 2+1 are both 3 of type int
+        static assert(!is(TFoo!(3) == TFoo!(3u)));   // 3u and 3 are different types
+        -----
 $(P
         If multiple templates with the same $(I TemplateIdentifier) are
         declared, they are distinct if they have a different number of
@@ -183,23 +183,23 @@ $(P
         For example, a simple generic copy template would be:
 )
 
-------
-template TCopy(T) {
-  void copy(out T to, T from) {
-    to = from;
-  }
-}
-------
+        ------
+        template TCopy(T) {
+          void copy(out T to, T from) {
+            to = from;
+          }
+        }
+        ------
 
 $(P
         To use the template, it must first be instantiated with a specific
         type:
 )
 
-------
-int i;
-TCopy!(int).copy(i, 3);
-------
+        ------
+        int i;
+        TCopy!(int).copy(i, 3);
+        ------
 
 $(H2 Instantiation Scope)
 
@@ -212,40 +212,40 @@ $(P
         For example:
 )
 
-$(BR)$(BR)
-$(U module a)
-------
-template TFoo(T) { void bar() { func(); } }
-------
+        $(BR)$(BR)
+        $(U module a)
+        ------
+        template TFoo(T) { void bar() { func(); } }
+        ------
 
-$(U module b)
-------
-import a;
+        $(U module b)
+        ------
+        import a;
 
-void func() { }
-alias TFoo!(int) f; // error: func not defined in module a
-------
+        void func() { }
+        alias TFoo!(int) f; // error: func not defined in module a
+        ------
 
 $(P
         and:
 )
 
-$(BR)$(BR)
-$(U module a)
-------
-template TFoo(T) { void bar() { func(1); } }
-void func(double d) { }
-------
+        $(BR)$(BR)
+        $(U module a)
+        ------
+        template TFoo(T) { void bar() { func(1); } }
+        void func(double d) { }
+        ------
 
-$(U module b)
-------
-import a;
+        $(U module b)
+        ------
+        import a;
 
-void func(int i) { }
-alias TFoo!(int) f;
-...
-f.bar();  // will call a.func(double)
-------
+        void func(int i) { }
+        alias TFoo!(int) f;
+        ...
+        f.bar();  // will call a.func(double)
+        ------
 
 $(P
         $(I TemplateParameter) specializations and default
@@ -282,50 +282,50 @@ $(H2 Argument Deduction)
 
         $(P For example:)
 
-------
-template TFoo(T) { }
-alias TFoo!(int) Foo1;     // (1) T is deduced to be int
-alias TFoo!(char*) Foo2;   // (1) T is deduced to be char*
+        ------
+        template TFoo(T) { }
+        alias TFoo!(int) Foo1;     // (1) T is deduced to be int
+        alias TFoo!(char*) Foo2;   // (1) T is deduced to be char*
 
-template TBar(T : T*) { }
-alias TBar!(char*) Foo3;   // (2) T is deduced to be char
+        template TBar(T : T*) { }
+        alias TBar!(char*) Foo3;   // (2) T is deduced to be char
 
-template TAbc(D, U : D[]) { }
-alias TAbc!(int, int[]) Bar1;  // (2) D is deduced to be int, U is int[]
-alias TAbc!(char, int[]) Bar2; // (4) error, D is both char and int
+        template TAbc(D, U : D[]) { }
+        alias TAbc!(int, int[]) Bar1;  // (2) D is deduced to be int, U is int[]
+        alias TAbc!(char, int[]) Bar2; // (4) error, D is both char and int
 
-template TDef(D : E*, E) { }
-alias TDef!(int*, int) Bar3; // (1) E is int
-                             // (3) D is int*
-------
+        template TDef(D : E*, E) { }
+        alias TDef!(int*, int) Bar3; // (1) E is int
+                                     // (3) D is int*
+        ------
 
         $(P Deduction from a specialization can provide values
         for more than one parameter:
         )
 
----
-template Foo(T: T[U], U) {
-  ...
-}
+        ---
+        template Foo(T: T[U], U) {
+          ...
+        }
 
-Foo!(int[long])  // instantiates Foo with T set to int, U set to long
----
+        Foo!(int[long])  // instantiates Foo with T set to int, U set to long
+        ---
 
         $(P When considering matches, a class is
         considered to be a match for any super classes or interfaces:
         )
 
-------
-class A { }
-class B : A { }
+        ------
+        class A { }
+        class B : A { }
 
-template TFoo(T : A) { }
-alias TFoo!(B) Foo4;    // (3) T is B
+        template TFoo(T : A) { }
+        alias TFoo!(B) Foo4;    // (3) T is B
 
-template TBar(T : U*, U : A) { }
-alias TBar!(B*, B) Foo5; // (2) T is B*
-                         // (3) U is B
-------
+        template TBar(T : U*, U : A) { }
+        alias TBar!(B*, B) Foo5; // (2) T is B*
+                                 // (3) U is B
+        ------
 
 $(H2 Template Type Parameters)
 
@@ -351,18 +351,18 @@ $(H3 Specialization)
         For example:
         )
 
-------
-template TFoo(T)        { ... } // #1
-template TFoo(T : T[])  { ... } // #2
-template TFoo(T : char) { ... } // #3
-template TFoo(T,U,V)    { ... } // #4
+        ------
+        template TFoo(T)        { ... } // #1
+        template TFoo(T : T[])  { ... } // #2
+        template TFoo(T : char) { ... } // #3
+        template TFoo(T,U,V)    { ... } // #4
 
-alias TFoo!(int) foo1;         // instantiates #1
-alias TFoo!(double[]) foo2;    // instantiates #2 with T being double
-alias TFoo!(char) foo3;        // instantiates #3
-alias TFoo!(char, int) fooe;   // error, number of arguments mismatch
-alias TFoo!(char, int, int) foo4; // instantiates #4
-------
+        alias TFoo!(int) foo1;         // instantiates #1
+        alias TFoo!(double[]) foo2;    // instantiates #2 with T being double
+        alias TFoo!(char) foo3;        // instantiates #3
+        alias TFoo!(char, int) fooe;   // error, number of arguments mismatch
+        alias TFoo!(char, int, int) foo4; // instantiates #4
+        ------
 
         $(P The template picked to instantiate is the one that is most specialized
         that fits the types of the $(I TemplateArgumentList).
@@ -382,24 +382,24 @@ $(GNAME TemplateThisParameter):
         $(P $(I TemplateThisParameter)s are used in member function templates
         to pick up the type of the $(I this) reference.
         )
----
-import std.stdio;
+        ---
+        import std.stdio;
 
-struct S {
-  const void foo(this T)(int i) {
-    writeln(typeid(T));
-  }
-}
+        struct S {
+          const void foo(this T)(int i) {
+            writeln(typeid(T));
+          }
+        }
 
-void main() {
-  const(S) s;
-  (&s).foo(1);
-  S s2;
-  s2.foo(2);
-  immutable(S) s3;
-  s3.foo(3);
-}
----
+        void main() {
+          const(S) s;
+          (&s).foo(1);
+          S s2;
+          s2.foo(2);
+          immutable(S) s3;
+          s3.foo(3);
+        }
+        ---
         $(P Prints:)
 
 $(CONSOLE
@@ -413,56 +413,56 @@ immutable(S)
         class type. Typically you would return a base type, but this won't allow
         you to call or access derived properties of the type:)
 
----
-interface Addable(T)
-{
-    final auto add(T t)
-    {
-        return this;
-    }
-}
+        ---
+        interface Addable(T)
+        {
+            final auto add(T t)
+            {
+                return this;
+            }
+        }
 
-class List(T) : Addable!T
-{
-    List remove(T t)
-    {
-        return this;
-    }
-}
+        class List(T) : Addable!T
+        {
+            List remove(T t)
+            {
+                return this;
+            }
+        }
 
-void main()
-{
-    auto list = new List!int;
-    list.add(1).remove(1);  // error: no 'remove' method for Addable!int
-}
----
+        void main()
+        {
+            auto list = new List!int;
+            list.add(1).remove(1);  // error: no 'remove' method for Addable!int
+        }
+        ---
 
     $(P Here the method $(B add) returns the base type, which doesn't implement the
     $(D remove) method. The $(D template this) parameter can be used for this purpose:)
 
----
-interface Addable(T)
-{
-    final R add(this R)(T t)
-    {
-        return cast(R)this;  // cast is necessary, but safe
-    }
-}
+        ---
+        interface Addable(T)
+        {
+            final R add(this R)(T t)
+            {
+                return cast(R)this;  // cast is necessary, but safe
+            }
+        }
 
-class List(T) : Addable!T
-{
-    List remove(T t)
-    {
-        return this;
-    }
-}
+        class List(T) : Addable!T
+        {
+            List remove(T t)
+            {
+                return this;
+            }
+        }
 
-void main()
-{
-    auto list = new List!int;
-    list.add(1).remove(1);  // ok
-}
----
+        void main()
+        {
+            auto list = new List!int;
+            list.add(1).remove(1);  // ok
+        }
+        ---
 
 $(H2 Template Value Parameters)
 
@@ -487,35 +487,35 @@ $(GNAME TemplateValueParameterDefault):
 
         $(P Template value parameter types can be any type which can
         be statically initialized at compile time.
-	Template value arguments can be integer values, floating point values,
-	nulls, string values, array literals of template value arguments,
-	associative array literals of template value arguments,
-	or struct literals of template value arguments.
-	)
+        Template value arguments can be integer values, floating point values,
+        nulls, string values, array literals of template value arguments,
+        associative array literals of template value arguments,
+        or struct literals of template value arguments.
+        )
 
------
-template foo(string s) {
-  string bar() { return s ~ " betty"; }
-}
+        -----
+        template foo(string s) {
+          string bar() { return s ~ " betty"; }
+        }
 
-void main() {
-  writefln("%s", foo!("hello").bar()); // prints: hello betty
-}
------
+        void main() {
+          writefln("%s", foo!("hello").bar()); // prints: hello betty
+        }
+        -----
 
         $(P This example of template foo has a value parameter that
         is specialized for 10:
         )
 
-------
-template foo(U : int, int T : 10) {
-  U x = T;
-}
+        ------
+        template foo(U : int, int T : 10) {
+          U x = T;
+        }
 
-void main() {
-  assert(foo!(int, 10).x == 10);
-}
-------
+        void main() {
+          assert(foo!(int, 10).x == 10);
+        }
+        ------
 
 
 $(H2 $(LNAME2 aliasparameters, Template Alias Parameters))
@@ -543,111 +543,111 @@ $(GNAME TemplateAliasParameterDefault):
         $(UL
         $(LI Global names
 
-------
-int x;
+        ------
+        int x;
 
-template Foo(alias X) {
-  static int* p = &X;
-}
+        template Foo(alias X) {
+          static int* p = &X;
+        }
 
-void test() {
-  alias Foo!(x) bar;
-  *bar.p = 3;       // set x to 3
-  static int y;
-  alias Foo!(y) abc;
-  *abc.p = 3;       // set y to 3
-}
-------
+        void test() {
+          alias Foo!(x) bar;
+          *bar.p = 3;       // set x to 3
+          static int y;
+          alias Foo!(y) abc;
+          *abc.p = 3;       // set y to 3
+        }
+        ------
         )
 
         $(LI Type names
 
-------
-class Foo {
-  static int p;
-}
+        ------
+        class Foo {
+          static int p;
+        }
 
-template Bar(alias T) {
-  alias T.p q;
-}
+        template Bar(alias T) {
+          alias T.p q;
+        }
 
-void test() {
-  alias Bar!(Foo) bar;
-  bar.q = 3;  // sets Foo.p to 3
-}
-------
+        void test() {
+          alias Bar!(Foo) bar;
+          bar.q = 3;  // sets Foo.p to 3
+        }
+        ------
         )
 
         $(LI Module names
 
-------
-import std.string;
+        ------
+        import std.string;
 
-template Foo(alias X) {
-  alias X.toString y;
-}
+        template Foo(alias X) {
+          alias X.toString y;
+        }
 
-void test() {
-  alias Foo!(std.string) bar;
-  bar.y(3);   // calls std.string.toString(3)
-}
-------
+        void test() {
+          alias Foo!(std.string) bar;
+          bar.y(3);   // calls std.string.toString(3)
+        }
+        ------
         )
 
         $(LI Template names
 
-------
-int x;
+        ------
+        int x;
 
-template Foo(alias X) {
-  static int* p = &X;
-}
+        template Foo(alias X) {
+          static int* p = &X;
+        }
 
-template Bar(alias T) {
-  alias T!(x) abc;
-}
+        template Bar(alias T) {
+          alias T!(x) abc;
+        }
 
-void test() {
-  alias Bar!(Foo) bar;
-  *bar.abc.p = 3;  // sets x to 3
-}
-------
+        void test() {
+          alias Bar!(Foo) bar;
+          *bar.abc.p = 3;  // sets x to 3
+        }
+        ------
         )
 
         $(LI Template alias names
 
-------
-int x;
+        ------
+        int x;
 
-template Foo(alias X) {
-  static int* p = &X;
-}
+        template Foo(alias X) {
+          static int* p = &X;
+        }
 
-template Bar(alias T) {
-  alias T.p q;
-}
+        template Bar(alias T) {
+          alias T.p q;
+        }
 
-void test() {
-  alias Foo!(x) foo;
-  alias Bar!(foo) bar;
-  *bar.q = 3;  // sets x to 3
-}
-------
+        void test() {
+          alias Foo!(x) foo;
+          alias Bar!(foo) bar;
+          *bar.q = 3;  // sets x to 3
+        }
+        ------
         )
 
         $(LI Literals
-------
+        ------
 
-template Foo(alias X, alias Y) {
-  static int i = X;
-  static string s = Y;
-}
+        template Foo(alias X, alias Y) {
+          static int i = X;
+          static string s = Y;
+        }
 
-void test() {
-  alias Foo!(3, "bar") foo;
-  writeln(foo.i, foo.s);  // prints 3bar
-}
-------
+        void test() {
+          alias Foo!(3, "bar") foo;
+          writeln(foo.i, foo.s);  // prints 3bar
+        }
+        ------
         )
         )
 
@@ -676,44 +676,44 @@ $(GNAME TemplateTupleParameter):
         another template, or as the list of parameters for a function.
         )
 
----
-template Print(A ...) {
-  void print() {
-    writefln("args are ", A);
-  }
-}
+        ---
+        template Print(A ...) {
+          void print() {
+            writefln("args are ", A);
+          }
+        }
 
-template Write(A ...) {
-  void write(A a) // A is a TypeTuple
-                  // a is an ExpressionTuple
-  {
-    writefln("args are ", a);
-  }
-}
+        template Write(A ...) {
+          void write(A a) // A is a TypeTuple
+                          // a is an ExpressionTuple
+          {
+            writefln("args are ", a);
+          }
+        }
 
-void main() {
-  Print!(1,'a',6.8).print();                    // prints: args are 1a6.8
-  Write!(int, char, double).write(1, 'a', 6.8); // prints: args are 1a6.8
-}
----
+        void main() {
+          Print!(1,'a',6.8).print();                    // prints: args are 1a6.8
+          Write!(int, char, double).write(1, 'a', 6.8); // prints: args are 1a6.8
+        }
+        ---
 
         $(P Template tuples can be deduced from the types of
         the trailing parameters
         of an implicitly instantiated function template:)
 
----
-template Foo(T, R...) {
-  void Foo(T t, R r) {
-    writefln(t);
-    static if (r.length) // if more arguments
-      Foo(r);            // do the rest of the arguments
-  }
-}
+        ---
+        template Foo(T, R...) {
+          void Foo(T t, R r) {
+            writefln(t);
+            static if (r.length) // if more arguments
+              Foo(r);            // do the rest of the arguments
+          }
+        }
 
-void main() {
-  Foo(1, 'a', 6.8);
-}
----
+        void main() {
+          Foo(1, 'a', 6.8);
+        }
+        ---
         $(P prints:)
 
 $(CONSOLE
@@ -724,43 +724,43 @@ a
         $(P The tuple can also be deduced from the type of a delegate
         or function parameter list passed as a function argument:)
 
-----
-import std.stdio;
+        ----
+        import std.stdio;
 
-/* R is return type
- * A is first argument type
- * U is TypeTuple of rest of argument types
- */
-R delegate(U) Curry(R, A, U...)(R delegate(A, U) dg, A arg)
-{
-  struct Foo
-  {
-    typeof(dg) dg_m;
-    typeof(arg) arg_m;
+        /* R is return type
+         * A is first argument type
+         * U is TypeTuple of rest of argument types
+         */
+        R delegate(U) Curry(R, A, U...)(R delegate(A, U) dg, A arg)
+        {
+          struct Foo
+          {
+            typeof(dg) dg_m;
+            typeof(arg) arg_m;
 
-    R bar(U u)
-    {
-      return dg_m(arg_m, u);
-    }
-  }
+            R bar(U u)
+            {
+              return dg_m(arg_m, u);
+            }
+          }
 
-  Foo* f = new Foo;
-  f.dg_m = dg;
-  f.arg_m = arg;
-  return &f.bar;
-}
+          Foo* f = new Foo;
+          f.dg_m = dg;
+          f.arg_m = arg;
+          return &f.bar;
+        }
 
-void main()
-{
-  int plus(int x, int y, int z)
-  {
-    return x + y + z;
-  }
+        void main()
+        {
+          int plus(int x, int y, int z)
+          {
+            return x + y + z;
+          }
 
-  auto plus_two = Curry(&plus, 2);
-  writefln("%d", plus_two(6, 8)); // prints 16
-}
-----
+          auto plus_two = Curry(&plus, 2);
+          writefln("%d", plus_two(6, 8)); // prints 16
+        }
+        ----
 
         $(P The number of elements in a $(I Tuple) can be retrieved with
         the $(B .length) property. The $(I n)th element can be retrieved
@@ -781,14 +781,14 @@ $(H2 Template Parameter Default Values)
         $(P Trailing template parameters can be given default values:
         )
 
-------
-template Foo(T, U = int) { ... }
-Foo!(uint,long); // instantiate Foo with T as uint, and U as long
-Foo!(uint);      // instantiate Foo with T as uint, and U as int
+        ------
+        template Foo(T, U = int) { ... }
+        Foo!(uint,long); // instantiate Foo with T as uint, and U as long
+        Foo!(uint);      // instantiate Foo with T as uint, and U as int
 
-template Foo(T, U = T*) { ... }
-Foo!(uint);      // instantiate Foo with T as uint, and U as uint*
-------
+        template Foo(T, U = T*) { ... }
+        Foo!(uint);      // instantiate Foo with T as uint, and U as uint*
+        ------
 
 $(H2 Implicit Template Properties)
 
@@ -797,15 +797,15 @@ $(H2 Implicit Template Properties)
         to be referred to in a template instantiation:
         )
 
-------
-template $(CODE_HIGHLIGHT Foo)(T) {
-  T Foo; // declare variable Foo of type T
-}
+        ------
+        template $(CODE_HIGHLIGHT Foo)(T) {
+          T Foo; // declare variable Foo of type T
+        }
 
-void test() {
-  Foo!(int) = 6; // instead of Foo!(int).Foo
-}
-------
+        void test() {
+          Foo!(int) = 6; // instead of Foo!(int).Foo
+        }
+        ------
 
 $(H2 Template Constructors)
 
@@ -829,23 +829,23 @@ $(GNAME ClassTemplateDeclaration):
         with the same name as the template:
         )
 
-------
-template $(CODE_HIGHLIGHT Bar)(T) {
-  class $(CODE_HIGHLIGHT Bar) {
-    T member;
-  }
-}
-------
+        ------
+        template $(CODE_HIGHLIGHT Bar)(T) {
+          class $(CODE_HIGHLIGHT Bar) {
+            T member;
+          }
+        }
+        ------
 
         $(P then the semantic equivalent, called a $(I ClassTemplateDeclaration)
         can be written as:
         )
 
-------
-class Bar(T) {
-  T member;
-}
-------
+        ------
+        class Bar(T) {
+          T member;
+        }
+        ------
 
 $(H2 Struct, Union, and Interface Templates)
 
@@ -875,27 +875,27 @@ $(H2 $(LNAME2 function-templates, Function Templates))
 
         $(P A function template to compute the square of type $(I T) is:
         )
-------
-T $(CODE_HIGHLIGHT Square)(T)(T t) {
-  return t * t;
-}
-------
+        ------
+        T $(CODE_HIGHLIGHT Square)(T)(T t) {
+          return t * t;
+        }
+        ------
 
         $(P Function templates can be explicitly instantiated with a
         !($(I TemplateArgumentList)):
         )
 
-----
-writefln("The square of %s is %s", 3, Square!(int)(3));
-----
+        ----
+        writefln("The square of %s is %s", 3, Square!(int)(3));
+        ----
 
         $(P or implicitly, where the $(I TemplateArgumentList) is deduced
         from the types of the function arguments:
         )
 
-----
-writefln("The square of %s is %s", 3, Square(3));  // T is deduced to be int
-----
+        ----
+        writefln("The square of %s is %s", 3, Square(3));  // T is deduced to be int
+        ----
 
         $(P If there are fewer arguments supplied in the $(I TemplateArgumentList)
         than parameters in the $(I TemplateParameterList), the arguments fulfill
@@ -907,23 +907,23 @@ writefln("The square of %s is %s", 3, Square(3));  // T is deduced to be int
         deduced may not have specializations:
         )
 
-------
-void $(CODE_HIGHLIGHT Foo)(T : T*)(T t) { ... }
+        ------
+        void $(CODE_HIGHLIGHT Foo)(T : T*)(T t) { ... }
 
-int x,y;
-Foo!(int*)(x);   // ok, T is not deduced from function argument
-Foo(&y);         // error, T has specialization
-------
+        int x,y;
+        Foo!(int*)(x);   // ok, T is not deduced from function argument
+        Foo(&y);         // error, T has specialization
+        ------
 
         $(P Template arguments not implicitly deduced can have default values:
         )
 
-------
-void $(CODE_HIGHLIGHT Foo)(T, U=T*)(T t) { U p; ... }
+        ------
+        void $(CODE_HIGHLIGHT Foo)(T, U=T*)(T t) { U p; ... }
 
-int x;
-Foo(&x);    // T is int, U is int*
-------
+        int x;
+        Foo(&x);    // T is int, U is int*
+        ------
 
    $(P Function templates can have their return types deduced based
         on the first
@@ -931,11 +931,11 @@ Foo(&x);    // T is int, U is int*
         in the function:
         )
 
----
-auto $(CODE_HIGHLIGHT Square)(T)(T t) {
-  return t * t;
-}
----
+        ---
+        auto $(CODE_HIGHLIGHT Square)(T)(T t) {
+          return t * t;
+        }
+        ---
         $(P If there is more than one return statement, then the
         types of the return statement expressions must match.
         If there are no return statements, then the return type of the
@@ -950,54 +950,54 @@ $(H3 $(LNAME2 auto-ref-parameters, Function Templates with Auto Ref Parameters))
         a value parameter:
         )
 
----
-int foo(T...)(auto ref T x) {
-  int result;
+        ---
+        int foo(T...)(auto ref T x) {
+          int result;
 
-  foreach (i, v; x)
-  {
-    if (v == 10)
-      assert(__traits(isRef, x[i]));
-    else
-      assert(!__traits(isRef, x[i]));
-    result += v;
-  }
-  return result;
-}
+          foreach (i, v; x)
+          {
+            if (v == 10)
+              assert(__traits(isRef, x[i]));
+            else
+              assert(!__traits(isRef, x[i]));
+            result += v;
+          }
+          return result;
+        }
 
-void main() {
-  int y = 10;
-  int r;
-  r = foo(8);       // returns 8
-  r = foo(y);       // returns 10
-  r = foo(3, 4, y); // returns 17
-  r = foo(4, 5, y); // returns 19
-  r = foo(y, 6, y); // returns 26
-}
----
+        void main() {
+          int y = 10;
+          int r;
+          r = foo(8);       // returns 8
+          r = foo(y);       // returns 10
+          r = foo(3, 4, y); // returns 17
+          r = foo(4, 5, y); // returns 19
+          r = foo(y, 6, y); // returns 26
+        }
+        ---
 
         $(P Auto ref parameters can be combined with auto ref return
         attributes:
         )
 
----
-auto ref min(T, U)(auto ref T lhs, auto ref U rhs)
-{
-  return lhs > rhs ? rhs : lhs;
-}
+        ---
+        auto ref min(T, U)(auto ref T lhs, auto ref U rhs)
+        {
+          return lhs > rhs ? rhs : lhs;
+        }
 
-void main()
-{
-  int x = 7, y = 8;
-  int i;
+        void main()
+        {
+          int x = 7, y = 8;
+          int i;
 
-  i = min(4, 3);     // returns 3
-  i = min(x, y);     // returns 7
-  min(x, y) = 10;    // sets x to 10
-  static assert(!__traits(compiles, min(3, y) = 10));
-  static assert(!__traits(compiles, min(y, 3) = 10));
-}
----
+          i = min(4, 3);     // returns 3
+          i = min(x, y);     // returns 7
+          min(x, y) = 10;    // sets x to 10
+          static assert(!__traits(compiles, min(3, y) = 10));
+          static assert(!__traits(compiles, min(y, 3) = 10));
+        }
+        ---
 
 $(H2 Recursive Templates)
 
@@ -1006,19 +1006,19 @@ $(H2 Recursive Templates)
         For example, a factorial template can be written:
         )
 
-------
-template factorial(int n : 1) {
-  enum { factorial = 1 }
-}
+        ------
+        template factorial(int n : 1) {
+          enum { factorial = 1 }
+        }
 
-template factorial(int n) {
-  enum { factorial = n* factorial!(n-1) }
-}
+        template factorial(int n) {
+          enum { factorial = n* factorial!(n-1) }
+        }
 
-void test() {
-  writefln("%s", factorial!(4)); // prints 24
-}
-------
+        void test() {
+          writefln("%s", factorial!(4)); // prints 24
+        }
+        ------
 
 $(H2 Template Constraints)
 
@@ -1043,16 +1043,16 @@ $(I ConstraintExpression):
         matches with odd values of $(CODE N):
         )
 
----
-void foo(int N)()
-        if (N & 1)
-{
-  ...
-}
-...
-foo!(3)();  // ok, matches
-foo!(4)();  // error, no match
----
+        ---
+        void foo(int N)()
+                if (N & 1)
+        {
+          ...
+        }
+        ...
+        foo!(3)();  // ok, matches
+        foo!(4)();  // error, no match
+        ---
 
 
 $(H2 Limitations)
@@ -1062,25 +1062,25 @@ $(H2 Limitations)
         For example:
         )
 
-------
-class Foo {
-  template TBar(T) {
-    T xx;               // becomes a static member of Foo
-    int func(T) { ... } // non-virtual
+        ------
+        class Foo {
+          template TBar(T) {
+            T xx;               // becomes a static member of Foo
+            int func(T) { ... } // non-virtual
 
-    static T yy;                        // Ok
-    static int func(T t, int y) { ... } // Ok
-  }
-}
-------
+            static T yy;                        // Ok
+            static int func(T t, int y) { ... } // Ok
+          }
+        }
+        ------
 
         $(P Templates cannot be declared inside functions.
         )
 
         $(P Templates cannot add functions to interfaces:)
----
-interface TestInterface { void tpl(T)(); }   // error
----
+        ---
+        interface TestInterface { void tpl(T)(); }   // error
+        ---
 )
 
 Macros:

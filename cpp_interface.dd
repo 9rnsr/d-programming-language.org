@@ -83,19 +83,19 @@ int foo(int i, int j, int k) {
 	is declared as having C++ linkage and function calling conventions:
 	)
 
-------
-extern (C++) int foo(int i, int j, int k);
-------
+	------
+	extern (C++) int foo(int i, int j, int k);
+	------
 
 	$(P and then it can be called within the D code:)
 
-------
-extern (C++) int foo(int i, int j, int k);
+	------
+	extern (C++) int foo(int i, int j, int k);
 
-void main() {
-  foo(1,2,3);
-}
-------
+	void main() {
+	  foo(1,2,3);
+	}
+	------
 
 	$(P Compiling the two files, the first with a C++ compiler,
 	the second with a D compiler, linking them together,
@@ -137,22 +137,22 @@ $(H2 Calling Global D Functions From C++)
 	$(P To make a D function accessible from C++, give it
 	C++ linkage:)
 
----
-import std.stdio;
+	---
+	import std.stdio;
 
-extern (C++) int foo(int i, int j, int k) {
-  writefln("i = %s", i);
-  writefln("j = %s", j);
-  writefln("k = %s", k);
-  return 1;
-}
+	extern (C++) int foo(int i, int j, int k) {
+	  writefln("i = %s", i);
+	  writefln("j = %s", j);
+	  writefln("k = %s", k);
+	  return 1;
+	}
 
-extern (C++) void bar();
+	extern (C++) void bar();
 
-void main() {
-  bar();
-}
----
+	void main() {
+	  bar();
+	}
+	---
 
 	$(P The C++ end looks like:)
 
@@ -216,47 +216,47 @@ D *getD() {
 
 	$(P We can get at it from D code like:)
 
----
-extern (C++) {
-  interface D {
-    int bar(int i, int j, int k);
-  }
+	---
+	extern (C++) {
+	  interface D {
+	    int bar(int i, int j, int k);
+	  }
 
-  D getD();
-}
+	  D getD();
+	}
 
-void main() {
-  D d = getD();
-  d.bar(9,10,11);
-}
----
+	void main() {
+	  D d = getD();
+	  d.bar(9,10,11);
+	}
+	---
 
 $(H2 Calling D Virtual Functions From C++)
 
 	$(P Given D code like:)
 
----
-extern (C++) int callE(E);
+	---
+	extern (C++) int callE(E);
 
-extern (C++) interface E {
-  int bar(int i, int j, int k);
-}
+	extern (C++) interface E {
+	  int bar(int i, int j, int k);
+	}
 
-class F : E {
-  extern (C++) int bar(int i, int j, int k)
-  {
-    writefln("i = ", i);
-    writefln("j = ", j);
-    writefln("k = ", k);
-    return 8;
-  }
-}
+	class F : E {
+	  extern (C++) int bar(int i, int j, int k)
+	  {
+	    writefln("i = ", i);
+	    writefln("j = ", j);
+	    writefln("k = ", k);
+	    return 8;
+	  }
+	}
 
-void main() {
-  F f = new F();
-  callE(f);
-}
----
+	void main() {
+	  F f = new F();
+	  callE(f);
+	}
+	---
 
 	$(P The C++ code to access it looks like:)
 

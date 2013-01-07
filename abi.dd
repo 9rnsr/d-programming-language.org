@@ -119,11 +119,11 @@ $(CCODE
 
 	$(P The class definition:)
 
----------
-class XXXX {
-  ....
-};
----------
+	---------
+	class XXXX {
+	  ....
+	};
+	---------
 
 	$(P Generates the following:)
 
@@ -171,15 +171,15 @@ $(TROW $(D size_t), $(D .ptr), pointer to array data)
 
 	$(P A dynamic array is declared as:)
 
----------
-type[] array;
----------
+	---------
+	type[] array;
+	---------
 
 	$(P whereas a static array is declared as:)
 
----------
-type[dimension] array;
----------
+	---------
+	type[dimension] array;
+	---------
 
 	$(P Thus, a static array always has the dimension statically available as part of the type, and
 	so it is implemented like in C. Static array's and Dynamic arrays can be easily converted back
@@ -663,9 +663,9 @@ $(SECTION4 Parameters,
 
 	$(P The parameters to the non-variadic function:)
 
----
+	---
 	foo(a1, a2, ..., an);
----
+	---
 
 	$(P are passed as follows:)
 
@@ -709,10 +709,10 @@ $(SECTION4 Parameters,
 
 	$(P The parameters to the variadic function:)
 
----
+	---
 	void foo(int p1, int p2, int[] p3...)
 	foo(a1, a2, ..., an);
----
+	---
 
 	$(P are passed as follows:)
 
@@ -729,10 +729,10 @@ $(SECTION4 Parameters,
 
 	$(P The parameters to the variadic function:)
 
----
+	---
 	void foo(int p1, int p2, ...)
 	foo(a1, a2, a3, ..., an);
----
+	---
 
 	$(P are passed as follows:)
 

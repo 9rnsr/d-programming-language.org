@@ -93,27 +93,27 @@ $(GNAME VersionCondition):
 	over other imported modules.
 	)
 
-------
-int k;
-version (Demo) // compile in this code block for the demo version
-{ int i;
-  int k;    // error, k already defined
+	------
+	int k;
+	version (Demo) // compile in this code block for the demo version
+	{ int i;
+	  int k;    // error, k already defined
 
-  i = 3;
-}
-x = i;      // uses the i declared above
-------
+	  i = 3;
+	}
+	x = i;      // uses the i declared above
+	------
 
-------
-version (X86)
-{
-  ... // implement custom inline assembler version
-}
-else
-{
-  ... // use default, but slow, version
-}
-------
+	------
+	version (X86)
+	{
+	  ... // implement custom inline assembler version
+	}
+	else
+	{
+	  ... // use default, but slow, version
+	}
+	------
 
 $(P The $(D version(unittest)) is satisfied if and only if the code is
 	compiled with unit tests enabled (the $(D -unittest) option on $(D dmd)).
@@ -132,34 +132,34 @@ $(GNAME VersionSpecification):
 	a set of features under one major version, for example:
 	)
 
-------
-version (ProfessionalEdition)
-{
-  version = FeatureA;
-  version = FeatureB;
-  version = FeatureC;
-}
-version (HomeEdition)
-{
-  version = FeatureA;
-}
-...
-version (FeatureB)
-{
-  ... implement Feature B ...
-}
-------
+	------
+	version (ProfessionalEdition)
+	{
+	  version = FeatureA;
+	  version = FeatureB;
+	  version = FeatureC;
+	}
+	version (HomeEdition)
+	{
+	  version = FeatureA;
+	}
+	...
+	version (FeatureB)
+	{
+	  ... implement Feature B ...
+	}
+	------
 
 	$(P Version identifiers or levels may not be forward referenced:
 	)
 
-------
-version (Foo)
-{
-  int x;
-}
-version = Foo;	// error, Foo already used
-------
+	------
+	version (Foo)
+	{
+	  int x;
+	}
+	version = Foo;  // error, Foo already used
+	------
 	$(P $(I VersionSpecification)s may only appear at module scope.)
 
 	$(P While the debug and version conditions superficially behave the
@@ -173,43 +173,43 @@ version = Foo;	// error, Foo already used
 	$(P Here's an example of a $(I full) version as opposed to
 	a $(I demo) version:)
 
-------
-class Foo {
-  int a, b;
+	------
+	class Foo {
+	  int a, b;
 
-  version(full)
-  {
-    int extrafunctionality()
-    {
-      ...
-      return 1;  // extra functionality is supported
-    }
-  }
-  else // demo
-  {
-    int extrafunctionality()
-    {
-      return 0;  // extra functionality is not supported
-    }
-  }
-}
-------
+	  version(full)
+	  {
+	    int extrafunctionality()
+	    {
+	      ...
+	      return 1;  // extra functionality is supported
+	    }
+	  }
+	  else // demo
+	  {
+	    int extrafunctionality()
+	    {
+	      return 0;  // extra functionality is not supported
+	    }
+	  }
+	}
+	------
 
 	Various different version builds can be built with a parameter
 	to version:
 
-------
-version($(CODE_HIGHLIGHT n)) // add in version code if version level is >= n
-{
-   ... version code ...
-}
+	------
+	version($(CODE_HIGHLIGHT n)) // add in version code if version level is >= n
+	{
+	   ... version code ...
+	}
 
-version($(CODE_HIGHLIGHT identifier)) // add in version code if version
-                         // keyword is identifier
-{
-   ... version code ...
-}
-------
+	version($(CODE_HIGHLIGHT identifier)) // add in version code if version
+	                         // keyword is identifier
+	{
+	   ... version code ...
+	}
+	------
 
 	$(P These are presumably set by the command line as
 	$(D -version=n) and $(D -version=identifier).
@@ -340,12 +340,12 @@ $(H3 $(LNAME2 PredefinedVersions, Predefined Versions))
 	trademarked vendor identifier prefixes it, as in:
 	)
 
-------
-version(DigitalMars_funky_extension)
-{
-    ...
-}
-------
+	------
+	version(DigitalMars_funky_extension)
+	{
+	    ...
+	}
+	------
 
 	$(P It is important to use the right version identifier for the right
 	purpose. For example, use the vendor identifier when using a vendor
@@ -386,13 +386,13 @@ $(GNAME DebugCondition):
 	when the debug identifier matches $(I Identifier).
 	)
 
-------
-class Foo {
-  int a, b;
- debug:
-  int flag;
-}
-------
+	------
+	class Foo {
+	  int a, b;
+	 debug:
+	  int flag;
+	}
+	------
 
 
 $(H3 Debug Specification)
@@ -416,10 +416,10 @@ $(GNAME DebugSpecification):
 	$(P It is illegal to forward reference a debug specification:
 	)
 
-------
-debug (foo) writefln("Foo");
-debug = foo;	// error, foo used before set
-------
+	------
+	debug (foo) writefln("Foo");
+	debug = foo;    // error, foo used before set
+	------
 
 	$(P $(I DebugSpecification)s may only appear at module scope.)
 
@@ -427,10 +427,10 @@ debug = foo;	// error, foo used before set
 	debug:
 	)
 
-------
-debug(IntegerLiteral) { } // add in debug code if debug level is >= IntegerLiteral
-debug(identifier) { } // add in debug code if debug keyword is identifier
-------
+	------
+	debug(IntegerLiteral) { } // add in debug code if debug level is >= IntegerLiteral
+	debug(identifier) { } // add in debug code if debug keyword is identifier
+	------
 
 	$(P These are presumably set by the command line as
 	$(D -debug=)$(I n) and $(D -debug=)$(I identifier).
@@ -460,41 +460,41 @@ $(GNAME StaticIfCondition):
 	by an expression at that point.
 	)
 
-------
-const int i = 3;
-int j = 4;
+	------
+	const int i = 3;
+	int j = 4;
 
-$(CODE_HIGHLIGHT static if) (i == 3)	// ok, at module scope
-    int x;
+	$(CODE_HIGHLIGHT static if) (i == 3)	// ok, at module scope
+	    int x;
 
-class C {
-  const int k = 5;
+	class C {
+	  const int k = 5;
 
-  $(CODE_HIGHLIGHT static if) (i == 3) // ok
-    int x;
-  $(ARGS else)
-    long x;
+	  $(CODE_HIGHLIGHT static if) (i == 3) // ok
+	    int x;
+	  $(ARGS else)
+	    long x;
 
-  $(CODE_HIGHLIGHT static if) (j == 3) // error, j is not a constant
-    int y;
+	  $(CODE_HIGHLIGHT static if) (j == 3) // error, j is not a constant
+	    int y;
 
-  $(CODE_HIGHLIGHT static if) (k == 5) // ok, k is in current scope
-    int z;
-}
+	  $(CODE_HIGHLIGHT static if) (k == 5) // ok, k is in current scope
+	    int z;
+	}
 
-template INT(int i) {
-  $(ARGS static if) (i == 32)
-    alias int INT;
-  $(ARGS else static if) (i == 16)
-    alias short INT;
-  $(ARGS else)
-    static assert(0); // not supported
-}
+	template INT(int i) {
+	  $(ARGS static if) (i == 32)
+	    alias int INT;
+	  $(ARGS else static if) (i == 16)
+	    alias short INT;
+	  $(ARGS else)
+	    static assert(0); // not supported
+	}
 
-INT!(32) a;  // a is an int
-INT!(16) b;  // b is a short
-INT!(17) c;  // error, static assert trips
-------
+	INT!(32) a;  // a is an int
+	INT!(16) b;  // b is a short
+	INT!(17) c;  // error, static assert trips
+	------
 
 	$(P A $(I StaticIfConditional) condition differs from an
 	$(I IfStatement) in the following ways:
@@ -535,22 +535,22 @@ $(GNAME StaticAssert):
 	unsatisfied conditional.
 	)
 
-------
-void foo() {
-  if (0)
-  {
-    assert(0);  // never trips
-    static assert(0); // always trips
-  }
-  version (BAR)
-  {
-  }
-  else
-  {
-    static assert(0); // trips when version BAR is not defined
-  }
-}
-------
+	------
+	void foo() {
+	  if (0)
+	  {
+	    assert(0);  // never trips
+	    static assert(0); // always trips
+	  }
+	  version (BAR)
+	  {
+	  }
+	  else
+	  {
+	    static assert(0); // trips when version BAR is not defined
+	  }
+	}
+	------
 
 	$(P $(I StaticAssert) is useful tool for drawing attention to conditional
 	configurations not supported in the code.

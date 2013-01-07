@@ -47,12 +47,12 @@ $(H4 The D Way)
 
 	Constructors are defined with the this keyword:
 
-------
-class Foo
-{
-	this(int x) { }
-}
-------
+	------
+	class Foo
+	{
+	    this(int x) { }
+	}
+	------
 
 	which reflects how they are used in D.
 
@@ -67,59 +67,61 @@ $(CPPCODE
 class A { A() {... } };
 class B : A
 {
-     B(int x)
-	: A()		// call base constructor
-     {	...
-     }
+    B(int x)
+    : A()       // call base constructor
+    {
+        ...
+    }
 };)
 
 $(H4 The D Way)
 
 	The base class constructor is called with the super syntax:
 
-------
-class A { this() { ... } }
-class B : A
-{
-     this(int x)
-     {	...
-	super();	// call base constructor
-	...
-     }
-}
-------
+	------
+	class A { this() { ... } }
+	class B : A
+	{
+	    this(int x)
+	    {
+	        ...
+	        super();    // call base constructor
+	        ...
+	    }
+	}
+	------
 
 	It's superior to C++ in that the base constructor call can be flexibly placed anywhere in the derived
 	constructor. D can also have one constructor call another one:
 
-------
-class A
-{	int a;
-	int b;
-	this() { a = 7; b = foo(); }
-	this(int x)
-	{
-	    this();
-	    a = x;
+	------
+	class A
+	{   int a;
+	    int b;
+	    this() { a = 7; b = foo(); }
+	    this(int x)
+	    {
+	        this();
+	        a = x;
+	    }
 	}
-}
-------
+	------
 
 	Members can also be initialized to constants before the constructor is ever called, so the above example is
 	equivalently written as:
 
-------
-class A
-{	int a = 7;
-	int b;
-	this() { b = foo(); }
-	this(int x)
-	{
-	    this();
-	    a = x;
+	------
+	class A
+	{   int a = 7;
+	    int b;
+	    this() { b = foo(); }
+	    this(int x)
+	    {
+	        this();
+	        a = x;
+	    }
 	}
-}
-------
+	------
 
 <hr><!-- -------------------------------------------- -->
 $(H3 <a name="structcmp">Comparing structs</a>)
@@ -177,12 +179,12 @@ $(H4 The D Way)
 
 	D does it the obvious, straightforward way:
 
-------
-A x, y;
-...
-if (x == y)
-    ...
-------
+	------
+	A x, y;
+	...
+	if (x == y)
+	    ...
+	------
 
 <hr><!-- -------------------------------------------- -->
 $(H3 <a name="typedefs">Creating a new typedef'd type</a>)
@@ -233,16 +235,16 @@ $(H4 The D Way)
 
 	No need for idiomatic constructions like the above. Just write:
 
-------
-typedef void* Handle = cast(void*)-1;
-void bar(Handle);
+	------
+	typedef void* Handle = cast(void*)-1;
+	void bar(Handle);
 
-Handle h;
-bar(h);
-h = func();
-if (h != Handle.init)
-    ...
-------
+	Handle h;
+	bar(h);
+	h = func();
+	if (h != Handle.init)
+	    ...
+	------
 
 	Note how a default initializer can be supplied for the typedef as
 	a value of the underlying type.
@@ -291,29 +293,29 @@ $(H4 The D Way)
 	in the same module, so implicitly granting friend access to
 	other module members solves the problem neatly:
 
-------
-module X;
+	------
+	module X;
 
-class A
-{
-    private:
-	static int a;
+	class A
+	{
+	    private:
+		static int a;
 
-    public:
-	int foo(B j) { return j.b; }
-}
+	    public:
+		int foo(B j) { return j.b; }
+	}
 
-class B
-{
-    private:
-	static int b;
+	class B
+	{
+	    private:
+		static int b;
 
-    public:
-	int bar(A j) { return j.a; }
-}
+	    public:
+		int bar(A j) { return j.a; }
+	}
 
-int abc(A p) { return p.a; }
-------
+	int abc(A p) { return p.a; }
+	------
 
 	The $(D private) attribute prevents other modules from
 	accessing the members.
@@ -349,12 +351,12 @@ $(H4 The D Way)
 	D recognizes that the comparison operators are all fundamentally
 	related to each other. So only one function is necessary:
 
-------
-struct A
-{
-	int opCmp(int i);
-}
-------
+	------
+	struct A
+	{
+		int opCmp(int i);
+	}
+	------
 
 	$(P The compiler automatically interprets all the
 	&lt;, &lt;=, &gt; and &gt;=
@@ -388,15 +390,15 @@ $(H4 The D Way)
 	D uses modules instead of namespaces and #include files, and
 	alias declarations take the place of using declarations:
 
-------
-/** Module foo.d **/
-module foo;
-int x;
+	------
+	/** Module foo.d **/
+	module foo;
+	int x;
 
-/** Another module **/
-import foo;
-alias foo.x x;
-------
+	/** Another module **/
+	import foo;
+	alias foo.x x;
+	------
 
 	Alias is a much more flexible than the single purpose using
 	declaration. Alias can be used to rename symbols, refer to
@@ -434,25 +436,25 @@ $(H4 The D Way)
 	$(P The few RAII issues left are handled by $(I scope) classes.
 	Scope classes get their destructors run when they go out of scope.)
 
-------
-scope class File
-{   Handle h;
+	------
+	scope class File
+	{   Handle h;
 
-    ~this()
-    {
-	h.release();
-    }
-}
+	    ~this()
+	    {
+		h.release();
+	    }
+	}
 
-void test()
-{
-    if (...)
-    {   scope f = new File();
-	...
-    } // f.~this() gets run at closing brace, even if
-      // scope was exited via a thrown exception
-}
-------
+	void test()
+	{
+	    if (...)
+	    {   scope f = new File();
+		...
+	    } // f.~this() gets run at closing brace, even if
+	      // scope was exited via a thrown exception
+	}
+	------
 
 <hr><!-- -------------------------------------------- -->
 $(H3 <a name="properties">Properties</a>)
@@ -488,27 +490,27 @@ $(H4 The D Way)
 	Properties can be get and set using the normal field syntax,
 	yet the get and set will invoke methods instead.
 
-------
-class Abc
-{
-    // set
-    @property void property(int newproperty) { myprop = newproperty; }
+	------
+	class Abc
+	{
+	    // set
+	    @property void property(int newproperty) { myprop = newproperty; }
 
-    // get
-    @property int property() { return myprop; }
+	    // get
+	    @property int property() { return myprop; }
 
-  private:
-    int myprop;
-}
-------
+	  private:
+	    int myprop;
+	}
+	------
 
 	which is used as:
 
-------
-Abc a = new Abc;
-a.property = 3;
-int x = a.property;
-------
+	------
+	Abc a = new Abc;
+	a.property = 3;
+	int x = a.property;
+	------
 
 	Thus, in D a property is treated like it was a simple field name.
 	A property can start out actually being a simple field name,
@@ -555,22 +557,22 @@ $(H4 The D Way)
 	advantage of promotion of single template members to the
 	enclosing name space:
 
-------
-template factorial(int n)
-{
-    enum { factorial = n * .factorial!(n-1) }
-}
+	------
+	template factorial(int n)
+	{
+	    enum { factorial = n * .factorial!(n-1) }
+	}
 
-template factorial(int n : 1)
-{
-    enum { factorial = 1 }
-}
+	template factorial(int n : 1)
+	{
+	    enum { factorial = 1 }
+	}
 
-void test()
-{
-    writefln("%d", factorial!(4));	// prints 24
-}
-------
+	void test()
+	{
+	    writefln("%d", factorial!(4));	// prints 24
+	}
+	------
 
 <hr><!-- -------------------------------------------- -->
 
@@ -651,7 +653,7 @@ int main()
     Integer( 29 ) k ;
     Integer( 64 ) l ;
     printf("%d %d %d %d\n",
-	sizeof(i), sizeof(j), sizeof(k), sizeof(l));
+        sizeof(i), sizeof(j), sizeof(k), sizeof(l));
     return 0 ;
 }
 )
@@ -683,7 +685,7 @@ int main()
     Integer&lt; 29 &gt; k ;
     Integer&lt; 64 &gt; l ;
     printf("%d %d %d %d\n",
-	sizeof(i), sizeof(j), sizeof(k), sizeof(l));
+        sizeof(i), sizeof(j), sizeof(k), sizeof(l));
     return 0 ;
 }
 )
@@ -697,34 +699,34 @@ $(H4 The D Way)
 	It compiles quickly, and gives a sensible compile time message
 	if it fails.
 
-------
-import std.stdio;
+	------
+	import std.stdio;
 
-template Integer(int nbits)
-{
-    static if (nbits <= 8)
-	alias byte Integer;
-    else static if (nbits <= 16)
-	alias short Integer;
-    else static if (nbits <= 32)
-	alias int Integer;
-    else static if (nbits <= 64)
-	alias long Integer;
-    else
-	static assert(0);
-}
+	template Integer(int nbits)
+	{
+	    static if (nbits <= 8)
+	        alias byte Integer;
+	    else static if (nbits <= 16)
+	        alias short Integer;
+	    else static if (nbits <= 32)
+	        alias int Integer;
+	    else static if (nbits <= 64)
+	        alias long Integer;
+	    else
+	        static assert(0);
+	}
 
-int main()
-{
-    Integer!(8) i ;
-    Integer!(16) j ;
-    Integer!(29) k ;
-    Integer!(64) l ;
-    writefln("%d %d %d %d",
-	i.sizeof, j.sizeof, k.sizeof, l.sizeof);
-    return 0;
-}
-------
+	int main()
+	{
+	    Integer!(8) i ;
+	    Integer!(16) j ;
+	    Integer!(29) k ;
+	    Integer!(64) l ;
+	    writefln("%d %d %d %d",
+	        i.sizeof, j.sizeof, k.sizeof, l.sizeof);
+	    return 0;
+	}
+	------
 
 <hr><!-- -------------------------------------------- -->
 
@@ -770,36 +772,36 @@ $(H4 The D Way)
 	can be done in D without resorting to template argument
 	pattern matching:
 
-------
-template IsFunctionT(T)
-{
-    static if ( is(T[]) )
-	const int IsFunctionT = 0;
-    else
-	const int IsFunctionT = 1;
-}
+	------
+	template IsFunctionT(T)
+	{
+	    static if ( is(T[]) )
+	        const int IsFunctionT = 0;
+	    else
+	        const int IsFunctionT = 1;
+	}
 
-void test()
-{
-    typedef int fp(int);
+	void test()
+	{
+	    typedef int fp(int);
 
-    assert(IsFunctionT!(fp) == 1);
-}
-------
+	    assert(IsFunctionT!(fp) == 1);
+	}
+	------
 
 	The task of discovering if a type is a function doesn't need a
 	template at all, nor does it need the subterfuge of attempting to
 	create the invalid array of functions type.
 	The $(ISEXPRESSION) expression can test it directly:
 
-------
-void test()
-{
-    alias int fp(int);
+	------
+	void test()
+	{
+	    alias int fp(int);
 
-    assert( is(fp == function) );
-}
-------
+	    assert( is(fp == function) );
+	}
+	------
 
 
 )

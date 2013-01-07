@@ -35,12 +35,12 @@ $(H4 Linkage)
 
 	Generally, surround the entire module with:
 
----------------------------
-extern (C)
-{
-     /* ...file contents... */
-}
----------------------------
+	---------------------------
+	extern (C)
+	{
+	     /* ...file contents... */
+	}
+	---------------------------
 
 	to give it C linkage.
 
@@ -121,41 +121,41 @@ L"string"
 
 	with:
 
----------------------------
-"string"w	// for 16 bit wide characters
-"string"d	// for 32 bit wide characters
----------------------------
+	---------------------------
+	"string"w   // for 16 bit wide characters
+	"string"d   // for 32 bit wide characters
+	---------------------------
 
 $(H4 Macros)
 
 	Lists of macros like:
 
 $(CCODE
-#define FOO	1
-#define BAR	2
-#define ABC	3
-#define DEF	40
+#define FOO 1
+#define BAR 2
+#define ABC 3
+#define DEF 40
 )
 
 	can be replaced with:
 
----------------------------
-enum
-{   FOO = 1,
-    BAR = 2,
-    ABC = 3,
-    DEF = 40
-}
----------------------------
+	---------------------------
+	enum
+	{   FOO = 1,
+	    BAR = 2,
+	    ABC = 3,
+	    DEF = 40
+	}
+	---------------------------
 
 	or with:
 
----------------------------
-const int FOO = 1;
-const int BAR = 2;
-const int ABC = 3;
-const int DEF = 40;
----------------------------
+	---------------------------
+	const int FOO = 1;
+	const int BAR = 2;
+	const int ABC = 3;
+	const int DEF = 40;
+	---------------------------
 
 	Function style macros, such as:
 
@@ -165,9 +165,9 @@ $(CCODE
 
 	can be replaced with functions:
 
----------------------------
-int MAX(int a, int b) { return (a < b) ? b : a; }
----------------------------
+	---------------------------
+	int MAX(int a, int b) { return (a < b) ? b : a; }
+	---------------------------
 
 	<!-- Thanks to Jarrett Billingsley for the following tip -->
 
@@ -184,7 +184,7 @@ $(CCODE
 
 /* Macro that constructs a graphtype */
 #define GT_CONSTRUCT(depth,scheme,size) \
-	((depth) | (scheme) | ((size) << GT_SIZE_SHIFT))
+    ((depth) | (scheme) | ((size) << GT_SIZE_SHIFT))
 
 /* Common graphtypes */
 #define GT_TEXT16  GT_CONSTRUCT(4, GT_TEXT, 16)
@@ -192,23 +192,23 @@ $(CCODE
 
 	The corresponding D version would be:
 
----------------------------
-const uint GT_DEPTH_SHIFT  = 0;
-const uint GT_SIZE_SHIFT   = 8;
-const uint GT_SCHEME_SHIFT = 24;
-const uint GT_DEPTH_MASK   = 0xffU << GT_DEPTH_SHIFT;
-const uint GT_TEXT         = 0x01 << GT_SCHEME_SHIFT;
+	---------------------------
+	const uint GT_DEPTH_SHIFT  = 0;
+	const uint GT_SIZE_SHIFT   = 8;
+	const uint GT_SCHEME_SHIFT = 24;
+	const uint GT_DEPTH_MASK   = 0xffU << GT_DEPTH_SHIFT;
+	const uint GT_TEXT         = 0x01 << GT_SCHEME_SHIFT;
 
-// Template that constructs a graphtype
-template GT_CONSTRUCT(uint depth, uint scheme, uint size)
-{
- // notice the name of the const is the same as that of the template
- const uint GT_CONSTRUCT = (depth | scheme | (size << GT_SIZE_SHIFT));
-}
+	// Template that constructs a graphtype
+	template GT_CONSTRUCT(uint depth, uint scheme, uint size)
+	{
+	 // notice the name of the const is the same as that of the template
+	 const uint GT_CONSTRUCT = (depth | scheme | (size << GT_SIZE_SHIFT));
+	}
 
-// Common graphtypes
-const uint GT_TEXT16 = GT_CONSTRUCT!(4, GT_TEXT, 16);
----------------------------
+	// Common graphtypes
+	const uint GT_TEXT16 = GT_CONSTRUCT!(4, GT_TEXT, 16);
+	---------------------------
 
 
 $(H4 Declaration Lists)
@@ -222,11 +222,11 @@ int *p, q, t[3], *s;
 
 	should be written as:
 
----------------------------
-int* p, s;
-int q;
-int[3] t;
----------------------------
+	---------------------------
+	int* p, s;
+	int q;
+	int[3] t;
+	---------------------------
 
 $(H4 Void Parameter Lists)
 
@@ -238,9 +238,9 @@ int foo(void);
 
 	are in D:
 
----------------------------
-int foo();
----------------------------
+	---------------------------
+	int foo();
+	---------------------------
 
 
 $(H4 Extern Global C Variables)
@@ -259,13 +259,13 @@ struct Foo bar;
 
 	It can be replaced with the D modules, $(D foo.d):
 
----------------------------
-struct Foo { }
-extern (C)
-{
-    extern Foo bar;
-}
----------------------------
+	---------------------------
+	struct Foo { }
+	extern (C)
+	{
+	    extern Foo bar;
+	}
+	---------------------------
 
 
 $(H4 Typedef)
@@ -278,9 +278,9 @@ typedef int foo;
 
 	becomes:
 
----------------------------
-alias int foo;
----------------------------
+	---------------------------
+	alias int foo;
+	---------------------------
 
 $(H4 Structs)
 
@@ -295,13 +295,13 @@ typedef struct Foo
 
 	with:
 
----------------------------
-struct Foo
-{   int a;
-    int b;
-}
-alias Foo* pFoo, lpFoo;
----------------------------
+	---------------------------
+	struct Foo
+	{   int a;
+	    int b;
+	}
+	alias Foo* pFoo, lpFoo;
+	---------------------------
 
 $(H4 Struct Member Alignment)
 
@@ -322,14 +322,14 @@ struct Foo
 
 	becomes:
 
----------------------------
-struct Foo
-{
-  align (1):
-    int a;
-    int b;
-}
----------------------------
+	---------------------------
+	struct Foo
+	{
+	  align (1):
+	    int a;
+	    int b;
+	}
+	---------------------------
 
 $(H4 Nested Structs)
 
@@ -339,7 +339,7 @@ struct Foo
     int a;
     struct Bar
     {
-	int c;
+        int c;
     } bar;
 };
 
@@ -348,33 +348,33 @@ struct Abc
     int a;
     struct
     {
-	int c;
+        int c;
     } bar;
 };
 )
 
 	becomes:
 
----------------------------
-struct Foo
-{
-    int a;
-    struct Bar
-    {
-	int c;
-    }
-    Bar bar;
-}
+	---------------------------
+	struct Foo
+	{
+	    int a;
+	    struct Bar
+	    {
+	        int c;
+	    }
+	    Bar bar;
+	}
 
-struct Abc
-{
-    int a;
-    struct
-    {
-	int c;
-    }
-}
----------------------------
+	struct Abc
+	{
+	    int a;
+	    struct
+	    {
+	        int c;
+	    }
+	}
+	---------------------------
 
 $(H4 $(D __cdecl), $(D __pascal), $(D __stdcall))
 
@@ -387,12 +387,12 @@ int __stdcall abc(int c);
 
 	becomes:
 
----------------------------
-extern (C) int x;
-extern (C) int foo(int a);
-extern (Pascal) int bar(int b);
-extern (Windows) int abc(int c);
----------------------------
+	---------------------------
+	extern (C) int x;
+	extern (C) int foo(int a);
+	extern (Pascal) int bar(int b);
+	extern (Windows) int abc(int c);
+	---------------------------
 
 $(H4 $(D __declspec(dllimport)))
 
@@ -402,9 +402,9 @@ __declspec(dllimport) int __stdcall foo(int a);
 
 	becomes:
 
----------------------------
-export extern (Windows) int foo(int a);
----------------------------
+	---------------------------
+	export extern (Windows) int foo(int a);
+	---------------------------
 
 $(H4 $(D __fastcall))
 

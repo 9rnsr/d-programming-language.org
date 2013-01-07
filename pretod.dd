@@ -50,9 +50,9 @@ $(DWAY
 
 	$(P D uses symbolic imports:)
 
----------
-import std.c.stdio;
----------
+	---------
+	import std.c.stdio;
+	---------
 )
 )
 
@@ -102,13 +102,13 @@ $(DWAY
 	there is a need, and it is handled with:
 	)
 
----------
-struct Foo
-{
-	align (4):	// use 4 byte alignment
-	...
-}
----------
+	---------
+	struct Foo
+	{
+	    align (4):  // use 4 byte alignment
+	    ...
+	}
+	---------
 )
 
 <hr><!-- -------------------------------------------- -->
@@ -161,9 +161,9 @@ $(CCODE
 
 	$(DWAY
 
----------
-const int VALUE = 5;
----------
+	---------
+	const int VALUE = 5;
+	---------
 	)
 	)
 
@@ -183,12 +183,12 @@ flags |= FLAG_X;
 
 	$(DWAY
 
----------
-enum FLAGS { X = 0x1, Y = 0x2, Z = 0x4 };
-FLAGS flags;
-...
-flags |= FLAGS.X;
----------
+	---------
+	enum FLAGS { X = 0x1, Y = 0x2, Z = 0x4 };
+	FLAGS flags;
+	...
+	flags |= FLAGS.X;
+	---------
 	)
 	)
 
@@ -212,9 +212,9 @@ dchar h[] = TEXT("hello");
 
 	$(DWAY
 
----------
-dchar[] h = "hello";
----------
+	---------
+	dchar[] h = "hello";
+	---------
 
 
 	$(P D's optimizer will inline the function, and will do the conversion of the
@@ -253,9 +253,9 @@ $(CCODE
 
 	$(DWAY
 
----------
-alias int INT;
----------
+	---------
+	alias int INT;
+	---------
 	)
 	)
 
@@ -297,9 +297,9 @@ $(CCODE
 
 	$(DWAY
 
----------
-int X(ref int i) { return i = i / 3; }
----------
+	---------
+	int X(ref int i) { return i = i / 3; }
+	---------
 
 	The compiler optimizer will inline it; no efficiency is lost.
 	)
@@ -343,13 +343,13 @@ int _CRTAPI2 func();
 	Calling conventions can be specified in blocks, so there's no
 	need to change it for every function:
 
----------
-extern (Windows)
-{
-    int onefunc();
-    int anotherfunc();
-}
----------
+	---------
+	extern (Windows)
+	{
+	    int onefunc();
+	    int anotherfunc();
+	}
+	---------
 	)
 	)
 
@@ -392,18 +392,18 @@ int getValueA(char *p);
 	D enables declarations of symbols that are $(I aliases) of
 	other symbols:
 
----------
-version (UNICODE)
-{
-    int getValueW(wchar[] p);
-    alias getValueW getValue;
-}
-else
-{
-    int getValueA(char[] p);
-    alias getValueA getValue;
-}
----------
+	---------
+	version (UNICODE)
+	{
+	    int getValueW(wchar[] p);
+	    alias getValueW getValue;
+	}
+	else
+	{
+	    int getValueA(char[] p);
+	    alias getValueA getValue;
+	}
+	---------
 	)
 	)
 
@@ -525,30 +525,30 @@ $(DWAY
 
 	$(P D neatly addresses this with nested functions:)
 
----------
-ubyte* ip;		// byte code instruction pointer
-int[] stack;		// operand stack
-int spi;		// stack pointer
-...
-
-int pop()        { return stack[--spi]; }
-void push(int i) { stack[spi++] = i; }
-
-while (1)
-{
-    switch (*ip++)
-    {
-	case ADD:
-	    op1 = pop();
-	    op2 = pop();
-	    push(op1 + op2);
-	    break;
-
-	case SUB:
+	---------
+	ubyte* ip;      // byte code instruction pointer
+	int[] stack;    // operand stack
+	int spi;        // stack pointer
 	...
-    }
-}
----------
+
+	int pop()        { return stack[--spi]; }
+	void push(int i) { stack[spi++] = i; }
+
+	while (1)
+	{
+	    switch (*ip++)
+	    {
+	        case ADD:
+	            op1 = pop();
+	            op2 = pop();
+	            push(op1 + op2);
+	            break;
+
+	        case SUB:
+	        ...
+	    }
+	}
+	---------
 
 	$(P The problems addressed are:)
 
@@ -630,30 +630,30 @@ $(DWAY
 	or a statement can be used. For example:
 	)
 
----------
-version (FOO)
-{
-    class Bar
-    {
-	const int x = 5;
-	static assert(Bar.x == 5 || Bar.x == 6);
-
-	void foo(T t)
+	---------
+	version (FOO)
 	{
-	    static assert(T.sizeof < 4);
+	    class Bar
+	    {
+	        const int x = 5;
+	        static assert(Bar.x == 5 || Bar.x == 6);
+
+	        void foo(T t)
+	        {
+	            static assert(T.sizeof < 4);
+	            ...
+	        }
+	    }
+	}
+	else version (BAR)
+	{
 	    ...
 	}
-    }
-}
-else version (BAR)
-{
-    ...
-}
-else
-{
-    static assert(0);	// unsupported version
-}
----------
+	else
+	{
+	    static assert(0);   // unsupported version
+	}
+	---------
 )
 
 <hr><!-- -------------------------------------------- -->

@@ -78,17 +78,17 @@ $(H2 $(GNAME isArithmetic))
 	Otherwise, $(B false) is returned.
 	If there are no arguments, $(B false) is returned.)
 
----
-import std.stdio;
+	---
+	import std.stdio;
 
-void main() {
-  int i;
-  writeln(__traits(isArithmetic, int));
-  writeln(__traits(isArithmetic, i, i+1, int));
-  writeln(__traits(isArithmetic));
-  writeln(__traits(isArithmetic, int*));
-}
----
+	void main() {
+	  int i;
+	  writeln(__traits(isArithmetic, int));
+	  writeln(__traits(isArithmetic, i, i+1, int));
+	  writeln(__traits(isArithmetic));
+	  writeln(__traits(isArithmetic, int*));
+	}
+	---
 
 	$(P Prints:)
 
@@ -137,19 +137,19 @@ $(H2 $(GNAME isAbstractClass))
 	Otherwise, $(B false) is returned.
 	If there are no arguments, $(B false) is returned.)
 
----
-import std.stdio;
+	---
+	import std.stdio;
 
-abstract class C { int foo(); }
+	abstract class C { int foo(); }
 
-void main() {
-  C c;
-  writeln(__traits(isAbstractClass, C));
-  writeln(__traits(isAbstractClass, c, C));
-  writeln(__traits(isAbstractClass));
-  writeln(__traits(isAbstractClass, int*));
-}
----
+	void main() {
+	  C c;
+	  writeln(__traits(isAbstractClass, C));
+	  writeln(__traits(isAbstractClass, c, C));
+	  writeln(__traits(isAbstractClass));
+	  writeln(__traits(isAbstractClass, int*));
+	}
+	---
 
 	$(P Prints:)
 
@@ -192,22 +192,22 @@ $(H2 $(GNAME isVirtualMethod))
 	Final functions that don't override anything return false.
 	)
 
----
-import std.stdio;
+	---
+	import std.stdio;
 
-struct S {
-  void bar() { }
-}
+	struct S {
+	  void bar() { }
+	}
 
-class C {
-  void bar() { }
-}
+	class C {
+	  void bar() { }
+	}
 
-void main() {
-  writeln(__traits(isVirtualMethod, C.bar));  // true
-  writeln(__traits(isVirtualMethod, S.bar));  // false
-}
----
+	void main() {
+	  writeln(__traits(isVirtualMethod, C.bar));  // true
+	  writeln(__traits(isVirtualMethod, S.bar));  // false
+	}
+	---
 
 $(H2 $(GNAME isAbstractFunction))
 
@@ -215,27 +215,27 @@ $(H2 $(GNAME isAbstractFunction))
 	$(B true) is returned, otherwise $(B false).
 	)
 
----
-import std.stdio;
+	---
+	import std.stdio;
 
-struct S {
-  void bar() { }
-}
+	struct S {
+	  void bar() { }
+	}
 
-class C {
-  void bar() { }
-}
+	class C {
+	  void bar() { }
+	}
 
-class AC {
-  abstract void foo();
-}
+	class AC {
+	  abstract void foo();
+	}
 
-void main() {
-  writeln(__traits(isAbstractFunction, C.bar));   // false
-  writeln(__traits(isAbstractFunction, S.bar));   // false
-  writeln(__traits(isAbstractFunction, AC.foo));  // true
-}
----
+	void main() {
+	  writeln(__traits(isAbstractFunction, C.bar));   // false
+	  writeln(__traits(isAbstractFunction, S.bar));   // false
+	  writeln(__traits(isAbstractFunction, AC.foo));  // true
+	}
+	---
 
 $(H2 $(GNAME isFinalFunction))
 
@@ -243,29 +243,29 @@ $(H2 $(GNAME isFinalFunction))
 	$(B true) is returned, otherwise $(B false).
 	)
 
----
-import std.stdio;
+	---
+	import std.stdio;
 
-struct S {
-  void bar() { }
-}
+	struct S {
+	  void bar() { }
+	}
 
-class C {
-  void bar() { }
-  final void foo();
-}
+	class C {
+	  void bar() { }
+	  final void foo();
+	}
 
-final class FC {
-  void foo();
-}
+	final class FC {
+	  void foo();
+	}
 
-void main() {
-  writeln(__traits(isFinalFunction, C.bar));	  // false
-  writeln(__traits(isFinalFunction, S.bar));	  // false
-  writeln(__traits(isFinalFunction, C.foo));	  // true
-  writeln(__traits(isFinalFunction, FC.foo));  // true
-}
----
+	void main() {
+	  writeln(__traits(isFinalFunction, C.bar));   // false
+	  writeln(__traits(isFinalFunction, S.bar));   // false
+	  writeln(__traits(isFinalFunction, C.foo));   // true
+	  writeln(__traits(isFinalFunction, FC.foo));  // true
+	}
+	---
 
 $(H2 $(GNAME isStaticFunction))
 
@@ -282,25 +282,25 @@ $(H2 $(GNAME isRef), $(GNAME isOut), $(GNAME isLazy))
 	or $(D_KEYWORD lazy), otherwise $(B false).
 	)
 
----
-void fooref(ref int x) {
-  static assert(__traits(isRef, x));
-  static assert(!__traits(isOut, x));
-  static assert(!__traits(isLazy, x));
-}
+	---
+	void fooref(ref int x) {
+	  static assert(__traits(isRef, x));
+	  static assert(!__traits(isOut, x));
+	  static assert(!__traits(isLazy, x));
+	}
 
-void fooout(out int x) {
-  static assert(!__traits(isRef, x));
-  static assert(__traits(isOut, x));
-  static assert(!__traits(isLazy, x));
-}
+	void fooout(out int x) {
+	  static assert(!__traits(isRef, x));
+	  static assert(__traits(isOut, x));
+	  static assert(!__traits(isLazy, x));
+	}
 
-void foolazy(lazy int x) {
-  static assert(!__traits(isRef, x));
-  static assert(!__traits(isOut, x));
-  static assert(__traits(isLazy, x));
-}
----
+	void foolazy(lazy int x) {
+	  static assert(!__traits(isRef, x));
+	  static assert(!__traits(isOut, x));
+	  static assert(__traits(isLazy, x));
+	}
+	---
 
 $(H2 $(GNAME hasMember))
 
@@ -311,22 +311,22 @@ $(H2 $(GNAME hasMember))
 	$(B true) is returned, otherwise $(B false).
 	)
 
----
-import std.stdio;
+	---
+	import std.stdio;
 
-struct S {
-  int m;
-}
+	struct S {
+	  int m;
+	}
 
-void main() {
-  S s;
+	void main() {
+	  S s;
 
-  writeln(__traits(hasMember, S, "m")); // true
-  writeln(__traits(hasMember, s, "m")); // true
-  writeln(__traits(hasMember, S, "y")); // false
-  writeln(__traits(hasMember, int, "sizeof")); // true
-}
----
+	  writeln(__traits(hasMember, S, "m")); // true
+	  writeln(__traits(hasMember, s, "m")); // true
+	  writeln(__traits(hasMember, S, "y")); // false
+	  writeln(__traits(hasMember, int, "sizeof")); // true
+	}
+	---
 
 $(H2 $(GNAME identifier))
 
@@ -344,17 +344,17 @@ $(SECTION2 $(GNAME getAttributes),
         For more information, see: $(DDSUBLINK attribute, uda, User Defined Attributes)
     )
 
----
-@(3) int a;
-@("string", 7) int b;
+	---
+	@(3) int a;
+	@("string", 7) int b;
 
-enum Foo;
-@Foo int c;
+	enum Foo;
+	@Foo int c;
 
-pragma(msg, __traits(getAttributes, a));
-pragma(msg, __traits(getAttributes, b));
-pragma(msg, __traits(getAttributes, c));
----
+	pragma(msg, __traits(getAttributes, a));
+	pragma(msg, __traits(getAttributes, b));
+	pragma(msg, __traits(getAttributes, c));
+	---
 
     $(P
         Prints:
@@ -375,24 +375,24 @@ $(H2 $(GNAME getMember))
 	argument as an identifier.
 	)
 
----
-import std.stdio;
+	---
+	import std.stdio;
 
-struct S {
-  int mx;
-  static int my;
-}
+	struct S {
+	  int mx;
+	  static int my;
+	}
 
-void main() {
-  S s;
+	void main() {
+	  S s;
 
-  __traits(getMember, s, "mx") = 1;  // same as s.mx=1;
-  writeln(__traits(getMember, s, "m" ~ "x")); // 1
+	  __traits(getMember, s, "mx") = 1;  // same as s.mx=1;
+	  writeln(__traits(getMember, s, "m" ~ "x")); // 1
 
-  __traits(getMember, S, "mx") = 1;  // error, no this for S.mx
-  __traits(getMember, S, "my") = 2;  // ok
-}
----
+	  __traits(getMember, S, "mx") = 1;  // error, no this for S.mx
+	  __traits(getMember, S, "my") = 2;  // ok
+	}
+	---
 
 $(H2 $(GNAME getOverloads))
 
@@ -402,30 +402,30 @@ $(H2 $(GNAME getOverloads))
 	The result is a tuple of all the overloads of that function.
 	)
 
----
-import std.stdio;
+	---
+	import std.stdio;
 
-class D {
-  this() { }
-  ~this() { }
-  void foo() { }
-  int foo(int) { return 2; }
-}
+	class D {
+	  this() { }
+	  ~this() { }
+	  void foo() { }
+	  int foo(int) { return 2; }
+	}
 
-void main() {
-  D d = new D();
+	void main() {
+	  D d = new D();
 
-  foreach (t; __traits(getOverloads, D, "foo"))
-    writeln(typeid(typeof(t)));
+	  foreach (t; __traits(getOverloads, D, "foo"))
+	    writeln(typeid(typeof(t)));
 
-  alias typeof(__traits(getOverloads, D, "foo")) b;
-  foreach (t; b)
-    writeln(typeid(t));
+	  alias typeof(__traits(getOverloads, D, "foo")) b;
+	  foreach (t; b)
+	    writeln(typeid(t));
 
-  auto i = __traits(getOverloads, d, "foo")[1](1);
-  writeln(i);
-}
----
+	  auto i = __traits(getOverloads, d, "foo")[1](1);
+	  writeln(i);
+	}
+	---
 
 	$(P Prints:)
 
@@ -443,24 +443,24 @@ $(H2 $(GNAME getProtection))
 	The result is a string giving its protection level: "public", "private", "protected", "export", or "package".
 	)
 
----
-import std.stdio;
+	---
+	import std.stdio;
 
-class D {
-  export void foo() { }
-  public int bar;
-}
+	class D {
+	  export void foo() { }
+	  public int bar;
+	}
 
-void main() {
-  D d = new D();
+	void main() {
+	  D d = new D();
 
-  auto i = __traits(getProtection, d.foo);
-  writeln(i);
+	  auto i = __traits(getProtection, d.foo);
+	  writeln(i);
 
-  auto j = __traits(getProtection, d.bar);
-  writeln(j);
-}
----
+	  auto j = __traits(getProtection, d.bar);
+	  writeln(j);
+	}
+	---
 
 	$(P Prints:)
 
@@ -486,30 +486,30 @@ $(H2 $(GNAME getVirtualMethods))
 	It does not include final functions that do not override anything.
 	)
 
----
-import std.stdio;
+	---
+	import std.stdio;
 
-class D {
-  this() { }
-  ~this() { }
-  void foo() { }
-  int foo(int) { return 2; }
-}
+	class D {
+	  this() { }
+	  ~this() { }
+	  void foo() { }
+	  int foo(int) { return 2; }
+	}
 
-void main() {
-  D d = new D();
+	void main() {
+	  D d = new D();
 
-  foreach (t; __traits(getVirtualMethods, D, "foo"))
-    writeln(typeid(typeof(t)));
+	  foreach (t; __traits(getVirtualMethods, D, "foo"))
+	    writeln(typeid(typeof(t)));
 
-  alias typeof(__traits(getVirtualMethods, D, "foo")) b;
-  foreach (t; b)
-    writeln(typeid(t));
+	  alias typeof(__traits(getVirtualMethods, D, "foo")) b;
+	  foreach (t; b)
+	    writeln(typeid(t));
 
-  auto i = __traits(getVirtualMethods, d, "foo")[1](1);
-  writeln(i);
-}
----
+	  auto i = __traits(getVirtualMethods, d, "foo")[1](1);
+	  writeln(i);
+	}
+	---
 
 	$(P Prints:)
 
@@ -549,22 +549,22 @@ $(H2 $(GNAME allMembers))
 	Builtin properties are not included.
 	)
 
----
-import std.stdio;
+	---
+	import std.stdio;
 
-class D {
-  this() { }
-  ~this() { }
-  void foo() { }
-  int foo(int) { return 0; }
-}
+	class D {
+	  this() { }
+	  ~this() { }
+	  void foo() { }
+	  int foo(int) { return 0; }
+	}
 
-void main() {
-  auto b = [ __traits(allMembers, D) ];
-  writeln(b);
-  // ["__ctor", "__dtor", "foo", "toString", "toHash", "opCmp", "opEquals", "Monitor", "factory"]
-}
----
+	void main() {
+	  auto b = [ __traits(allMembers, D) ];
+	  writeln(b);
+	  // ["__ctor", "__dtor", "foo", "toString", "toHash", "opCmp", "opEquals", "Monitor", "factory"]
+	}
+	---
 
 	$(P The order in which the strings appear in the result
 	is not defined.)
@@ -580,21 +580,21 @@ $(H2 $(GNAME derivedMembers))
 	Builtin properties are not included.
 	)
 
----
-import std.stdio;
+	---
+	import std.stdio;
 
-class D {
-  this() { }
-  ~this() { }
-  void foo() { }
-  int foo(int) { return 0; }
-}
+	class D {
+	  this() { }
+	  ~this() { }
+	  void foo() { }
+	  int foo(int) { return 0; }
+	}
 
-void main() {
-  auto a = [__traits(derivedMembers, D)];
-  writeln(a);    // ["__ctor", "__dtor", "foo"]
-}
----
+	void main() {
+	  auto a = [__traits(derivedMembers, D)];
+	  writeln(a);    // ["__ctor", "__dtor", "foo"]
+	}
+	---
 
 	$(P The order in which the strings appear in the result
 	is not defined.)
@@ -604,23 +604,23 @@ $(H2 $(GNAME isSame))
 	$(P Takes two arguments and returns bool $(B true) if they
 	are the same symbol, $(B false) if not.)
 
----
-import std.stdio;
+	---
+	import std.stdio;
 
-struct S { }
+	struct S { }
 
-int foo();
-int bar();
+	int foo();
+	int bar();
 
-void main() {
-  writeln(__traits(isSame, foo, foo)); // true
-  writeln(__traits(isSame, foo, bar)); // false
-  writeln(__traits(isSame, foo, S));   // false
-  writeln(__traits(isSame, S, S));     // true
-  writeln(__traits(isSame, std, S));   // false
-  writeln(__traits(isSame, std, std)); // true
-}
----
+	void main() {
+	  writeln(__traits(isSame, foo, foo)); // true
+	  writeln(__traits(isSame, foo, bar)); // false
+	  writeln(__traits(isSame, foo, S));   // false
+	  writeln(__traits(isSame, S, S));     // true
+	  writeln(__traits(isSame, std, S));   // false
+	  writeln(__traits(isSame, std, std)); // true
+	}
+	---
 
 	$(P If the two arguments are expressions made up of literals
 	or enums that evaluate to the same value, true is returned.)
@@ -636,30 +636,30 @@ $(H2 $(GNAME compiles))
 
 	$(P If there are no arguments, the result is $(B false).)
 
----
-import std.stdio;
+	---
+	import std.stdio;
 
-struct S {
-  static int s1;
-  int s2;
-}
+	struct S {
+	  static int s1;
+	  int s2;
+	}
 
-int foo();
-int bar();
+	int foo();
+	int bar();
 
-void main() {
-  writeln(__traits(compiles));                      // false
-  writeln(__traits(compiles, foo));                 // true
-  writeln(__traits(compiles, foo + 1));             // true
-  writeln(__traits(compiles, &foo + 1));            // false
-  writeln(__traits(compiles, typeof(1)));           // true
-  writeln(__traits(compiles, S.s1));                // true
-  writeln(__traits(compiles, S.s3));                // false
-  writeln(__traits(compiles, 1,2,3,int,long,std));  // true
-  writeln(__traits(compiles, 3[1]));                // false
-  writeln(__traits(compiles, 1,2,3,int,long,3[1])); // false
-}
----
+	void main() {
+	  writeln(__traits(compiles));                      // false
+	  writeln(__traits(compiles, foo));                 // true
+	  writeln(__traits(compiles, foo + 1));             // true
+	  writeln(__traits(compiles, &foo + 1));            // false
+	  writeln(__traits(compiles, typeof(1)));           // true
+	  writeln(__traits(compiles, S.s1));                // true
+	  writeln(__traits(compiles, S.s3));                // false
+	  writeln(__traits(compiles, 1,2,3,int,long,std));  // true
+	  writeln(__traits(compiles, 3[1]));                // false
+	  writeln(__traits(compiles, 1,2,3,int,long,3[1])); // false
+	}
+	---
 
 	$(P This is useful for:)
 
@@ -688,23 +688,23 @@ $(H2 $(LNAME2 specialkeywords, Special Keywords))
 
     $(P Example usage:)
 
------
-module test;
-import std.stdio;
+	-----
+	module test;
+	import std.stdio;
 
-void test(string file = __FILE__, size_t line = __LINE__, string mod = __MODULE__,
-          string func = __FUNCTION__, string pretty = __PRETTY_FUNCTION__)
-{
-    writefln("file: '%s', line: '%s', module: '%s',\nfunction: '%s', pretty function: '%s'",
-             file, line, mod, func, pretty);
-}
+	void test(string file = __FILE__, size_t line = __LINE__, string mod = __MODULE__,
+	          string func = __FUNCTION__, string pretty = __PRETTY_FUNCTION__)
+	{
+	    writefln("file: '%s', line: '%s', module: '%s',\nfunction: '%s', pretty function: '%s'",
+	             file, line, mod, func, pretty);
+	}
 
-int main(string[] args)
-{
-    test();
-    return 0;
-}
------
+	int main(string[] args)
+	{
+	    test();
+	    return 0;
+	}
+	-----
 
 	$(P This will output:)
 

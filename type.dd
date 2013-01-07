@@ -65,9 +65,9 @@ $(SECTION3 Base Types,
 
     $(P The $(I base type) of an enum is the type it is based on:)
 
----
-enum E : T { ... }  // T is the base type of E
----
+    ---
+    enum E : T { ... }  // T is the base type of E
+    ---
 
 
 )
@@ -94,17 +94,17 @@ $(SECTION3 Implicit Conversions,
     For example:
     )
 
--------------------
-int i;
+    -------------------
+    int i;
 
-enum Foo { E }
-Foo f;
-i = f;           // OK
-f = i;           // error
-f = cast(Foo)i;  // OK
-f = 0;           // error
-f = Foo.E;       // OK
--------------------
+    enum Foo { E }
+    Foo f;
+    i = f;           // OK
+    f = i;           // error
+    f = cast(Foo)i;  // OK
+    f = 0;           // error
+    f = Foo.E;       // OK
+    -------------------
 )
 
 
@@ -210,12 +210,12 @@ $(SECTION3 Usual Arithmetic Conversions,
     type that cannot represent the integer bit pattern after integral
     promotion. For example:)
 
----
-ubyte  u1 = cast(byte)-1;  // error, -1 cannot be represented in a ubyte
-ushort u2 = cast(short)-1; // error, -1 cannot be represented in a ushort
-uint   u3 = cast(int)-1;   // ok, -1 can be represented in a uint
-ulong  u4 = cast(long)-1; // ok, -1 can be represented in a ulong
----
+    ---
+    ubyte  u1 = cast(byte)-1;  // error, -1 cannot be represented in a ubyte
+    ushort u2 = cast(short)-1; // error, -1 cannot be represented in a ushort
+    uint   u3 = cast(int)-1;   // ok, -1 can be represented in a uint
+    ulong  u4 = cast(long)-1; // ok, -1 can be represented in a ulong
+    ---
 
     $(P Floating point types cannot be implicitly converted to
     integral types.
@@ -268,34 +268,34 @@ $(SECTION3 $(LNAME2 delegates, Delegates),
     of (*), and the identifier occurs afterwards:
     )
 
--------------------
-int function(int) fp; // fp is pointer to a function
-int delegate(int) dg; // dg is a delegate to a function
--------------------
+    -------------------
+    int function(int) fp; // fp is pointer to a function
+    int delegate(int) dg; // dg is a delegate to a function
+    -------------------
 
     $(P The C style syntax for declaring pointers to functions is
 
 deprecated:
     )
 
--------------------
-int (*fp)(int);  // fp is pointer to a function
--------------------
+    -------------------
+    int (*fp)(int);  // fp is pointer to a function
+    -------------------
 
     $(P A delegate is initialized analogously to function pointers:
     )
 
--------------------
-int func(int);
-fp = &func;   // fp points to func
+    -------------------
+    int func(int);
+    fp = &func;   // fp points to func
 
-class OB {
-    int member(int);
-}
-OB o;
-dg = &o.member; // dg is a delegate to object o and
-                // member function member
--------------------
+    class OB {
+        int member(int);
+    }
+    OB o;
+    dg = &o.member; // dg is a delegate to object o and
+                    // member function member
+    -------------------
 
     $(P Delegates cannot be initialized with static member functions
     or non-member functions.
@@ -304,25 +304,25 @@ dg = &o.member; // dg is a delegate to object o and
     $(P Delegates are called analogously to function pointers:
     )
 
--------------------
-fp(3);   // call func(3)
-dg(3);   // call o.member(3)
--------------------
+    -------------------
+    fp(3);   // call func(3)
+    dg(3);   // call o.member(3)
+    -------------------
 
     $(P The equivalent of member function pointers can be constructed
     using anonymous lambda functions:)
 
----
-class C {
-  int a;
-  int foo(int i) { return i + a; }
-}
+    ---
+    class C {
+      int a;
+      int foo(int i) { return i + a; }
+    }
 
-// mfp is the member function pointer
-auto mfp = function(C self, int i) { return self.foo(i); };
-auto c = new C();  // create an instance of C
-mfp(c, 1);  // and call c.foo(1)
----
+    // mfp is the member function pointer
+    auto mfp = function(C self, int i) { return self.foo(i); };
+    auto c = new C();  // create an instance of C
+    mfp(c, 1);  // and call c.foo(1)
+    ---
 )
 
 $(SECTION3 $(LNAME2 sizet, $(D size_t) and $(D ptrdiff_t)))

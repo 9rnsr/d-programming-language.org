@@ -19,67 +19,67 @@ $(D_S Tuples,
 	create tuples, we can define a template to create one:
 	)
 
----
-template Tuple(E...)
-{
-    alias E Tuple;
-}
----
+	---
+	template Tuple(E...)
+	{
+	    alias E Tuple;
+	}
+	---
 
 	$(P and it's used like:)
 
----
-Tuple!(int, long, float)	// create a tuple of 3 types
-Tuple!(3, 7, 'c')		// create a tuple of 3 expressions
-Tuple!(int, 8)			// create a tuple of a type and an expression
----
+	---
+	Tuple!(int, long, float)  // create a tuple of 3 types
+	Tuple!(3, 7, 'c')         // create a tuple of 3 expressions
+	Tuple!(int, 8)            // create a tuple of a type and an expression
+	---
 
 	$(P In order to symbolically refer to a tuple, use an alias:)
 
----
-alias Tuple!(float, float, 3) TP; // TP is now a tuple of two floats and 3
----
+	---
+	alias Tuple!(float, float, 3) TP; // TP is now a tuple of two floats and 3
+	---
 
 	$(P Tuples can be used as arguments to templates, and if so
 	they are $(SINGLEQUOTE flattened) out into a list of arguments.
 	This makes it straightforward to append a new element to
 	an existing tuple or concatenate tuples:)
 
----
-alias Tuple!(TP, 8) TR;  // TR is now float,float,3,8
-alias Tuple!(TP, TP) TS; // TS is float,float,3,float,float,3
----
+	---
+	alias Tuple!(TP, 8) TR;  // TR is now float,float,3,8
+	alias Tuple!(TP, TP) TS; // TS is float,float,3,float,float,3
+	---
 
 	$(P Tuples share many characteristics with arrays.
 	For starters, the number of elements in a tuple can
 	be retrieved with the $(B .length) property:)
 
----
-TP.length	// evaluates to 3
----
+	---
+	TP.length   // evaluates to 3
+	---
 
 	$(P Tuples can be indexed:)
 
----
-TP[1] f = TP[2];	// f is declared as a float and initialized to 3
----
+	---
+	TP[1] f = TP[2];    // f is declared as a float and initialized to 3
+	---
 
 	$(P and even sliced:)
 
----
-alias TP[0..length-1] TQ; // TQ is now the same as Tuple!(float, float)
----
+	---
+	alias TP[0..length-1] TQ; // TQ is now the same as Tuple!(float, float)
+	---
 
 	$(P Yes, $(B length) is defined within the [ ]s.
 	There is one restriction: the indices for indexing and slicing
 	must be evaluatable at compile time.)
 
----
-void foo(int i)
-{
-    TQ[i] x;		// error, i is not constant
-}
----
+	---
+	void foo(int i)
+	{
+	    TQ[i] x;        // error, i is not constant
+	}
+	---
 
 	$(P These make it simple to produce the $(SINGLEQUOTE head) and $(SINGLEQUOTE tail)
 	of a tuple. The head is just TP[0], the tail
@@ -91,20 +91,20 @@ void foo(int i)
 	of the trailing type arguments $(I TL) with the first occurrence
 	of the first type argument $(I T) removed:
 	)
----
-template Erase(T, TL...)
-{
-    static if (TL.length == 0)
-	// 0 length tuple, return self
-        alias TL Erase;
-    else static if (is(T == TL[0]))
-	// match with first in tuple, return tail
-        alias TL[1 .. length] Erase;
-    else
-	// no match, return head concatenated with recursive tail operation
-        alias Tuple!(TL[0], Erase!(T, TL[1 .. length])) Erase;
-}
----
+	---
+	template Erase(T, TL...)
+	{
+	    static if (TL.length == 0)
+	        // 0 length tuple, return self
+	        alias TL Erase;
+	    else static if (is(T == TL[0]))
+	        // match with first in tuple, return tail
+	        alias TL[1 .. length] Erase;
+	    else
+	        // no match, return head concatenated with recursive tail operation
+	        alias Tuple!(TL[0], Erase!(T, TL[1 .. length])) Erase;
+	}
+	---
 
 $(H3 Type Tuples)
 
@@ -116,47 +116,47 @@ $(H3 Type Tuples)
 	One way is using an $(ISEXPRESSION):
 	)
 
----
-int foo(int x, long y);
+	---
+	int foo(int x, long y);
 
-...
-static if (is(foo P == function))
-    alias P TP;
-// TP is now the same as Tuple!(int, long)
----
+	...
+	static if (is(foo P == function))
+	    alias P TP;
+	// TP is now the same as Tuple!(int, long)
+	---
 
 	$(P This is generalized in the template
 	$(LINK2 phobos/std_traits.html, std.traits).ParameterTypeTuple:
 	)
 
----
-import std.traits;
+	---
+	import std.traits;
 
-...
-alias ParameterTypeTuple!(foo) TP;	// TP is the tuple (int, long)
----
+	...
+	alias ParameterTypeTuple!(foo) TP;  // TP is the tuple (int, long)
+	---
 
 	$(P $(I TypeTuple)s can be used to declare a function:)
 
----
-float bar(TP);	// same as float bar(int, long)
----
+	---
+	float bar(TP);  // same as float bar(int, long)
+	---
 
 	$(P If implicit function template instantiation is being done,
 	the type tuple representing the parameter types can be deduced:
 	)
----
-int foo(int x, long y);
+	---
+	int foo(int x, long y);
 
-void Bar(R, P...)(R function(P))
-{
-    writeln("return type is ", typeid(R));
-    writeln("parameter types are ", typeid(P));
-}
+	void Bar(R, P...)(R function(P))
+	{
+	    writeln("return type is ", typeid(R));
+	    writeln("parameter types are ", typeid(P));
+	}
 
-...
-Bar(&foo);
----
+	...
+	Bar(&foo);
+	---
 
 	$(P Prints:)
 
@@ -168,14 +168,14 @@ parameter types are (int,long)
 	$(P Type deduction can be used to create a function that
 	takes an arbitrary number and type of arguments:)
 
----
-void Abc(P...)(P p)
-{
-    writeln("parameter types are ", typeid(P));
-}
+	---
+	void Abc(P...)(P p)
+	{
+	    writeln("parameter types are ", typeid(P));
+	}
 
-Abc(3, 7L, 6.8);
----
+	Abc(3, 7L, 6.8);
+	---
 
 	$(P Prints:)
 
@@ -195,54 +195,54 @@ $(H3 Expression Tuples)
 	The Tuple template can be used to create one:
 	)
 
----
-alias Tuple!(3, 7L, 6.8) ET;
+	---
+	alias Tuple!(3, 7L, 6.8) ET;
 
-...
-writeln(ET);            // prints 376.8
-writeln(ET[1]);         // prints 7
-writeln(ET[1..length]); // prints 76.8
----
+	...
+	writeln(ET);            // prints 376.8
+	writeln(ET[1]);         // prints 7
+	writeln(ET[1..length]); // prints 76.8
+	---
 
 	$(P It can be used to create an array literal:)
 
----
-alias Tuple!(3, 7, 6) AT;
+	---
+	alias Tuple!(3, 7, 6) AT;
 
-...
-int[] a = [AT];		// same as [3,7,6]
----
+	...
+	int[] a = [AT];     // same as [3,7,6]
+	---
 
 	$(P The data fields of a struct or class can be
 	turned into an expression tuple using the $(B .tupleof)
 	property:)
 
----
-struct S { int x; long y; }
+	---
+	struct S { int x; long y; }
 
-void foo(int a, long b)
-{
-    writeln(a, b);
-}
+	void foo(int a, long b)
+	{
+	    writeln(a, b);
+	}
 
-...
-S s;
-s.x = 7;
-s.y = 8;
-foo(s.x, s.y);	// prints 78
-foo(s.tupleof);	// prints 78
-s.tupleof[1] = 9;
-s.tupleof[0] = 10;
-foo(s.tupleof); // prints 109
-s.tupleof[2] = 11;  // error, no third field of S
----
+	...
+	S s;
+	s.x = 7;
+	s.y = 8;
+	foo(s.x, s.y);	// prints 78
+	foo(s.tupleof);	// prints 78
+	s.tupleof[1] = 9;
+	s.tupleof[0] = 10;
+	foo(s.tupleof); // prints 109
+	s.tupleof[2] = 11;  // error, no third field of S
+	---
 
 	$(P A type tuple can be created from the data fields
 	of a struct using $(B typeof):)
 
----
-writeln(typeid(typeof(S.tupleof)));	// prints (int,long)
----
+	---
+	writeln(typeid(typeof(S.tupleof)));	// prints (int,long)
+	---
 
 	$(P This is encapsulated in the template
 	$(LINK2 phobos/std_traits.html, std.traits).FieldTypeTuple.
@@ -256,15 +256,15 @@ $(H3 Looping)
 	or $(I ExpressionTuple)s.
 	)
 
----
-alias Tuple!(int, long, float) TL;
-foreach (i, T; TL)
-    writefln("TL[%d] = %s", i, typeid(T));
+	---
+	alias Tuple!(int, long, float) TL;
+	foreach (i, T; TL)
+	    writefln("TL[%d] = %s", i, typeid(T));
 
-alias Tuple!(3, 7L, 6.8) ET;
-foreach (i, E; ET)
-    writefln("ET[%d] = %s", i, E);
----
+	alias Tuple!(3, 7L, 6.8) ET;
+	foreach (i, E; ET)
+	    writefln("ET[%d] = %s", i, E);
+	---
 
 	$(P Prints:)
 
@@ -282,16 +282,16 @@ $(H3 Tuple Declarations)
 	$(P A variable declared with a $(I TypeTuple) becomes an
 	$(I ExpressionTuple):)
 
----
-alias Tuple!(int, long) TL;
+	---
+	alias Tuple!(int, long) TL;
 
-void foo(TL tl)
-{
-    writeln(tl, tl[1]);
-}
+	void foo(TL tl)
+	{
+	    writeln(tl, tl[1]);
+	}
 
-foo(1, 6L);	// prints 166
----
+	foo(1, 6L);  // prints 166
+	---
 
 $(H3 Putting It All Together)
 
@@ -300,71 +300,71 @@ $(H3 Putting It All Together)
 	a function, and return a delegate that will call the function
 	with those arguments.)
 
----
-import std.stdio;
+	---
+	import std.stdio;
 
-R delegate() CurryAll(Dummy=void, R, U...)(R function(U) dg, U args)
-{
-    struct Foo
-    {
-	typeof(dg) dg_m;
-	U args_m;
-
-	R bar()
+	R delegate() CurryAll(Dummy=void, R, U...)(R function(U) dg, U args)
 	{
-	    return dg_m(args_m);
+	    struct Foo
+	    {
+	        typeof(dg) dg_m;
+	        U args_m;
+
+	        R bar()
+	        {
+	            return dg_m(args_m);
+	        }
+	    }
+
+	    Foo* f = new Foo;
+	    f.dg_m = dg;
+	    foreach (i, arg; args)
+	        f.args_m[i] = arg;
+	    return &f.bar;
 	}
-    }
 
-    Foo* f = new Foo;
-    f.dg_m = dg;
-    foreach (i, arg; args)
-	f.args_m[i] = arg;
-    return &f.bar;
-}
-
-R delegate() CurryAll(R, U...)(R delegate(U) dg, U args)
-{
-    struct Foo
-    {
-	typeof(dg) dg_m;
-	U args_m;
-
-	R bar()
+	R delegate() CurryAll(R, U...)(R delegate(U) dg, U args)
 	{
-	    return dg_m(args_m);
+	    struct Foo
+	    {
+	        typeof(dg) dg_m;
+	        U args_m;
+
+	        R bar()
+	        {
+	            return dg_m(args_m);
+	        }
+	    }
+
+	    Foo* f = new Foo;
+	    f.dg_m = dg;
+	    foreach (i, arg; args)
+	        f.args_m[i] = arg;
+	    return &f.bar;
 	}
-    }
-
-    Foo* f = new Foo;
-    f.dg_m = dg;
-    foreach (i, arg; args)
-	f.args_m[i] = arg;
-    return &f.bar;
-}
 
 
-void main()
-{
-    static int plus(int x, int y, int z)
-    {
-	return x + y + z;
-    }
+	void main()
+	{
+	    static int plus(int x, int y, int z)
+	    {
+	        return x + y + z;
+	    }
 
-    auto plus_two = CurryAll(&plus, 2, 3, 4);
-    writefln("%d", plus_two());
-    assert(plus_two() == 9);
+	    auto plus_two = CurryAll(&plus, 2, 3, 4);
+	    writefln("%d", plus_two());
+	    assert(plus_two() == 9);
 
-    int minus(int x, int y, int z)
-    {
-	return x + y + z;
-    }
+	    int minus(int x, int y, int z)
+	    {
+	        return x + y + z;
+	    }
 
-    auto minus_two = CurryAll(&minus, 7, 8, 9);
-    writefln("%d", minus_two());
-    assert(minus_two() == 24);
-}
----
+	    auto minus_two = CurryAll(&minus, 7, 8, 9);
+	    writefln("%d", minus_two());
+	    assert(minus_two() == 24);
+	}
+	---
 
 	$(P The reason for the $(I Dummy) parameter is that one
 	cannot overload two templates with the same parameter list.

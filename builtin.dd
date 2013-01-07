@@ -143,18 +143,18 @@ $(SECTION2 Associative Arrays,
 	as:
 	)
 
----------------
-int[T] foo;
----------------
+	---------------
+	int[T] foo;
+	---------------
 
 	$(P rather than:
 	)
 
----------------
-import std.associativeArray;
-...
-std.associativeArray.AA!(T, int) foo;
----------------
+	---------------
+	import std.associativeArray;
+	...
+	std.associativeArray.AA!(T, int) foo;
+	---------------
 
 	$(P Builtin associative arrays also offer the possibility of having
 	associative array literals, which are an often requested additional

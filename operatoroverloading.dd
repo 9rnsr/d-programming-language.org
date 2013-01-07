@@ -58,19 +58,19 @@ $(H2 $(LNAME2 Unary, Unary Operator Overloading))
 	$(P For example, in order to overload the - (negation) operator for struct S, and
 	no other operator:)
 
----
-struct S {
-  int m;
+	---
+	struct S {
+	  int m;
 
-  int opUnary(string s)() if (s == "-") {
-    return -m;
-  }
-}
+	  int opUnary(string s)() if (s == "-") {
+	    return -m;
+	  }
+	}
 
-int foo(S s) {
-  return -s;
-}
----
+	int foo(S s) {
+	  return -s;
+	}
+	---
 
 $(H3 Postincrement $(I e)$(D ++) and Postdecrement $(I e)$(D --) Operators)
 
@@ -200,16 +200,16 @@ $(H3 Boolean Operations)
 	to convert to a bool result.
 	Instead, these are covered by a rewrite to:
 	)
----
-opCast!(bool)(e)
----
+	---
+	opCast!(bool)(e)
+	---
 
 	$(P So,)
 
----
-if (e)   =>  if (e.opCast!(bool))
-if (!e)  =>  if (!e.opCast!(bool))
----
+	---
+	if (e)   =>  if (e.opCast!(bool))
+	if (!e)  =>  if (!e.opCast!(bool))
+	---
 
 	$(P etc., whenever a bool result is expected. This only happens, however, for
 	instances of structs. Class references are converted to bool by checking to
@@ -226,14 +226,14 @@ $(H2 $(LNAME2 Binary, Binary Operator Overloading))
 	)
 
 	$(P The expression:)
----
-a $(METACODE op) b
----
+	---
+	a $(METACODE op) b
+	---
 	$(P is rewritten as both:)
----
-a.opBinary!("$(METACODE op)")(b)
-b.opBinaryRight!("$(METACODE op)")(a)
----
+	---
+	a.opBinary!("$(METACODE op)")(b)
+	b.opBinaryRight!("$(METACODE op)")(a)
+	---
 
 	$(P and the one with the $(SINGLEQUOTE better) match is selected.
 	It is an error for both to equally match.
@@ -242,21 +242,21 @@ b.opBinaryRight!("$(METACODE op)")(a)
 	$(P Operator overloading for a number of operators can be done at the same time.
 	For example, if only the + or - operators are supported:)
 
----
-T opBinary(string op)(T rhs) {
-   static if (op == "+") return data + rhs.data;
-   else static if (op == "-") return data - rhs.data;
-   else static assert(0, "Operator "~op~" not implemented");
-}
----
+	---
+	T opBinary(string op)(T rhs) {
+	   static if (op == "+") return data + rhs.data;
+	   else static if (op == "-") return data - rhs.data;
+	   else static assert(0, "Operator "~op~" not implemented");
+	}
+	---
 
 	$(P To do them all en masse:)
 
----
-T opBinary(string op)(T rhs) {
-     return mixin("data "~op~" rhs.data");
-}
----
+	---
+	T opBinary(string op)(T rhs) {
+	     return mixin("data "~op~" rhs.data");
+	}
+	---
 
 
 $(H2 $(LNAME2 equals, Overloading $(D ==) and $(D !=)))
@@ -347,19 +347,19 @@ $(H2 $(LNAME2 compare, Overloading $(D <), $(D <)$(D =), $(D >), and $(D >)$(D =
 
 	$(P If overriding Object.opCmp() for classes, the class member function
 	signature should look like:)
----
-class C {
-  override int opCmp(Object o) { ... }
-}
----
+	---
+	class C {
+	  override int opCmp(Object o) { ... }
+	}
+	---
 
 	$(P If structs declare an opCmp member function, it should follow the following
 	form:)
----
-struct S {
-  int opCmp(ref const S s) const { ... }
-}
----
+	---
+	struct S {
+	  int opCmp(ref const S s) const { ... }
+	}
+	---
 
 $(H2 $(LNAME2 FunctionCall, Function Call Operator Overloading $(D f())))
 
@@ -473,16 +473,16 @@ $(H3 Index Assignment Operator Overloading)
 	as $(D a.opIndexAssign$(LPAREN)c,) $(ARGUMENTS)$(D $(RPAREN)).
 	)
 
--------
-struct A {
-  int $(CODE_HIGHLIGHT opIndexAssign)(int value, size_t i1, size_t i2);
-}
+	-------
+	struct A {
+	  int $(CODE_HIGHLIGHT opIndexAssign)(int value, size_t i1, size_t i2);
+	}
 
-void test() {
-  A a;
-  a$(CODE_HIGHLIGHT [)i,3$(CODE_HIGHLIGHT ]) = 7;  // same as a.opIndexAssign(7,i,3);
-}
--------
+	void test() {
+	  A a;
+	  a$(CODE_HIGHLIGHT [)i,3$(CODE_HIGHLIGHT ]) = 7;  // same as a.opIndexAssign(7,i,3);
+	}
+	-------
 
 $(H3 Slice Assignment Operator Overloading)
 
@@ -494,20 +494,20 @@ $(H3 Slice Assignment Operator Overloading)
 	$(CODE a[] = c) as $(CODE a.opSliceAssign(c)).
 	)
 
--------
-struct A {
-  int $(CODE_HIGHLIGHT opSliceAssign)(int v);  // overloads a[] = v
-  int $(CODE_HIGHLIGHT opSliceAssign)(int v, size_t x, size_t y);  // overloads a[i .. j] = v
-}
+	-------
+	struct A {
+	  int $(CODE_HIGHLIGHT opSliceAssign)(int v);  // overloads a[] = v
+	  int $(CODE_HIGHLIGHT opSliceAssign)(int v, size_t x, size_t y);  // overloads a[i .. j] = v
+	}
 
-void test() {
-  A a;
-  int v;
+	void test() {
+	  A a;
+	  int v;
 
-  a$(CODE_HIGHLIGHT []) = v;  // same as a.opSliceAssign(v);
-  a$(CODE_HIGHLIGHT [)3..4$(CODE_HIGHLIGHT ]) = v;  // same as a.opSliceAssign(v,3,4);
-}
--------
+	  a$(CODE_HIGHLIGHT []) = v;  // same as a.opSliceAssign(v);
+	  a$(CODE_HIGHLIGHT [)3..4$(CODE_HIGHLIGHT ]) = v;  // same as a.opSliceAssign(v,3,4);
+	}
+	-------
 
 $(H2 $(LNAME2 OpAssign, Op Assignment Operator Overloading))
 
@@ -520,57 +520,57 @@ $(H2 $(LNAME2 OpAssign, Op Assignment Operator Overloading))
 	)
 
 	$(P The expression:)
----
-a $(METACODE op)= b
----
+	---
+	a $(METACODE op)= b
+	---
 
 	$(P is rewritten as:)
 
----
-a.opOpAssign!("$(METACODE op)")(b)
----
+	---
+	a.opOpAssign!("$(METACODE op)")(b)
+	---
 
 $(H3 Index Op Assignment Operator Overloading)
 
 	$(P If the left hand side of an $(I op)= is an index expression on
 	a struct or class instance and opIndexOpAssign is a member:)
 
----
-a[$(METACODE $(ARGUMENTS))] $(METACODE op)= c
----
+	---
+	a[$(METACODE $(ARGUMENTS))] $(METACODE op)= c
+	---
 
 	$(P it is rewritten as:)
 
----
-a.opIndexOpAssign!("$(METACODE op)")(c, $(METACODE $(ARGUMENTS)))
----
+	---
+	a.opIndexOpAssign!("$(METACODE op)")(c, $(METACODE $(ARGUMENTS)))
+	---
 
 $(H3 Slice Op Assignment Operator Overloading)
 
 	$(P If the left hand side of an $(I op)= is a slice expression on
 	a struct or class instance and opSliceOpAssign is a member:)
 
----
-a[$(METACODE $(SLICE))] $(METACODE op)= c
----
+	---
+	a[$(METACODE $(SLICE))] $(METACODE op)= c
+	---
 
 	$(P it is rewritten as:)
 
----
-a.opSliceOpAssign!("$(METACODE op)")(c, $(METACODE $(SLICE2)))
----
+	---
+	a.opSliceOpAssign!("$(METACODE op)")(c, $(METACODE $(SLICE2)))
+	---
 
 	$(P and)
 
----
-a[] $(METACODE op)= c
----
+	---
+	a[] $(METACODE op)= c
+	---
 
 	$(P it is rewritten as:)
 
----
-a.opSliceOpAssign!("$(METACODE op)")(c)
----
+	---
+	a.opSliceOpAssign!("$(METACODE op)")(c)
+	---
 
 $(H2 $(LNAME2 Array, Index Operator Overloading))
 
@@ -579,17 +579,17 @@ $(H2 $(LNAME2 Array, Index Operator Overloading))
 	or more parameters.
 	)
 
--------
-struct A {
-  int $(CODE_HIGHLIGHT opIndex)(size_t i1, size_t i2, size_t i3);
-}
-
-void test() {
-  A a;
-  int i;
-  i = a[5,6,7];  // same as i = a.opIndex(5,6,7);
-}
--------
+	-------
+	struct A {
+	  int $(CODE_HIGHLIGHT opIndex)(size_t i1, size_t i2, size_t i3);
+	}
+	
+	void test() {
+	  A a;
+	  int i;
+	  i = a[5,6,7];  // same as i = a.opIndex(5,6,7);
+	}
+	-------
 
 	$(P In this way a struct or class object can behave as if it
 	were an array.
@@ -606,21 +606,21 @@ $(H2 $(LNAME2 Slice, Slice Operator Overloading))
 	This can be done by declaring a member function named $(CODE opSlice).
 	)
 
--------
-class A {
-  int $(CODE_HIGHLIGHT opSlice)();  // overloads a[]
-  int $(CODE_HIGHLIGHT opSlice)(size_t x, size_t y); // overloads a[i .. j]
-}
+	-------
+	class A {
+	  int $(CODE_HIGHLIGHT opSlice)();  // overloads a[]
+	  int $(CODE_HIGHLIGHT opSlice)(size_t x, size_t y); // overloads a[i .. j]
+	}
 
-void test() {
-  A a = new A();
-  int i;
-  int v;
+	void test() {
+	  A a = new A();
+	  int i;
+	  int v;
 
-  i = a$(CODE_HIGHLIGHT []);         // same as i = a.opSlice();
-  i = a$(CODE_HIGHLIGHT [)3..4$(CODE_HIGHLIGHT ]);  // same as i = a.opSlice(3,4);
-}
--------
+	  i = a$(CODE_HIGHLIGHT []);         // same as i = a.opSlice();
+	  i = a$(CODE_HIGHLIGHT [)3..4$(CODE_HIGHLIGHT ]);  // same as i = a.opSlice(3,4);
+	}
+	-------
 
 	$(P If a slice expression can be rewritten using opSliceAssign or opSliceOpAssign,
 	those are preferred over opSlice.
@@ -632,41 +632,41 @@ $(H2 $(LNAME2 Dispatch, Forwarding))
 	to a template function named $(CODE opDispatch) for resolution.
 	)
 
----
-import std.stdio;
+	---
+	import std.stdio;
 
-struct S {
-  void opDispatch(string s, T)(T i)
-  {
-    writefln("S.opDispatch('%s', %s)", s, i);
-  }
-}
+	struct S {
+	  void opDispatch(string s, T)(T i)
+	  {
+	    writefln("S.opDispatch('%s', %s)", s, i);
+	  }
+	}
 
-class C {
-  void opDispatch(string s)(int i) {
-    writefln("C.opDispatch('%s', %s)", s, i);
-  }
-}
+	class C {
+	  void opDispatch(string s)(int i) {
+	    writefln("C.opDispatch('%s', %s)", s, i);
+	  }
+	}
 
-struct D {
-  template opDispatch(string s) {
-    enum int opDispatch = 8;
-  }
-}
+	struct D {
+	  template opDispatch(string s) {
+	    enum int opDispatch = 8;
+	  }
+	}
 
-void main() {
-  S s;
-  s.opDispatch!("hello")(7);
-  s.foo(7);
+	void main() {
+	  S s;
+	  s.opDispatch!("hello")(7);
+	  s.foo(7);
 
-  auto c = new C();
-  c.foo(8);
+	  auto c = new C();
+	  c.foo(8);
 
-  D d;
-  writefln("d.foo = %s", d.foo);
-  assert(d.foo == 8);
-}
----
+	  D d;
+	  writefln("d.foo = %s", d.foo);
+	  assert(d.foo == 8);
+	}
+	---
 )
 
 Macros:

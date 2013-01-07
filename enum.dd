@@ -58,9 +58,9 @@ $(H2 Named Enums)
 	$(P This defines a new type $(CODE X) which has values
 	$(CODE X.A=0), $(CODE X.B=1), $(CODE X.C=2):)
 
-------
-enum X { A, B, C }	// named enum
-------
+	------
+	enum X { A, B, C }  // named enum
+	------
 
 
 	$(P If the $(I EnumBaseType) is not explicitly set, and the first
@@ -93,10 +93,10 @@ $(H3 Enum Default Initializer)
 	This is also the default initializer for the enum type.
 	)
 
-------
-enum X { A=3, B, C }
-X x;      // x is initialized to 3
-------
+	------
+	enum X { A=3, B, C }
+	X x;      // x is initialized to 3
+	------
 
 $(H3 Enum Properties)
 
@@ -113,12 +113,12 @@ $(H3 Enum Properties)
 
 	$(P For example:)
 
----
-enum X { A=3, B, C }
-X.min    // is X.A
-X.max    // is X.C
-X.sizeof // is same as int.sizeof
----
+	---
+	enum X { A=3, B, C }
+	X.min    // is X.A
+	X.max    // is X.C
+	X.sizeof // is same as int.sizeof
+	---
 
 	$(P The $(I EnumBaseType) of named enums must support comparison
 	in order to compute the $(CODE .max) and $(CODE .min) properties.
@@ -148,9 +148,9 @@ $(H2 Anonymous Enums)
 	)
 
 
-------
-enum { A, B, C }	// anonymous enum
-------
+	------
+	enum { A, B, C }  // anonymous enum
+	------
 
 	$(P Defines the constants A=0, B=1, C=2, all of type int.)
 
@@ -163,34 +163,34 @@ enum { A, B, C }	// anonymous enum
 	it's value is 0.
 	)
 
-------
-enum { A, B = 5+7, C, D = 8+C, E }
-------
+	------
+	enum { A, B = 5+7, C, D = 8+C, E }
+	------
 
 	$(P Sets A=0, B=12, C=13, D=21, and E=22, all of type int.)
 
----
-enum : long { A = 3, B }
----
+	---
+	enum : long { A = 3, B }
+	---
 
 	$(P Sets A=3, B=4 all of type long.)
 
----
-enum : string {
-  A = "hello",
-  B = "betty",
-  C     // error, cannot add 1 to "betty"
-}
----
+	---
+	enum : string {
+	  A = "hello",
+	  B = "betty",
+	  C     // error, cannot add 1 to "betty"
+	}
+	---
 
----
-enum {
-  A = 1.2f,  // A is 1.2f of type float
-  B,         // B is 2.2f of type float
-  int C = 3, // C is 3 of type int
-  D          // D is 4 of type int
-}
----
+	---
+	enum {
+	  A = 1.2f,  // A is 1.2f of type float
+	  B,         // B is 2.2f of type float
+	  int C = 3, // C is 3 of type int
+	  D          // D is 4 of type int
+	}
+	---
 
 $(H3 Manifest Constants)
 
@@ -198,10 +198,10 @@ $(H3 Manifest Constants)
 	be omitted:
 	)
 
----
-enum i = 4;      // i is 4 of type int
-enum long l = 3; // l is 3 of type long
----
+	---
+	enum i = 4;      // i is 4 of type int
+	enum long l = 3; // l is 3 of type long
+	---
 
 	$(P Such declarations are not lvalues, meaning their address
 	cannot be taken.)

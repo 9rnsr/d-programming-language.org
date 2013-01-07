@@ -33,157 +33,157 @@ $(GNAME InterfaceBody):
 	Classes cannot derive from an interface multiple times.
 	)
 
-------
-interface D
-{
-    void foo();
-}
+	------
+	interface D
+	{
+	    void foo();
+	}
 
-class A : D, D	// error, duplicate interface
-{
-}
-------
+	class A : D, D  // error, duplicate interface
+	{
+	}
+	------
 
 	An instance of an interface cannot be created.
 
 
-------
-interface D
-{
-    void foo();
-}
+	------
+	interface D
+	{
+	    void foo();
+	}
 
-...
+	...
 
-D d = new D();		// error, cannot create instance of interface
-------
+	D d = new D();  // error, cannot create instance of interface
+	------
 
 
 	$(P Virtual interface member functions do not have implementations.
 	Interfaces are expected to implement static or final functions.
 	)
 
-------
-interface D
-{
-    void bar() { }	// error, implementation not allowed
-    static void foo() { } // ok
-    final void abc() { } // ok
-}
-------
+	------
+	interface D
+	{
+	    void bar() { }        // error, implementation not allowed
+	    static void foo() { } // ok
+	    final void abc() { }  // ok
+	}
+	------
 
 	$(P Classes that inherit from an interface may not override final or
 	static interface member functions.)
 
-------
-interface D {
-    void bar();
-    static void foo() { }
-    final void abc() { }
-}
+	------
+	interface D {
+	    void bar();
+	    static void foo() { }
+	    final void abc() { }
+	}
 
-class C : D {
-    void bar() { } // ok
-    void foo() { } // error, cannot override static D.foo()
-    void abc() { } // error, cannot override final D.abc()
-}
-------
+	class C : D {
+	    void bar() { } // ok
+	    void foo() { } // error, cannot override static D.foo()
+	    void abc() { } // error, cannot override final D.abc()
+	}
+	------
 
 
 	$(P All interface functions must be defined in a class that inherits
 	from that interface:
 	)
-------
-interface D
-{
-    void foo();
-}
+	------
+	interface D
+	{
+	    void foo();
+	}
 
-class A : D
-{
-    void foo() { }	// ok, provides implementation
-}
+	class A : D
+	{
+	    void foo() { }  // ok, provides implementation
+	}
 
-class B : D
-{
-    int foo() { }	// error, no void foo() implementation
-}
-------
+	class B : D
+	{
+	    int foo() { }   // error, no void foo() implementation
+	}
+	------
 
 	Interfaces can be inherited and functions overridden:
 
-------
-interface D
-{
-    int foo();
-}
+	------
+	interface D
+	{
+	    int foo();
+	}
 
-class A : D
-{
-    int foo() { return 1; }
-}
+	class A : D
+	{
+	    int foo() { return 1; }
+	}
 
-class B : A
-{
-    int foo() { return 2; }
-}
+	class B : A
+	{
+	    int foo() { return 2; }
+	}
 
-...
+	...
 
-B b = new B();
-b.foo();		// returns 2
-D d = cast(D) b;	// ok since B inherits A's D implementation
-d.foo();		// returns 2;
-------
+	B b = new B();
+	b.foo();          // returns 2
+	D d = cast(D) b;  // ok since B inherits A's D implementation
+	d.foo();          // returns 2;
+	------
 
 	$(P Interfaces can be reimplemented in derived classes:)
 
-------
-interface D
-{
-    int foo();
-}
+	------
+	interface D
+	{
+	    int foo();
+	}
 
-class A : D
-{
-    int foo() { return 1; }
-}
+	class A : D
+	{
+	    int foo() { return 1; }
+	}
 
-class B : A, D
-{
-    int foo() { return 2; }
-}
+	class B : A, D
+	{
+	    int foo() { return 2; }
+	}
 
-...
+	...
 
-B b = new B();
-b.foo();		// returns 2
-D d = cast(D) b;
-d.foo();		// returns 2
-A a = cast(A) b;
-D d2 = cast(D) a;
-d2.foo();		// returns 2, even though it is A's D, not B's D
-------
+	B b = new B();
+	b.foo();        // returns 2
+	D d = cast(D) b;
+	d.foo();        // returns 2
+	A a = cast(A) b;
+	D d2 = cast(D) a;
+	d2.foo();       // returns 2, even though it is A's D, not B's D
+	------
 
 	$(P A reimplemented interface must implement all the interface
 	functions, it does not inherit them from a super class:
 	)
 
-------
-interface D
-{
-    int foo();
-}
+	------
+	interface D
+	{
+	    int foo();
+	}
 
-class A : D
-{
-    int foo() { return 1; }
-}
+	class A : D
+	{
+	    int foo() { return 1; }
+	}
 
-class B : A, D
-{
-}		// error, no foo() for interface D
-------
+	class B : A, D
+	{
+	}       // error, no foo() for interface D
+	------
 
 $(SECTION2 $(LNAME2 InterfaceContracts, Interfaces with Contracts),
 
@@ -192,16 +192,16 @@ $(SECTION2 $(LNAME2 InterfaceContracts, Interfaces with Contracts),
 	class member function that implements that interface member function.
 	)
 
----
-interface I
-{
-    int foo(int i)
-      in { assert(i > 7); }
-      out (result) { assert(result & 1); }
+	---
+	interface I
+	{
+	    int foo(int i)
+	      in { assert(i > 7); }
+	      out (result) { assert(result & 1); }
 
-    void bar();
-}
----
+	    void bar();
+	}
+	---
 )
 
 $(SECTION2 $(LNAME2 ConstInterface, Const and Immutable Interfaces),
@@ -251,13 +251,13 @@ $(SECTION2 $(LNAME2 CPP-Interfaces, C++ Interfaces),
 	$(P C++ interfaces are interfaces declared with C++ linkage:
 	)
 
----
-extern (C++) interface Ifoo
-{
-    void foo();
-    void bar();
-}
----
+	---
+	extern (C++) interface Ifoo
+	{
+	    void foo();
+	    void bar();
+	}
+	---
 
 	$(P which is meant to correspond with the following C++ declaration:)
 

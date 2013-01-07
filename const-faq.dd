@@ -89,13 +89,13 @@ $(ITEM transitive-const, What is $(I transitive const)?)
 	it applies recursively to every sub-component of that type. Hence:
 	)
 
----
-const(int*)** p;
-p += 1;   // ok, p is mutable
-*p += 1;  // ok, *p is mutable
-**p += 1; // error, **p is const
-***p += 1; // error, ***p is const
----
+	---
+	const(int*)** p;
+	p += 1;   // ok, p is mutable
+	*p += 1;  // ok, *p is mutable
+	**p += 1; // error, **p is const
+	***p += 1; // error, ***p is const
+	---
 
 	$(P With transitivity, there is no way to have a
 	$(I const pointer to mutable int).
@@ -109,9 +109,10 @@ $(ITEM head-const, What is $(I head const)?)
 	of the type adjacent to the const. For example:
 	)
 
----
-headconst(int**) p;
----
+	---
+	headconst(int**) p;
+	---
+
 	$(P would be read as p being a: $(I const pointer to mutable pointer
 	to mutable int.) D does not have head const (the $(CODE headconst) is
 	there just for illustrative purposes), but C++ const is
@@ -125,9 +126,10 @@ $(ITEM tail-const, What is $(I tail const)?)
 	example:
 	)
 
----
-tailconst(int**) p;
----
+	---
+	tailconst(int**) p;
+	---
+
 	$(P would be read as p being a: $(I mutable pointer to const pointer
 	to const int.) Head const combined with tail const yields transitive
 	const.
@@ -141,23 +143,23 @@ $(ITEM logical-const, What is $(I logical const)?)
 	to an observer, but is not actually const. An example would be
 	an object that does lazy evaluation:)
 
----
-struct Foo {
-    mutable int len;
-    mutable bool len_done;
-    const char* str;
-    int length()
-    {   if (!len_done)
-        {   len = strlen(str);
-	    len_done = true;
-        }
-	return len;
-    }
-    this(char* str) { this.str = str; }
-}
-const Foo f = Foo("hello");
-bar(f.length);
----
+	---
+	struct Foo {
+	    mutable int len;
+	    mutable bool len_done;
+	    const char* str;
+	    int length()
+	    {   if (!len_done)
+	        {   len = strlen(str);
+		    len_done = true;
+	        }
+		return len;
+	    }
+	    this(char* str) { this.str = str; }
+	}
+	const Foo f = Foo("hello");
+	bar(f.length);
+	---
 
 	$(P The example evaluates $(CODE f.len) only if it is needed.
 	$(CODE Foo) is logically const, because to the observer of the object
@@ -225,12 +227,14 @@ $(ITEM const-parameters, Why aren't function parameters const by default?)
 	in C, C++, Java, C#, etc.)
 	$(LI It would require a new keyword, say $(CODE mutable).)
 	$(LI And worst, it would make declarations inconsistent:
----
-void foo(int* p) {
-   int* q;
-   ...
-}
----
+
+	---
+	void foo(int* p) {
+	   int* q;
+	   ...
+	}
+	---
+
 	$(CODE p) points to const, and $(CODE q) points to mutable.
 	This kind of inconsistency leads to all sorts of mistakes.
 	It also makes it very hard to write generic code that deals with
@@ -240,9 +244,10 @@ void foo(int* p) {
 
 	$(P Using $(CODE in) can mitigate the ugliness of having to annotate
 	with $(CODE const):)
----
-void str_replace(in char[] haystack, in char[] needle);
----
+
+	---
+	void str_replace(in char[] haystack, in char[] needle);
+	---
 
 $(ITEM static-members, Are static class members covered by transitive const?)
 
