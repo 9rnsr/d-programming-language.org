@@ -366,7 +366,7 @@ $(H2 D Operations That Involve the Garbage Collector)
 		$(LI Taking the address of (i.e. making a delegate to) a nested function that
 	 accesses variables in an outer scope)
 	$(LI A function literal that accesses variables in an outer scope)
-	
+
 	$(LI An $(GLINK2 expression, AssertExpression) that fails its condition)
 	)
 

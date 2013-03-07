@@ -50,7 +50,7 @@ $(COMMUNITY $(B D) vs Other Languages,
 	)
 
 	$(TR
-	
+
 	$(TD Closures)
 	$(YES1 function.html#closures)
 	)

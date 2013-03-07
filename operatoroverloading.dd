@@ -583,7 +583,7 @@ $(H2 $(LNAME2 Array, Index Operator Overloading))
 	struct A {
 	  int $(CODE_HIGHLIGHT opIndex)(size_t i1, size_t i2, size_t i3);
 	}
-	
+
 	void test() {
 	  A a;
 	  int i;
