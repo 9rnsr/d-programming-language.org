@@ -838,12 +838,12 @@ $(SECTION3 Exception Handling,
 
 $(SECTION3 Garbage Collection,
 
-    $(P The interface to this is found in $(D phobos/internal/gc).)
+    $(P The interface to this is found in $(DRUNTIMESRC gc).)
 )
 
 $(SECTION3 Runtime Helper Functions,
 
-    $(P These are found in $(D phobos/internal).)
+    $(P These are found in $(DRUNTIMESRC rt).)
 )
 
 $(SECTION3 Module Initialization and Termination,
