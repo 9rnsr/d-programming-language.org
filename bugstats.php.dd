@@ -2,18 +2,46 @@ Ddoc
 
 $(D_S Bug tracker,
 
-$(BOOKTABLE $(SECTION3 Current bugs <font size=-1>$(LINK2 http://d.puremagic.com/issues/enter_bug.cgi?product=D,[report new bug])</font>),
-$(DISPLAY Regression, y_axis_field=bug_severity&query_format=report-table&product=D&bug_status=NEW&bug_status=ASSIGNED&bug_status=REOPENED&bug_severity=regression)
-$(DISPLAY Blocker, y_axis_field=bug_severity&query_format=report-table&product=D&bug_status=NEW&bug_status=ASSIGNED&bug_status=REOPENED&bug_severity=blocker)
-$(DISPLAY Critical, y_axis_field=bug_severity&query_format=report-table&product=D&bug_status=NEW&bug_status=ASSIGNED&bug_status=REOPENED&bug_severity=critical)
-$(DISPLAY Major, y_axis_field=bug_severity&query_format=report-table&product=D&bug_status=NEW&bug_status=ASSIGNED&bug_status=REOPENED&bug_severity=major)
-$(DISPLAY Normal$(COMMA) minor$(COMMA) or trivial, y_axis_field=bug_severity&query_format=report-table&product=D&bug_status=NEW&bug_status=ASSIGNED&bug_status=REOPENED&bug_severity=normal&bug_severity=minor&bug_severity=trivial)
-$(DISPLAY Enhancement, y_axis_field=bug_severity&query_format=report-table&product=D&bug_status=NEW&bug_status=ASSIGNED&bug_status=REOPENED&bug_severity=enhancement)
-$(DISPLAY All open, y_axis_field=bug_severity&query_format=report-table&product=D&bug_status=NEW&bug_status=ASSIGNED&bug_status=REOPENED&bug_severity=normal&bug_severity=minor&bug_severity=trivial&bug_severity=regression&bug_severity=blocker&bug_severity=critical&bug_severity=major&bug_severity=enhancement)
-$(DISPLAY All closed, y_axis_field=bug_severity&query_format=report-table&product=D&bug_severity=normal&bug_severity=minor&bug_severity=trivial&bug_severity=regression&bug_severity=blocker&bug_severity=critical&bug_severity=major&bug_severity=enhancement&bug_status=RESOLVED&bug_status=VERIFIED&bug_status=CLOSED)
+$(BOOKTABLE
+    $(SECTION3
+        Current bugs <font size=-1>$(LINK2 http://d.puremagic.com/issues/enter_bug.cgi?product=D,[report new bug])</font>
+    ),
+    $(DISPLAY
+        Regression,
+        y_axis_field=bug_severity&query_format=report-table&product=D&bug_status=NEW&bug_status=ASSIGNED&bug_status=REOPENED&bug_severity=regression
+    )
+    $(DISPLAY
+        Blocker,
+        y_axis_field=bug_severity&query_format=report-table&product=D&bug_status=NEW&bug_status=ASSIGNED&bug_status=REOPENED&bug_severity=blocker
+    )
+    $(DISPLAY
+        Critical,
+        y_axis_field=bug_severity&query_format=report-table&product=D&bug_status=NEW&bug_status=ASSIGNED&bug_status=REOPENED&bug_severity=critical
+    )
+    $(DISPLAY
+        Major,
+        y_axis_field=bug_severity&query_format=report-table&product=D&bug_status=NEW&bug_status=ASSIGNED&bug_status=REOPENED&bug_severity=major)
+    $(DISPLAY
+        Normal$(COMMA) minor$(COMMA) or trivial,
+        y_axis_field=bug_severity&query_format=report-table&product=D&bug_status=NEW&bug_status=ASSIGNED&bug_status=REOPENED&bug_severity=normal&bug_severity=minor&bug_severity=trivial
+    )
+    $(DISPLAY
+        Enhancement,
+        y_axis_field=bug_severity&query_format=report-table&product=D&bug_status=NEW&bug_status=ASSIGNED&bug_status=REOPENED&bug_severity=enhancement
+    )
+    $(DISPLAY
+        All open,
+        y_axis_field=bug_severity&query_format=report-table&product=D&bug_status=NEW&bug_status=ASSIGNED&bug_status=REOPENED&bug_severity=normal&bug_severity=minor&bug_severity=trivial&bug_severity=regression&bug_severity=blocker&bug_severity=critical&bug_severity=major&bug_severity=enhancement
+    )
+    $(DISPLAY
+        All closed,
+        y_axis_field=bug_severity&query_format=report-table&product=D&bug_severity=normal&bug_severity=minor&bug_severity=trivial&bug_severity=regression&bug_severity=blocker&bug_severity=critical&bug_severity=major&bug_severity=enhancement&bug_status=RESOLVED&bug_status=VERIFIED&bug_status=CLOSED
+    )
 )
 
-$(P <center>$(LINK2 http://d.puremagic.com/issues/reports.cgi?product=D&datasets=NEW%3A&datasets=ASSIGNED%3A&datasets=REOPENED%3A&datasets=RESOLVED%3A, <img border=1 src=http://d.puremagic.com/issues/graphs/D_NEW_ASSIGNED_REOPENED_RESOLVED.png>)</center>)
+$(P
+    <center>$(LINK2 http://d.puremagic.com/issues/reports.cgi?product=D&datasets=NEW%3A&datasets=ASSIGNED%3A&datasets=REOPENED%3A&datasets=RESOLVED%3A, <img border=1 src=http://d.puremagic.com/issues/graphs/D_NEW_ASSIGNED_REOPENED_RESOLVED.png>)</center>
+)
 
 )
 
