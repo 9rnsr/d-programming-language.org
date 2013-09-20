@@ -81,24 +81,28 @@ import std.stdio;
 bool flags[8191];
 
 int main()
-{   int     i, prime, k, count, iter;
+{
+    int i, prime, k, count, iter;
 
     writefln("10 iterations");
     for (iter = 1; iter <= 10; iter++)
-    {	count = 0;
-	flags[] = true;
-	for (i = 0; i < flags.length; i++)
-	{   if (flags[i])
-	    {	prime = i + i + 3;
-		k = i + prime;
-		while (k < flags.length)
-		{
-		    flags[k] = false;
-		    k += prime;
-		}
-		count += 1;
-	    }
-	}
+    {
+        count = 0;
+        flags[] = true;
+        for (i = 0; i < flags.length; i++)
+        {
+            if (flags[i])
+            {
+                prime = i + i + 3;
+                k = i + prime;
+                while (k < flags.length)
+                {
+                    flags[k] = false;
+                    k += prime;
+                }
+                count += 1;
+            }
+        }
     }
     writefln("%d primes", count);
     return 0;
@@ -123,15 +127,19 @@ $(CONSOLE
        |bool flags[8191];
        |
        |int main()
-      5|{   int     i, prime, k, count, iter;
+       |{
+      5|    int i, prime, k, count, iter;
        |
       1|    writefln("10 iterations");
      22|    for (iter = 1; iter <= 10; iter++)
-     10|    {   count = 0;
+       |    {
+     10|        count = 0;
      10|        flags[] = true;
  163840|        for (i = 0; i < flags.length; i++)
-  81910|        {   if (flags[i])
-  18990|            {   prime = i + i + 3;
+       |        {
+  81910|            if (flags[i])
+       |            {
+  18990|                prime = i + i + 3;
   18990|                k = i + prime;
  168980|                while (k < flags.length)
        |                {
@@ -180,9 +188,9 @@ counter:)
 $(CONSOLE
         |void foo(int a, int b)
         |{
-       5|   bar(a);
-       8|   if (a && b)
-       1|	bar(b);
+       5|    bar(a);
+       8|    if (a && b)
+       1|        bar(b);
         |}
 )
 
@@ -191,10 +199,10 @@ $(P By putting the rvalue on a separate line, this illuminates things:)
 $(CONSOLE
         |void foo(int a, int b)
         |{
-       5|   bar(a);
-       5|   if (a &&
-       3|	b)
-       1|	bar(b);
+       5|    bar(a);
+       5|    if (a &&
+       3|        b)
+       1|        bar(b);
         |}
 )
 
@@ -217,8 +225,8 @@ $(LINK2 http://en.wikipedia.org/wiki/Code_coverage, Wikipedia)
 )
 
 Macros:
-	TITLE=Code Coverage Analysis
-	WIKI=Dcover
-	CATEGORY_DOWNLOAD=$0
-	RPAREN=)
+        TITLE=Code Coverage Analysis
+        WIKI=Dcover
+        CATEGORY_DOWNLOAD=$0
+        RPAREN=)
 
