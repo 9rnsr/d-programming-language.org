@@ -145,7 +145,7 @@ $(H3 Using Structs or Unions as the KeyType)
         $(D opEquals) and $(D opCmp) are consistent with each other when
         the struct/union objects are the same or not.)
 
-$(H3 Construction or assignment on setting AA entries)
+$(H3 $(LNAME2 setting-aa-entries, Construction or assignment on setting AA entries))
 
     $(P When an AA indexing access appears on the left side of an assignment operator,
         it is specially handled for setting AA entry associated with the key.

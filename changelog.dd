@@ -7,6 +7,9 @@ $(VERSION 064, October 19, 2013, ===============================================
 $(BUGSTITLE Language Changes,
 $(LI $(RELATIVE_LINK2 function_template_overload, Templated and non-template functions can now be overloaded against each other.))
 $(LI $(RELATIVE_LINK2 template_overload_set, Cross-module template declarations can now make an overload set.))
+
+$(LI $(LINK2 hash-map#setting-aa-entries, Construction or assignment on setting AA entries))
+$(LI $(LINK2 enum.html, Enum members are now all in scope when evaluating enum member initializers))
 )
 
 $(BUGSTITLE Language Enhancements,
