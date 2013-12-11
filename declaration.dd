@@ -509,7 +509,8 @@ $(H3 $(LNAME2 typeof, $(D typeof)))
 $(GRAMMAR
 $(GNAME Typeof):
     $(D typeof $(LPAREN)) $(EXPRESSION) $(D $(RPAREN))
-    $(D typeof $(LPAREN)) $(D return) $(D $(RPAREN)))
+    $(D typeof $(LPAREN)) $(D return) $(D $(RPAREN))
+)
 
     $(P $(I Typeof) is a way to specify a type based on the type
         of an expression. For example:
