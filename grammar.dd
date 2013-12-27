@@ -990,7 +990,7 @@ $(GNAME AliasDeclarationX):
 
 $(GRAMMAR
 $(GNAME AutoDeclaration):
-    $(GLINK StorageClasses) $(I AutoDeclarationX) $(D ;)
+    $(GLINK Attributes) $(I AutoDeclarationX) $(D ;)
 
 $(GNAME AutoDeclarationX):
     $(I Identifier) $(GLINK TemplateParameters)$(OPT) $(D =) $(GLINK Initializer)
@@ -999,8 +999,8 @@ $(GNAME AutoDeclarationX):
 
 $(GRAMMAR
 $(GNAME Decl):
-    $(GLINK StorageClasses)$(OPT) $(GLINK BasicType) $(GLINK Declarators) $(D ;)
-    $(GLINK StorageClasses)$(OPT) $(GLINK BasicType) $(GLINK Declarator) $(GLINK FunctionBody)
+    $(GLINK Attributes)$(OPT) $(GLINK BasicType) $(GLINK Declarators) $(D ;)
+    $(GLINK Attributes)$(OPT) $(GLINK BasicType) $(GLINK Declarator) $(GLINK FunctionBody)
     $(GLINK AutoDeclaration)
 
 $(GNAME Declarators):
@@ -1038,36 +1038,6 @@ $(GNAME DeclaratorSuffix):
     $(GLINK Parameters) $(GLINK MemberFunctionAttributes)$(OPT)
     $(GLINK TemplateParameters) $(GLINK Parameters) $(GLINK MemberFunctionAttributes)$(OPT) $(GLINK Constraint)$(OPT)
 )
-
-$(GRAMMAR
-$(GNAME StorageClasses):
-    $(GLINK StorageClass)
-    $(GLINK StorageClass) $(I StorageClasses)
-
-$(GNAME StorageClass):
-    $(GLINK LinkageAttribute)
-    $(GLINK AlignAttribute)
-    $(D deprecated)
-    $(D enum)
-    $(D static)
-    $(D extern)
-    $(D abstract)
-    $(D final)
-    $(D override)
-    $(D synchronized)
-    $(D auto)
-    $(D scope)
-    $(D const)
-    $(D immutable)
-    $(D inout)
-    $(D shared)
-    $(D __gshared)
-    $(GLINK Property)
-    $(D nothrow)
-    $(D pure)
-    $(D ref)
-)
-
 
 $(GRAMMAR
 $(GNAME Initializer):
