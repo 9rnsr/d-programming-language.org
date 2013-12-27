@@ -971,9 +971,9 @@ $(H3 $(LNAME2 declaration, Declaration))
 
 $(GRAMMAR
 $(GNAME Declaration):
-    $(GLINK AliasDeclaration)
-    $(GLINK AggregateDeclaration)
-    $(GLINK EnumDeclaration)
+    $(GLINK Attributes)$(OPT) $(GLINK AliasDeclaration)
+    $(GLINK Attributes)$(OPT) $(GLINK AggregateDeclaration)
+    $(GLINK Attributes)$(OPT) $(GLINK EnumDeclaration)
     $(GLINK ImportDeclaration)
     $(GLINK Decl)
 )
@@ -1500,6 +1500,10 @@ $(GRAMMAR
 $(GNAME AttributeSpecifier):
     $(GLINK Attribute) $(D :)
     $(GLINK Attribute) $(GLINK DeclarationBlock)
+
+$(GNAME Attributes):
+    $(GLINK Attribute)
+    $(GLINK Attribute) $(I Attributes)
 
 $(GNAME Attribute):
     $(GLINK LinkageAttribute)
