@@ -971,21 +971,18 @@ $(H3 $(LNAME2 declaration, Declaration))
 
 $(GRAMMAR
 $(GNAME Declaration):
+    $(GLINK Decl)
+    $(GLINK AutoDeclaration)
     $(GLINK Attributes)$(OPT) $(GLINK AliasDeclaration)
     $(GLINK Attributes)$(OPT) $(GLINK AggregateDeclaration)
     $(GLINK Attributes)$(OPT) $(GLINK EnumDeclaration)
     $(GLINK ImportDeclaration)
-    $(GLINK Decl)
 )
 
 $(GRAMMAR
-$(GNAME AliasDeclaration):
-    $(D alias) $(GLINK BasicType) $(GLINK Declarator)
-    $(D alias) $(I AliasDeclarationX) $(D ;)
-
-$(GNAME AliasDeclarationX):
-    $(I Identifier) $(GLINK TemplateParameters)$(OPT) $(D =) $(GLINK Type)
-    $(I AliasDeclarationX) $(D ,) $(I Identifier) $(GLINK TemplateParameters)$(OPT) $(D =) $(GLINK Type)
+$(GNAME Decl):
+    $(GLINK Attributes)$(OPT) $(GLINK BasicType) $(GLINK Declarators) $(D ;)
+    $(GLINK Attributes)$(OPT) $(GLINK BasicType) $(GLINK Declarator) $(GLINK FunctionBody)
 )
 
 $(GRAMMAR
@@ -998,11 +995,6 @@ $(GNAME AutoDeclarationX):
 )
 
 $(GRAMMAR
-$(GNAME Decl):
-    $(GLINK Attributes)$(OPT) $(GLINK BasicType) $(GLINK Declarators) $(D ;)
-    $(GLINK Attributes)$(OPT) $(GLINK BasicType) $(GLINK Declarator) $(GLINK FunctionBody)
-    $(GLINK AutoDeclaration)
-
 $(GNAME Declarators):
     $(I DeclaratorInitializer)
     $(I DeclaratorInitializer) $(D ,) $(GLINK DeclaratorIdentifierList)
@@ -1078,6 +1070,16 @@ $(GNAME StructMemberInitializers):
 $(GNAME StructMemberInitializer):
     $(GLINK NonVoidInitializer)
     $(I Identifier) $(D :) $(GLINK NonVoidInitializer)
+)
+
+$(GRAMMAR
+$(GNAME AliasDeclaration):
+    $(D alias) $(GLINK BasicType) $(GLINK Declarator)
+    $(D alias) $(I AliasDeclarationX) $(D ;)
+
+$(GNAME AliasDeclarationX):
+    $(I Identifier) $(GLINK TemplateParameters)$(OPT) $(D =) $(GLINK Type)
+    $(I AliasDeclarationX) $(D ,) $(I Identifier) $(GLINK TemplateParameters)$(OPT) $(D =) $(GLINK Type)
 )
 
 $(H3 $(LNAME2 function, Function))
