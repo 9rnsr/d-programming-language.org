@@ -989,15 +989,6 @@ $(GNAME AliasDeclarationX):
 )
 
 $(GRAMMAR
-$(GNAME AutoDeclaration):
-    $(GLINK StorageClasses) $(I AutoDeclarationX) $(D ;)
-
-$(GNAME AutoDeclarationX):
-    $(I Identifier) $(GLINK TemplateParameters)$(OPT) $(D =) $(GLINK Initializer)
-    $(I AutoDeclarationX) $(D ,) $(I Identifier) $(GLINK TemplateParameters)$(OPT) $(D =) $(GLINK Initializer)
-)
-
-$(GRAMMAR
 $(GNAME Decl):
     $(GLINK StorageClasses)$(OPT) $(GLINK BasicType) $(GLINK Declarators) $(D ;)
     $(GLINK StorageClasses)$(OPT) $(GLINK BasicType) $(GLINK Declarator) $(GLINK FunctionBody)
@@ -1037,6 +1028,15 @@ $(GNAME DeclaratorSuffix):
     $(D [) $(GLINK Type) $(D ])
     $(GLINK Parameters) $(GLINK MemberFunctionAttributes)$(OPT)
     $(GLINK TemplateParameters) $(GLINK Parameters) $(GLINK MemberFunctionAttributes)$(OPT) $(GLINK Constraint)$(OPT)
+)
+
+$(GRAMMAR
+$(GNAME AutoDeclaration):
+    $(GLINK StorageClasses) $(I AutoDeclarationX) $(D ;)
+
+$(GNAME AutoDeclarationX):
+    $(I Identifier) $(GLINK TemplateParameters)$(OPT) $(D =) $(GLINK Initializer)
+    $(I AutoDeclarationX) $(D ,) $(I Identifier) $(GLINK TemplateParameters)$(OPT) $(D =) $(GLINK Initializer)
 )
 
 $(GRAMMAR
