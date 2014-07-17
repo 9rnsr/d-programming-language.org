@@ -5,15 +5,27 @@ $(D_S D Change Log,
 $(VERSION 066, ??? ??, 2014, =================================================,
 
 $(BUGSTITLE Compiler Changes,
-$(LI $(RELATIVE_LINK2 boundscheck, $(D -noboundscheck) has been deprecated in favor of
-$(D boundscheck=[on|safeonly|off]).))
+$(LI $(RELATIVE_LINK2 boundscheck, $(D -noboundscheck) has been deprecated in favor of $(D boundscheck=[on|safeonly|off]).))
+$(LI $(RELATIVE_LINK2 vcolumns_switch, $(D -vcolumns) was added to display column numbers in error messages.))
+$(LI $(RELATIVE_LINK2 vgc_switch, $(D -vgc) was added to list GC allocation code positions in the code.))
+$(LI $(RELATIVE_LINK2 color_switch, $(D -color) was added to make console output colored.))
+$(LI $(RELATIVE_LINK2 warn_unused_retval, $(D -w) now warns about unused return value of a strongly pure nothrow function call.))
 )
 
 $(BUGSTITLE Language Changes,
+$(LI $(RELATIVE_LINK2 nogc_attribute, $(D @nogc) attribute was added.))
+$(LI $(RELATIVE_LINK2 extern_cpp_nspace, $(D extern $(LPAREN)C++,) $(I namespace)$(D $(RPAREN)) was added.))
+$(LI $(RELATIVE_LINK2 opover_multidim_slicing, Operator overloading feature for multi-dimensional slicing was added.))
+$(LI $(RELATIVE_LINK2 traits_getfunctionattributes, $(D __traits$(LPAREN)getFunctionAttributes$(RPAREN)) was added.))
+$(LI $(RELATIVE_LINK2 narrowing_conversion_in_ifti, Support template parameter deduction with arguments narrowing conversion.))
+$(LI $(RELATIVE_LINK2 deprecate_rmw, Read-Modify-Write operation on shared variable is now deprecated.))
+$(LI $(RELATIVE_LINK2 uniform_scalar_construction, Support uniform construction syntax for built-in scalar types.))
 )
 
 $(BUGSTITLE Library Changes,
 $(LI $(RELATIVE_LINK2 duration_split, Duration.get and its wrappers have been deprecated in favor of the new Duration.split.))
+$(LI $(RELATIVE_LINK2 array_and_aa_changes, Some built-in type properties are changed to library functions.))
+$(LI $(RELATIVE_LINK2 aa_key_requirement, Associative array keys now require equality instead of order comparison.))
 )
 
 $(BUGSTITLE Linker Changes,
@@ -51,9 +63,255 @@ $(LI $(LNAME2 boundscheck, $(D -noboundscheck) has been deprecated in favor of $
     -release) does.)
 )
 
+$(LI $(LNAME2 vcolumns_switch, $(D -vcolumns) was added to display column numbers in error messages):
+
+    $(P Diagnostic messages will print character number from each line head.
+
+        ---------
+        int x = missing_name;
+        ---------
+
+        Without $(D -vcolumns):
+
+        ---------
+        test.d(1): Error: undefined identifier missing_name
+        ---------
+
+        With $(D -vcolumns):
+
+        ---------
+        test.d(1,9): Error: undefined identifier missing_name
+        ---------
+    )
+)
+
+$(LI $(LNAME2 vgc_switch, $(D -vgc) was added to list GC allocation code positions in the code):
+
+    $(P Prints all GC-allocation points. Analysis will follow the semantics of
+        the new attribute $(D @nogc).
+    )
+)
+
+$(LI $(LNAME2 color_switch, $(D -color) was added to make console output colored:)
+
+    $(P Errors, deprecation, and warning messages are colored.
+    )
+)
+
+$(LI $(LNAME2 warn_unused_retval, $(D -w) now warns about unused return value of a strongly pure nothrow function call:)
+
+    $(P A discarding returned value from strongly pure nothrow function call now generates a warning.
+
+        ---------
+        int foo() pure nothrow { return 1; }
+        void main()
+        {
+            foo();  // the result of foo() is unused
+        }
+        ---------
+
+        With -w switch, compiler will complain:
+
+        ---------
+        Warning: calling foo without side effects discards return value of type int, prepend a cast(void) if intentional
+        ---------
+    )
+)
+
 )
 
 $(BUGSTITLE Language Changes,
+
+$(LI $(LNAME2 nogc_attribute, $(D @nogc) attribute was added:)
+
+    $(P @nogc attribute disallows GC-heap allocation.
+
+        ---------
+        class C {}
+        void foo() @nogc
+        {
+            auto c = new C();   // GC-allocation is disallowed
+        }
+        ---------
+    )
+)
+
+$(LI $(LNAME2 extern_cpp_nspace, $(D extern $(LPAREN)C++,) $(I namespace)$(D $(RPAREN)) was added):
+
+    $(P To represent C++ namespace, $(D extern $(LPAREN)C++$(RPAREN)) now takes optional dot-chained identifiers.
+
+        ---------
+        extern (C++, a.b.c) int foo();
+        ---------
+
+        is equivalent with:
+
+$(CPPCODE
+namespace a {
+  namespace b {
+    namespace c {
+      int foo();
+    }
+  }
+}
+)
+    )
+)
+
+$(LI $(LNAME2 opover_multidim_slicing, Operator overloading feature for multi-dimensional slicing was added:)
+
+    $(P Example code:
+
+        ---------
+        struct MyContainer(E)
+        {
+            E[][] payload;
+
+            this(size_t w, size_t h)
+            {
+                payload = new E[][](h, w);
+            }
+            size_t opDollar(size_t dim)()
+            {
+                return payload[dim].length;
+            }
+            auto opSlice(size_t dim)(size_t lwr, size_t upr)
+            {
+                import std.typecons;
+                return tuple(lwr, upr);
+            }
+            void opIndexAssign(A...)(E val, A indices)
+            {
+                assert(A.length == payload.length);
+
+                foreach (dim, x; indices)
+                {
+                    static if (is(typeof(x) : size_t))
+                    {
+                        // this[..., x, ...]
+                        payload[dim][x] = val;
+                    }
+                    else
+                    {
+                        // this[..., x[0] .. x[1], ...]
+                        payload[dim][x[0] .. x[1]] = val;
+                    }
+                }
+            }
+        }
+        void main()
+        {
+            import std.stdio;
+
+            auto c = MyContainer!int(4, 3);
+            writefln("[%([%(%d%| %)]%|\n %)]", c.payload);
+            // [[0 0 0 0]
+            //  [0 0 0 0]
+            //  [0 0 0 0]]
+
+            c[1 .. 3,
+              2,
+              0 .. $] = 1;
+            /*
+            Rewritten as:
+            c.opIndexAssign(c.opSlice!0(1, 3),
+                            2,
+                            c.opSlice!2(0, c.opDollar!2()));
+            */
+
+            writefln("[%([%(%d%| %)]%|\n %)]", c.payload);
+            // [[0 1 1 0]
+            //  [0 0 1 0]
+            //  [1 1 1 1]]
+        }
+        ---------
+    )
+)
+
+$(LI $(LNAME2 traits_getfunctionattributes, $(D __traits$(LPAREN)getFunctionAttributes$(RPAREN)) was added):
+
+    $(P Can take one argument, any of function symbol, function type, function
+        pointer type, or delegate type.
+
+        Examples:
+
+        ---------
+        void foo() pure nothrow @safe;
+        static assert([__traits(getFunctionAttributes, foo)] == ["pure", "nothrow", "@safe"]);
+
+        ref int bar(int) @property @trusted;
+        static assert([__traits(getFunctionAttributes, typeof(&bar))] == ["@property", "ref", "@trusted"]);
+        ---------
+    )
+)
+
+$(LI $(LNAME2 narrowing_conversion_in_ifti, Support template parameter deduction with arguments narrowing conversion):
+
+    $(P Now IFTI considers narrowing conversion of function arguments.
+
+        ---------
+        void foo(T)(T[] arr, T elem) { ... }
+        void main()
+        {
+            short[] a;
+            foo(a, 1);
+        }
+        ---------
+
+        In 2.065 and earlier, $(D foo(a, 1)) was not possible, but from 2.066,
+        $(D T) is deduced to $(D short) with considering narrowing conversion
+        of second function argument `1` from $(D int) to $(D short).
+    )
+)
+
+$(LI $(LNAME2 deprecate_rmw, Read-Modify-Write operation on shared variable is now deprecated):
+
+    $(P Examples:
+
+        ---------
+        shared int global;
+        void main()
+        {
+            global++;       // deprecated
+            global *= 2;    // deprecated
+        }
+        ---------
+
+        Instead:
+
+        ---------
+        shared int global;
+        void main()
+        {
+            import core.atomic;
+            atomicOp!"+="(global, 1);
+            atomicOp!"*="(global, 2);
+        }
+        ---------
+    )
+)
+
+$(LI $(LNAME2 uniform_scalar_construction, Support uniform construction syntax for built-in scalar types):
+
+    $(P Examples:
+
+        ---------
+        short n1 = 1;
+        auto n2 = short(1); // equivalent with n1, typeof(n2) is short
+
+        auto p1 = new long(1);                  // typeof(p1) is long*
+        auto p2 = new immutable double(3.14);   // typeof(p2) is immutable(double)*
+        ---------
+    )
+
+    $(P The constructor argument should be implicitly convertible to the constructed type.
+
+        ---------
+        auto n1 = short(32767); // OK
+        auto n2 = short(32768); // NG - cannot implicitly convert 32768 to short
+        ---------
+    )
+)
 
 )
 
@@ -154,6 +412,60 @@ $(LI $(LNAME2 duration_split, Duration.get and its wrappers have been deprecated
         of integral types as arguments. And its implemenation isn't even very complicated.
     )
 
+)
+
+$(LI $(LNAME2 array_and_aa_changes, Some built-in type properties are changed to library functions:)
+
+    $(P Built-in array properties $(D dup) and $(D idup) are changed to free
+        functions in $(D object) module which is called by UFCS.
+    )
+
+    $(P Built-in associative array properties $(D rehash), $(D dup), $(D byKey),
+        $(D byValue), $(D keys), $(D values), and $(D get) are changed to free
+        functions in $(D object) module which is called by UFCS.
+    )
+)
+
+$(LI $(LNAME2 aa_key_requirement, Associative array keys now require equality rather than ordering:)
+
+    $(P Associative array implementation has been changed to use equality for the key object comparison.
+
+        ---------
+        void main()
+        {
+            int[MyKey] aa;
+        }
+
+        struct MyKey
+        {
+            int x;
+            int y;  // want to be ignored in comparison and hashing
+
+          static if (__VERSION__ >= 2066)
+          {
+            bool opEquals(ref const MyKey rhs) const
+            {
+                return x == rhs.x;
+            }
+          }
+          else
+          {
+            int opCmp(ref const MyKey rhs) const
+            {
+                if (this.x < rhs.x)
+                    return -1;
+                if (this.x > rhs.x)
+                    return +1;
+                return 0;
+            }
+          }
+            size_t toHash() const nothrow @safe
+            {
+                return x;
+            }
+        }
+        ---------
+    )
 )
 
 )
