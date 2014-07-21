@@ -20,6 +20,7 @@ $(LI $(RELATIVE_LINK2 traits_getfunctionattributes, $(D __traits$(LPAREN)getFunc
 $(LI $(RELATIVE_LINK2 narrowing_conversion_in_ifti, Support template parameter deduction with arguments narrowing conversion.))
 $(LI $(RELATIVE_LINK2 deprecate_rmw, Read-Modify-Write operation on shared variable is now deprecated.))
 $(LI $(RELATIVE_LINK2 uniform_scalar_construction, Support uniform construction syntax for built-in scalar types.))
+$(LI $(RELATIVE_LINK2 mixing-struct-opcall, Mixing struct constructors and static opCall is no longer allowed.))
 )
 
 $(BUGSTITLE Library Changes,
@@ -310,6 +311,15 @@ $(LI $(LNAME2 uniform_scalar_construction, Support uniform construction syntax f
         auto n1 = short(32767); // OK
         auto n2 = short(32768); // NG - cannot implicitly convert 32768 to short
         ---------
+    )
+)
+
+$(LI $(LNAME2 mixing-struct-opcall, Mixing struct constructors and static opCall is no longer allowed):
+    $(P This was not implemented correctly and caused ambiguities.
+    )
+    $(P Static opCall can be used to simulate constructors with no arguments, but this
+    is not recommended practice. Instead, the preferred solution is to use a factory
+    function to create struct instances.
     )
 )
 
