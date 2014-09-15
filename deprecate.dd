@@ -41,6 +41,7 @@ $(SPEC_S Deprecated Features,
         $(TROW $(DEPLINK delete),                                                 future, &nbsp;, &nbsp;, &nbsp;, &nbsp;)
         $(TROW $(DEPLINK Overriding without override),                            future, &nbsp;, &nbsp;, &nbsp;, &nbsp;)
         $(TROW $(DEPLINK scope for allocating classes on the stack),              future, &nbsp;, &nbsp;, &nbsp;, &nbsp;)
+        $(TROW $(DEPLINK Using foreach_reverse with a delegate),                  2.067,  2.065,  2.067,  &nbsp;, &nbsp;)
     )
 
     $(DL
@@ -726,6 +727,43 @@ $(H4 Rationale)
     $(P
         Note that $(D scope) for other usages (e.g. scoped variables) is unrelated
         to this feature and will not be deprecated.
+    )
+
+
+
+$(H3 $(DEPNAME Using foreach_reverse with a delegate))
+    $(P Using $(D foreach_reverse) to traverse result of a delegate
+        $(I ForeachAggregate).
+        ---
+        struct S
+        {
+            int apply(int delegate(int) dg)
+            {
+                if (auto r = dg(0))
+                    return r;
+                return 0;
+            }
+        }
+        void main()
+        {
+            S s;
+            foreach_reverse (r; &s.apply) { ... }
+        }
+        ---
+    )
+$(H4 Corrective Action)
+    $(P Use $(D foreach).
+        ---
+        void main()
+        {
+            S s;
+            foreach (r; &s.apply) { ... }
+        }
+        ---
+    )
+$(H4 Rationale)
+    $(P The compiler does not implement reverse traversal of the results
+        returned by the delegate when $(D foreach_reverse) is used.
     )
 
 
