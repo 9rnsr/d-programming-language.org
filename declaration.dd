@@ -12,6 +12,36 @@ $(GNAME Declaration):
     $(GLINK2 module, ImportDeclaration)
 )
 
+/+
+//alias void foo(int), void bar();    //NG
+
+//alias T = int;
+//pragma(msg, typeof(foo));
+//void foo[](T)(T a);   // invalid, but parsed
+
+//void (*fp1[])(int a);   // void function(int)[]
+//pragma(msg, typeof(fp1));
+
+/+
+void (*func(string))(int a);    // a function with parameters (string) returns void function(int)
+pragma(msg, typeof(func));      // void function(int a)(int)   <-- WAT!?
+void main()
+{
+    auto x = func("");
+    pragma(msg, typeof(&func));
+    pragma(msg, typeof(x));
+}
++/
+
+//void (*func1(string)[])(int a);     // invalid
+//void (*func2(string)(int))(int a);  // invalid
+
+//void ([] func)(string);   // cannot parse, even grammar allows
+
+void (* func(T)(T arg))(T) { return null; } // grammar allows this template functin syntax, but dmd rejects.
+// Note that, this is equivalent with: void function(T) func(T)(T arg) { ... }
++/
+
 $(GRAMMAR
 $(GNAME VarDeclarations):
     $(GLINK StorageClasses)$(OPT) $(GLINK BasicType) $(GLINK Declarators) $(D ;)
