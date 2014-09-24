@@ -1015,7 +1015,7 @@ $(GNAME Declarators):
 
 $(GNAME DeclaratorInitializer):
     $(GLINK Declarator)
-    $(GLINK Declarator) $(D =) $(GLINK Initializer)
+    $(GLINK Declarator) $(GLINK TemplateParameters)$(OPT) $(D =) $(GLINK Initializer)
 
 $(GNAME DeclaratorIdentifierList):
     $(GLINK DeclaratorIdentifier)
@@ -1023,7 +1023,7 @@ $(GNAME DeclaratorIdentifierList):
 
 $(GNAME DeclaratorIdentifier):
     $(I Identifier)
-    $(I Identifier) $(D =) $(GLINK Initializer)
+    $(I Identifier) $(GLINK TemplateParameters)$(OPT) $(D =) $(GLINK Initializer)
 
 $(GNAME Declarator):
     $(GLINK BasicType2)$(OPT) $(D $(LPAREN)) $(I Declarator) $(D $(RPAREN)) $(GLINK DeclaratorSuffixes)$(OPT)
