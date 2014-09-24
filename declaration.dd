@@ -44,11 +44,14 @@ $(GNAME VarDeclarator):
 
 $(GNAME AltDeclaratorX):
     $(GLINK BasicType2)$(OPT) $(I Identifier)
+    $(GLINK BasicType2)$(OPT) $(I Identifier) $(GLINK AltFuncDeclaratorSuffix)
     $(GLINK AltDeclarator)
 
 $(GNAME AltDeclarator):
     $(GLINK BasicType2)$(OPT) $(I Identifier) $(GLINK AltDeclaratorSuffixes)
-    $(GLINK BasicType2)$(OPT) $(D $(LPAREN)) $(I AltDeclaratorX) $(D $(RPAREN)) $(GLINK AltDeclaratorSuffixes)$(OPT)
+    $(GLINK BasicType2)$(OPT) $(D $(LPAREN)) $(I AltDeclaratorX) $(D $(RPAREN))
+    $(GLINK BasicType2)$(OPT) $(D $(LPAREN)) $(I AltDeclaratorX) $(D $(RPAREN)) $(GLINK AltFuncDeclaratorSuffix)
+    $(GLINK BasicType2)$(OPT) $(D $(LPAREN)) $(I AltDeclaratorX) $(D $(RPAREN)) $(GLINK AltDeclaratorSuffixes)
 
 $(GNAME AltDeclaratorSuffixes):
     $(GLINK AltDeclaratorSuffix)
@@ -58,6 +61,8 @@ $(GNAME AltDeclaratorSuffix):
     $(D [ ])
     $(D [) $(VEXPRESSION) $(D ])
     $(D [) $(GLINK Type) $(D ])
+
+$(GNAME AltFuncDeclaratorSuffix):
     $(GLINK2 function, Parameters) $(GLINK2 function, MemberFunctionAttributes)$(OPT)
     $(GLINK2 template, TemplateParameters) $(GLINK2 function, Parameters) $(GLINK2 function, MemberFunctionAttributes)$(OPT) $(GLINK2 template, Constraint)$(OPT)
 )
