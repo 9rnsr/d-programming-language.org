@@ -26,7 +26,7 @@ $(PRE
 )
 
 Macros:
-	TITLE=ASCII Table
-	WIKI=AsciiTable
-	CATEGORY_APPENDICES=$0
+        TITLE=ASCII Table
+        WIKI=AsciiTable
+        CATEGORY_APPENDICES=$0
 
